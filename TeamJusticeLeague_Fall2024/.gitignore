@@ -1,0 +1,8 @@
+# Ignore metadata files
+*.class
+*.log
+*.metadata
+*.project
+*.settings
+*.classpath
+*.factorypath
