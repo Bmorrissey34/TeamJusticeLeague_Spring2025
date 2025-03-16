@@ -23,11 +23,9 @@ cd TeamJusticeLeague_Fall2024
 
 ## Usage
 
-Currently, the project contains an empty `random` class. You can expand this class by adding methods and properties as needed.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
 
 ## License
 
