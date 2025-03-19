@@ -1,4 +1,5 @@
-# Ignore metadata files
+// Purpose: Ignore files that are not needed in the repository
+// Creator: Brendan
 *.class
 *.log
 *.metadata
