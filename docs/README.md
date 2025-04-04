@@ -1,27 +1,28 @@
 # TeamJusticeLeague_Fall2024
 
-This project is a Java application that includes foundational classes for a game, such as items, monsters, puzzles, and rooms.
+This project is a Java application structured using the MVC (Model-View-Controller) architecture.
 
 ## Project Structure
 
 ```
 TeamJusticeLeague_Fall2024
 ├── src
-│   ├── data
-│   │   ├── items.txt
-│   │   ├── monste4rs.txt
-│   │   ├── puzzles.txt
-│   │   └── rooms.txt
-│   ├── game
+│   ├── controller
 │   │   ├── CommandParser.java
-│   │   ├── Game.java
+│   │   └── GameController.java
+│   ├── model
+│   │   ├── data
+│   │   │   ├── items.txt
+│   │   │   ├── monsters.txt
+│   │   │   ├── puzzles.txt
+│   │   │   └── rooms.txt
 │   │   ├── Inventory.java
 │   │   ├── Item.java
 │   │   ├── Monster.java
-│   │   ├── Player,java
+│   │   ├── Player.java
 │   │   ├── Puzzle.java
 │   │   └── Room.java
-│   ├── ui
+│   ├── view
 │   │   ├── ConsoleUI.java
 │   │   └── Menu.java
 │   └── utils
@@ -30,7 +31,7 @@ TeamJusticeLeague_Fall2024
 ├── tests
 │   ├── Gametest.java
 │   ├── MonsterTest.java
-│   ├── PlayerTest,java
+│   ├── PlayerTest.java
 │   └── PuzzleTest.java
 ├── assets
 │   └── placeholder.txt
@@ -54,7 +55,7 @@ cd TeamJusticeLeague_Fall2024
 ## Usage
 
 This project is currently under development. The following components are being implemented:
-- Core game logic in `Game.java`
+- Core game logic in `GameController.java`
 - Command parsing in `CommandParser.java`
 - Inventory and item management
 - Room, puzzle, and monster interactions
