@@ -1,11 +1,29 @@
 // Purpose: Ignore files that are not needed in the repository
 // Creator: Brendan
+
+# Java
 *.class
 *.log
+
+# Eclipse
 *.metadata
 *.project
-*.settings
+*.settings/
 *.classpath
 *.factorypath
-*.idea
+
+# IntelliJ IDEA
+.idea/
 *.iml
+*.ipr
+*.iws
+out/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
