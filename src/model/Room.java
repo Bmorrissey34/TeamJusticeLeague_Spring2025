@@ -48,8 +48,7 @@ public class Room {
     }
 
     public void removeMonster() {
-        this.monster = null;
-        this.isMonsterDefeated = false; // Reset monster defeat status
+        this.isMonsterDefeated = true; // Mark monster as defeated
     }
 
     // Getters and setters for puzzle
@@ -70,8 +69,7 @@ public class Room {
     }
 
     public void removePuzzle() {
-        this.puzzle = null;
-        this.isPuzzleCompleted = false; // Reset puzzle completion status
+        this.isPuzzleCompleted = true; // Mark puzzle as completed
     }
 
     /**
