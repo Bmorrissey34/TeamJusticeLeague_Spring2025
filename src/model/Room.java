@@ -46,7 +46,7 @@ public class Room {
         this.isMonsterDefeated = isMonsterDefeated;
     }
 
-    // Getters and setters for puzzle
+   
     public Puzzle getPuzzle() {
         return puzzle;
     }

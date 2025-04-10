@@ -1,9 +1,9 @@
 package src.data;
 
-import src.model.GameState;
 import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import src.model.GameState;
 
 public class ContinueGame {
     public GameState loadGame(String saveFilePath) {
