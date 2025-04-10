@@ -8,31 +8,41 @@ This project is a Java console-based game structured using the MVC (Model-View-C
 TeamJusticeLeague_Spring2025
 ├── src
 │   ├── controller
-│   │   ├── CommandParser.java       # Handles user input and command parsing
 │   │   └── GameController.java      # Manages the main game flow
+│   ├── data
+│   │   ├── DataLoader.java          # Loads game data from files
+│   │   ├── DataAssigner.java        # Assigns loaded data to game objects
+│   │   ├── SaveGame.java            # Handles saving the game state
+│   │   ├── ContinueGame.java        # Handles loading the game state
+│   │   └── resources
+│   │       ├── items.txt            # Data file for game items
+│   │       ├── monsters.txt         # Data file for monsters
+│   │       ├── puzzles.txt          # Data file for puzzles
+│   │       └── rooms.txt            # Data file for rooms
 │   ├── model
-│   │   ├── data
-│   │   │   ├── items.txt            # Data file for game items
-│   │   │   ├── monsters.txt         # Data file for monsters
-│   │   │   ├── puzzles.txt          # Data file for puzzles
-│   │   │   └── rooms.txt            # Data file for rooms
+│   │   ├── GameState.java           # Represents the current game state
 │   │   ├── Inventory.java           # Represents the player's inventory
 │   │   ├── Item.java                # Represents an item in the game
-│   │   ├── Monster.java             # Represents a monster
+│   │   ├── Weapon.java              # Represents a weapon (extends Item)
+│   │   ├── Consumable.java          # Represents a consumable item (extends Item)
+│   │   ├── Monster.java             # Represents a monster (tracks defeated state)
 │   │   ├── Player.java              # Represents the player
-│   │   ├── Puzzle.java              # Represents a puzzle
-│   │   └── Room.java                # Represents a room
+│   │   ├── Puzzle.java              # Represents a puzzle (tracks completion state)
+│   │   ├── Room.java                # Represents a room
+│   │   └── GameModel.java           # Base model class for game objects
 │   ├── view
 │   │   ├── ConsoleUI.java           # Handles text-based input/output
-│   │   └── Menu.java                # Displays menus and options
+│   │   ├── Menu.java                # Displays menus and options
+│   │   └── Map.java                 # Handles map-related functionality
 │   └── utils
 │       ├── GameUtils.java           # Utility methods for game logic
 │       └── RandomGenerator.java     # Generates random values for gameplay
 ├── tests
-│   ├── Gametest.java                # Unit tests for game logic
+│   ├── GameTest.java                # Unit tests for game logic
 │   ├── MonsterTest.java             # Unit tests for Monster class
 │   ├── PlayerTest.java              # Unit tests for Player class
-│   └── PuzzleTest.java              # Unit tests for Puzzle class
+│   ├── PuzzleTest.java              # Unit tests for Puzzle class
+│   └── DataLoaderTest.java          # Unit tests for DataLoader class
 ├── assets
 │   └── placeholder.txt              # Placeholder for additional assets
 ├── build
@@ -72,18 +82,19 @@ cd TeamJusticeLeague_Spring2025
 ## Features
 
 - **Text-Based Exploration**: Navigate through rooms and interact with the environment.
-- **Puzzles**: Solve puzzles to progress through the game.
-- **Combat System**: Engage in turn-based combat with monsters.
+- **Puzzles**: Solve puzzles to progress through the game. Tracks completion state.
+- **Combat System**: Engage in turn-based combat with monsters. Tracks defeated state.
 - **Inventory Management**: Collect and use items to aid in your journey.
 - **Command Parsing**: Enter commands to interact with the game world.
+- **Save/Load System**: Save and load the current game state, including player progress, defeated monsters, and completed puzzles.
 
 ## Development Status
 
 This project is currently under development. The following components are being implemented:
 - Core game logic in `GameController.java`
-- Command parsing in `CommandParser.java`
 - Inventory and item management
 - Room, puzzle, and monster interactions
+- Save and load functionality for game state
 
 ## Contributing
 
