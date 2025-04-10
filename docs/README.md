@@ -31,8 +31,7 @@ TeamJusticeLeague_Spring2025
 │   │   ├── Room.java                # Represents a room
 │   │   └── GameModel.java           # Base model class for game objects
 │   ├── view
-│   │   ├── ConsoleUI.java           # Handles text-based input/output
-│   │   ├── Menu.java                # Displays menus and options
+│   │   ├── GameView.java            # Handles rendering the game view
 │   │   └── Map.java                 # Handles map-related functionality
 │   └── utils
 │       ├── GameUtils.java           # Utility methods for game logic
