@@ -1,4 +1,4 @@
 // Placeholder for ItemDataLoader
-public class ItemDataLoader {
+public class DataLoader {
 
 }

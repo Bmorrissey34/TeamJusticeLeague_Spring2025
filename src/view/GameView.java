@@ -1,4 +1,4 @@
 // Placeholder for CombatView
-public class CombatView {
+public class GameView {
 
 }
