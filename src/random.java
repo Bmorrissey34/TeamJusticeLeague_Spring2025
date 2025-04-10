@@ -1,4 +1,5 @@
-package src;
+package src.random;
+
 public class Random {
     // This is a blank class
     // This is Dino
