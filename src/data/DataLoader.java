@@ -93,24 +93,6 @@ public class DataLoader {
         }
     }
 
-    public void saveGame(String saveFilePath, GameState gameState) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFilePath))) {
-            oos.writeObject(gameState);
-            System.out.println("Game saved successfully!");
-        } catch (IOException e) {
-            System.out.println("Error saving game: " + e.getMessage());
-        }
-    }
-
-    public GameState loadGame(String saveFilePath) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveFilePath))) {
-            return (GameState) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error loading game: " + e.getMessage());
-            return null;
-        }
-    }
-
     public HashMap<Integer, Room> getRooms() {
         return rooms;
     }
