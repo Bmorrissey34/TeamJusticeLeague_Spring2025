@@ -33,9 +33,6 @@ TeamJusticeLeague_Spring2025
 │   ├── view
 │   │   ├── GameView.java            # Handles rendering the game view
 │   │   └── Map.java                 # Handles map-related functionality
-│   └── utils
-│       ├── GameUtils.java           # Utility methods for game logic
-│       └── RandomGenerator.java     # Generates random values for gameplay
 ├── tests
 │   ├── GameTest.java                # Unit tests for game logic
 │   ├── MonsterTest.java             # Unit tests for Monster class
