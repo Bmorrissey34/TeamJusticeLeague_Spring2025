@@ -9,6 +9,7 @@ package src.model;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
+ *          Author: Dino maksumic
  */
 public class GameModel {
     private String ID; // Unique identifier for the game object
@@ -17,4 +18,36 @@ public class GameModel {
 
     public GameModel() {
     }
+
+    public GameModel(String ID, String name, String description) {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+    }
+
+    // Getters and setters for ID
+    public String getID() {
+        return ID;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

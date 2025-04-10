@@ -13,6 +13,7 @@ import java.util.List;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
+ *          Author: Dino maksumic
  */
 public class Room {
     private String name;
