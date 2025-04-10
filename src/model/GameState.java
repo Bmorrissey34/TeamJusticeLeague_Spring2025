@@ -11,7 +11,7 @@ public class GameState implements Serializable {
     private HashMap<String, Monster> monsters;
 
     public GameState(Player player, HashMap<Integer, Room> rooms, HashMap<String, Item> items,
-                     HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters) {
+            HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters) {
         this.player = player;
         this.rooms = rooms;
         this.items = items;

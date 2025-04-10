@@ -1,46 +1,54 @@
 package src.controller;
 
-import src.data.DataLoader;
-import src.model.Player;
+import src.data.ContinueGame;
 import src.model.GameState;
+import src.model.Player;
+import src.model.Room;
+import src.model.Item;
+import src.model.Puzzle;
+import src.model.Monster;
+
+import java.util.HashMap;
 
 public class GameController {
-    private DataLoader dataLoader = new DataLoader();
+    private ContinueGame continueGame = new ContinueGame();
 
-    public void startGame() {
-        // Load game data
-        dataLoader.loadRooms("src/data/resources/Rooms.txt");
-        dataLoader.loadItems("src/data/resources/Items.txt");
-        dataLoader.loadPuzzles("src/data/resources/Puzzles.txt");
-        dataLoader.loadMonsters("src/data/resources/Monsters.txt");
+    // Game state variables
+    private Player player;
+    private HashMap<Integer, Room> rooms;
+    private HashMap<String, Item> items;
+    private HashMap<String, Puzzle> puzzles;
+    private HashMap<String, Monster> monsters;
 
-        // Additional game initialization logic
-        System.out.println("Game data loaded successfully!");
-    }
-
-    public void saveGame(String saveFilePath) {
-        GameState gameState = new GameState(
-            new Player(), // Replace with the actual player object
-            dataLoader.getRooms(),
-            dataLoader.getItems(),
-            dataLoader.getPuzzles(),
-            dataLoader.getMonsters()
-        );
-        dataLoader.saveGame(saveFilePath, gameState);
-    }
-
-    public void loadGame(String saveFilePath) {
-        GameState gameState = dataLoader.loadGame(saveFilePath);
+    public void loadSavedGame(String saveFilePath) {
+        GameState gameState = continueGame.loadGame(saveFilePath);
         if (gameState != null) {
-            // Restore game state
+            // Restore the game state
+            this.player = gameState.getPlayer();
+            this.rooms = gameState.getRooms();
+            this.items = gameState.getItems();
+            this.puzzles = gameState.getPuzzles();
+            this.monsters = gameState.getMonsters();
+
             System.out.println("Game loaded successfully!");
+            System.out.println("Player: " + player.getName());
+            System.out.println("Rooms loaded: " + rooms.size());
+            System.out.println("Items loaded: " + items.size());
+            System.out.println("Puzzles loaded: " + puzzles.size());
+            System.out.println("Monsters loaded: " + monsters.size());
+        } else {
+            System.out.println("Failed to load the saved game.");
         }
     }
 
-    public void displayMessage(String message) {}
-    public void displayInventory(Player player) {}
-    public void displayMap() {}
-    public String getUserInput(String prompt) {
-        return null;
+    // Additional methods to use the restored state in gameplay
+    public void startGame() {
+        if (player == null || rooms == null) {
+            System.out.println("No game state loaded. Starting a new game...");
+            // Initialize a new game state here
+        } else {
+            System.out.println("Resuming game for player: " + player.getName());
+            // Continue the game using the loaded state
+        }
     }
 }
