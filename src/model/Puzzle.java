@@ -12,7 +12,7 @@ import java.util.HashMap;
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
  */
-public class Puzzle {
+public class Puzzle extends GameModel {
     private String question; // The question of the puzzle
     private String answer; // The answer to the puzzle
     private int attempts; // Number of attempts made by the player
@@ -47,5 +47,45 @@ public class Puzzle {
      * Allows the player to skip the puzzle.
      */
     public void skip() {
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public int getAttempts() {
+        return attempts;
+    }
+
+    public void setAttempts(int attempts) {
+        this.attempts = attempts;
+    }
+
+    public boolean isSolved() {
+        return solved;
+    }
+
+    public void setSolved(boolean solved) {
+        this.solved = solved;
+    }
+
+    public HashMap<String, Puzzle> getPuzzles() {
+        return puzzles;
+    }
+
+    public void setPuzzles(HashMap<String, Puzzle> puzzles) {
+        this.puzzles = puzzles;
     }
 }

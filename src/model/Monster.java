@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
  */
-public class Monster {
+public class Monster extends GameModel {
     private int health; // Health of the monster
     private int strength; // Strength of the monster
     private HashMap<String, Monster> monsters; // Stores monsters
@@ -29,7 +29,7 @@ public class Monster {
      * @param player The player being attacked.
      */
     public void attack(Player player) {
-        // ...existing code...
+        // your code here
     }
 
     /**
@@ -40,7 +40,7 @@ public class Monster {
      * @param damage The amount of damage taken.
      */
     public void takeDamage(int damage) {
-        // ...existing code...
+        // your code here
     }
 
     /**
@@ -52,5 +52,25 @@ public class Monster {
      */
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public HashMap<String, Monster> getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(HashMap<String, Monster> monsters) {
+        this.monsters = monsters;
     }
 }

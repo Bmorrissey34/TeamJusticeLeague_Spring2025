@@ -13,11 +13,11 @@ import java.util.List;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
- *          Author: Dino maksumic
+ *          Author: Dino Maksumic
  */
 public class Room {
-    private String name;
-    private String description;
+    private String name; // Name of the room
+    private String description; // Description of the room
     private HashMap<String, Room> exits = new HashMap<>();
     private List<Item> items = new ArrayList<>();
     private Monster monster; // Single monster in the room
@@ -28,6 +28,24 @@ public class Room {
     public Room() {
         this.items = new ArrayList<>();
         this.exits = new HashMap<>();
+    }
+
+    // Getters and setters for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getters and setters for description
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     // Getters and setters for monster
