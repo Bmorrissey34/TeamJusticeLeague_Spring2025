@@ -1,4 +1,4 @@
 // Placeholder for CombatController
-public class CombatController {
+public class GameController {
 
 }
