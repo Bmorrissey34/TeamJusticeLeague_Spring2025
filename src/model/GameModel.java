@@ -25,7 +25,7 @@ public class GameModel {
         this.description = description;
     }
 
-    // Getters and setters for ID
+    // Getters and setters for parameters
     public String getID() {
         return ID;
     }
