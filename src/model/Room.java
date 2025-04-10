@@ -65,6 +65,10 @@ public class Room {
         this.isMonsterDefeated = isMonsterDefeated;
     }
 
+    public void removeMonster() {
+        this.isMonsterDefeated = true; // Mark monster as defeated
+    }
+
     // Getters and setters for puzzle
     public Puzzle getPuzzle() {
         return puzzle;
@@ -80,6 +84,10 @@ public class Room {
 
     public void setPuzzleCompleted(boolean isPuzzleCompleted) {
         this.isPuzzleCompleted = isPuzzleCompleted;
+    }
+
+    public void removePuzzle() {
+        this.isPuzzleCompleted = true; // Mark puzzle as completed
     }
 
     /**
