@@ -9,8 +9,8 @@ import java.util.HashMap;
  * attempts, and solved state.
  * 
  * @version 1.0
- * Course: ITEC XXXX Spring 2025
- * Written: January 6, 2025
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
  */
 public class Puzzle {
     private String question; // The question of the puzzle
@@ -28,7 +28,8 @@ public class Puzzle {
      * 
      * Starts the puzzle interaction.
      */
-    public void start() {}
+    public void start() {
+    }
 
     /**
      * Method: attempt
@@ -37,12 +38,14 @@ public class Puzzle {
      * 
      * @param userAnswer The player's answer to the puzzle.
      */
-    public void attempt(String userAnswer) {}
+    public void attempt(String userAnswer) {
+    }
 
     /**
      * Method: skip
      * 
      * Allows the player to skip the puzzle.
      */
-    public void skip() {}
+    public void skip() {
+    }
 }

@@ -1,0 +1,10 @@
+<puzzleName>,<description>,<completed>
+
+NumberGuess,A random number puzzle from 1 to 10,false
+NumberSequence,What's next in 2,6,12,20,30? Answer: 42,false
+OddRiddle,I’m an odd number. Take away one letter and I'm even. Answer: Seven,false
+Opposites,Opposite of yes, up, or win?,false
+QuotePuzzle,"Yesterday was history, tomorrow a mystery, today is a gift: ___",false
+Riddle1,"I’m tall when I’m young, short when I'm old. Answer: candle",false
+Riddle2,"The more you take, the more you leave behind. Answer: footsteps",false
+PlayroomPuzzle,Affects Toybound Horror if solved,false

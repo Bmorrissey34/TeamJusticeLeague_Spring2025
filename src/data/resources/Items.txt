@@ -1,0 +1,12 @@
+<itemName>,<description>
+
+Green Apple,A fresh green apple that restores +10 health when eaten.
+Yogurt,A small cup of yogurt that restores +20 health when consumed.
+Fruit Roll Up,A sweet, chewy snack that restores +5 health when eaten.
+1st Aid Kit,A medical kit that restores +30 health when used.
+Chewing Tobacco,A small pouch of chewing tobacco that restores +25 health when used.
+Sword,A sharp blade that deals -20 health to a monster when used in combat.
+Blow Dart,A lightweight dart that deals -10 health to a monster when used.
+Shield,A sturdy shield that blocks monster attacks and deals 5 damage when used.
+Monster Cream,A strange cream that makes the player immune to monster attacks while in use.
+Thors Hammer,A legendary weapon that deals -80 health to a monster when used in combat. Drops when all puzzles are solved.

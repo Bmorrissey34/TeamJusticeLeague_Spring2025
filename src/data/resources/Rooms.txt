@@ -1,0 +1,7 @@
+<name>,<description>,<exit1>:<room1>|<exit2>:<room2>|...,<item1>|<item2>|...,<puzzle>,<monster>
+
+LivingRoom,You feel as if you are being watched as you enter. The walls are bare, stripped of any decoration. An old wooden piano plays faint music before going silent.,WEST:Office|EAST:DiningRoom|SOUTH:Entrance|NORTH:FamilyRoom|WEST:BreakRoom,,,
+Study,Bookshelves line the walls... one book is missing.,SOUTH:Restroom,,,ScreamingWidow
+MasterBedroom,Paintings everywhere... the wardrobe reveals a dark space.,SOUTH:Hallway|EAST:Closet|NORTH:MasterBathroom,,,Ravenborn
+Playroom,Dolls follow you with their eyes... rocking horse sways on its own.,WEST:Kitchen|EAST:LivingRoom|NORTH:Backyard,,PlayroomPuzzle,ToyboundHorror
+BasementBedroom,The bed is small with stained sheets... “She watches from the dark.”,SOUTH:Backyard|WEST:LivingRoom|NORTH:Bathroom,,,HollowChild

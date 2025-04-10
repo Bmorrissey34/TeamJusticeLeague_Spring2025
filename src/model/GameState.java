@@ -10,8 +10,8 @@ import java.util.HashMap;
  * rooms, items, puzzles, and monsters.
  * 
  * @version 1.0
- * Course: ITEC XXXX Spring 2025
- * Written: January 6, 2025
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
  */
 public class GameState implements Serializable {
     private Player player; // The player in the game
@@ -41,6 +41,17 @@ public class GameState implements Serializable {
     }
 
     /**
+     * Method: setPlayer
+     * 
+     * Sets the player in the game state.
+     * 
+     * @param player The player to set.
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /**
      * Method: getRooms
      * 
      * Retrieves the rooms in the game state.
@@ -49,6 +60,17 @@ public class GameState implements Serializable {
      */
     public HashMap<Integer, Room> getRooms() {
         return rooms;
+    }
+
+    /**
+     * Method: setRooms
+     * 
+     * Sets the rooms in the game state.
+     * 
+     * @param rooms A HashMap of rooms to set.
+     */
+    public void setRooms(HashMap<Integer, Room> rooms) {
+        this.rooms = rooms;
     }
 
     /**
@@ -63,6 +85,17 @@ public class GameState implements Serializable {
     }
 
     /**
+     * Method: setItems
+     * 
+     * Sets the items in the game state.
+     * 
+     * @param items A HashMap of items to set.
+     */
+    public void setItems(HashMap<String, Item> items) {
+        this.items = items;
+    }
+
+    /**
      * Method: getPuzzles
      * 
      * Retrieves the puzzles in the game state.
@@ -74,6 +107,17 @@ public class GameState implements Serializable {
     }
 
     /**
+     * Method: setPuzzles
+     * 
+     * Sets the puzzles in the game state.
+     * 
+     * @param puzzles A HashMap of puzzles to set.
+     */
+    public void setPuzzles(HashMap<String, Puzzle> puzzles) {
+        this.puzzles = puzzles;
+    }
+
+    /**
      * Method: getMonsters
      * 
      * Retrieves the monsters in the game state.
@@ -82,5 +126,16 @@ public class GameState implements Serializable {
      */
     public HashMap<String, Monster> getMonsters() {
         return monsters;
+    }
+
+    /**
+     * Method: setMonsters
+     * 
+     * Sets the monsters in the game state.
+     * 
+     * @param monsters A HashMap of monsters to set.
+     */
+    public void setMonsters(HashMap<String, Monster> monsters) {
+        this.monsters = monsters;
     }
 }

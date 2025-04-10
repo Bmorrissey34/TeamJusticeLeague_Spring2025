@@ -1,0 +1,9 @@
+<monsterName>,<description>,<defeated>
+
+Ravenborn,A monstrous fusion of shadow and raven with skeletal skull,false
+HollowChild,A childlike figure with no face, observes but doesn't attack,false
+MirrorWraith,Ghostly entities that emerge from mirrors,false
+SpectralGuardian,Haunting remnants of former servants,false
+ScreamingWidow,A ghostly bride who screams when disturbed,false
+ReflectionPhantom,Distorted player reflection that reveals weak point,false
+ToyboundHorror,A grotesque mass of broken toys and dolls,false
