@@ -2,7 +2,7 @@ package src.view;
 
 import java.util.HashMap;
 import java.io.File;
-
+import src.model.Room;
 /**
  * Class: Map
  * 

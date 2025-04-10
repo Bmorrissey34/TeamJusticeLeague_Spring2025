@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
  */
-public class Item {
+public class Item extends GameModel {
     private int effect; // Effect of the item
     private HashMap<String, Item> items; // Stores items
 
@@ -27,4 +27,20 @@ public class Item {
      * @param player The player using the item.
      */
     public void use(Player player) {}
+
+    public int getEffect() {
+        return effect;
+    }
+
+    public void setEffect(int effect) {
+        this.effect = effect;
+    }
+
+    public HashMap<String, Item> getItems() {
+        return items;
+    }
+
+    public void setItems(HashMap<String, Item> items) {
+        this.items = items;
+    }
 }

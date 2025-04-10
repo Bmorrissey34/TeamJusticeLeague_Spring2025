@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import src.model.Room;
+import src.model.Item;
+import src.model.Puzzle;
+import src.model.Monster;
 
 public class DataLoader {
     private HashMap<Integer, Room> rooms = new HashMap<>();
@@ -37,7 +41,7 @@ public class DataLoader {
                     for (String exit : exits) {
                         String[] exitParts = exit.split(":");
                         if (exitParts.length == 2) {
-                            room.addExits(exitParts[0].toUpperCase(), new Room(exitParts[1]));
+                            room.addExits(exitParts[0].toUpperCase(), rooms.get(exitParts[1].hashCode()));
                         }
                     }
                 }
@@ -64,7 +68,9 @@ public class DataLoader {
                 if (parts.length > 5 && !parts[5].isEmpty()) {
                     String monsterName = parts[5];
                     if (monsters.containsKey(monsterName)) {
-                        room.setMonster(monsters.get(monsterName));
+                        Monster monster = monsters.get(monsterName);
+                        room.setMonster(monster);
+                        room.setMonsterDefeated(monster.getHealth() <= 0); // Set defeated status
                     }
                 }
 
@@ -122,7 +128,7 @@ public class DataLoader {
                 Puzzle puzzle = new Puzzle();
                 puzzle.setName(puzzleName);
                 puzzle.setDescription(description); // Assign description
-                puzzle.setCompleted(completed);
+                puzzle.setSolved(completed); // Updated to match Puzzle attributes
                 puzzles.put(puzzleName, puzzle);
             }
         } catch (IOException e) {
@@ -151,7 +157,7 @@ public class DataLoader {
                 Monster monster = new Monster();
                 monster.setName(monsterName);
                 monster.setDescription(description); // Assign description
-                monster.setDefeated(defeated);
+                monster.setHealth(defeated ? 0 : 100); // Set health based on defeated status
                 monsters.put(monsterName, monster);
             }
         } catch (IOException e) {

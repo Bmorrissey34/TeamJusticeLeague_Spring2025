@@ -89,18 +89,44 @@ public class GameController {
     }
 
     /**
-     * Method: startGame
+     * Method: initializeGame
      * 
-     * Starts or resumes the game based on the current game state.
+     * Initializes the game by either loading a saved game or starting a new one.
      */
-    public void startGame() {
-        if (player == null || rooms == null) {
-            System.out.println("No game state loaded. Starting a new game...");
-            // Initialize a new game state here
+    public void initializeGame() {
+        System.out.println("Welcome to the game!");
+        System.out.println("Would you like to load a saved game? (yes/no)");
+
+        String choice = new java.util.Scanner(System.in).nextLine().trim().toLowerCase();
+        if (choice.equals("yes")) {
+            String filePath = "src/data/resources/gameState.dat"; // Default save file path
+            loadSavedGame(filePath);
+            if (player == null || rooms == null) {
+                System.out.println("Failed to load the saved game. Starting a new game...");
+                startNewGame();
+            } else {
+                System.out.println("Game loaded successfully!");
+                System.out.println("Resuming game for player: " + player.getName());
+            }
         } else {
-            System.out.println("Resuming game for player: " + player.getName());
-            // Continue the game using the loaded state
+            startNewGame();
         }
+    }
+
+    /**
+     * Method: startNewGame
+     * 
+     * Initializes a new game state.
+     */
+    private void startNewGame() {
+        System.out.println("Starting a new game...");
+        // Initialize a new game state here
+        this.player = new Player();
+        this.rooms = new HashMap<>();
+        this.items = new HashMap<>();
+        this.puzzles = new HashMap<>();
+        this.monsters = new HashMap<>();
+        // Additional setup logic for a new game
     }
 }
 
