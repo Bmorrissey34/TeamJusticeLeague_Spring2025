@@ -1,14 +1,31 @@
 package src.data;
 
 import java.io.FileOutputStream;
-import java.io.IOException; // Added import for GameView
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import src.model.GameState;
 import src.view.GameView;
 
+/**
+ * Class: SaveGame
+ * 
+ * This class handles saving the current game state to a file.
+ * 
+ * @version 1.0
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
+ */
 public class SaveGame {
-    private GameView gameView = new GameView(); // Added GameView instance
+    private GameView gameView = new GameView(); // Used for displaying messages to the player
 
+    /**
+     * Method: saveGame
+     * 
+     * Saves the current game state to the specified file path.
+     * 
+     * @param saveFilePath The file path where the game state will be saved.
+     * @param gameState    The current game state to save.
+     */
     public void saveGame(String saveFilePath, GameState gameState) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFilePath))) {
             oos.writeObject(gameState);

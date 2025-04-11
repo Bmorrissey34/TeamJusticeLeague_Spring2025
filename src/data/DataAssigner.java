@@ -1,15 +1,32 @@
 package src.data;
 
-import java.util.HashMap; // Added import for GameView
+import java.util.HashMap;
 import src.model.Item;
 import src.model.Monster;
 import src.model.Puzzle;
 import src.model.Room;
 import src.view.GameView;
 
+/**
+ * Class: DataAssigner
+ * 
+ * This class is responsible for assigning loaded data (rooms, items, puzzles, monsters) 
+ * to their respective game objects and validating the data.
+ * 
+ * @version 1.0
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
+ */
 public class DataAssigner {
-    private GameView gameView = new GameView(); // Added GameView instance
+    private GameView gameView = new GameView(); // Used for displaying messages to the player
 
+    /**
+     * Method: assignRooms
+     * 
+     * Assigns and validates room data, including their monsters and puzzles.
+     * 
+     * @param rooms A HashMap containing room objects.
+     */
     public void assignRooms(HashMap<Integer, Room> rooms) {
         for (Room room : rooms.values()) {
             if (room.getName() == null || room.getDescription() == null) {
@@ -29,7 +46,6 @@ public class DataAssigner {
                 // Check puzzle status
                 if (room.getPuzzle() != null) {
                     gameView.displayMessage("  Puzzle in room: " + room.getPuzzle().getQuestion());
-                    gameView.displayMessage("  Puzzle answer: " + room.getPuzzle().getAnswer());
                     gameView.displayMessage("  Puzzle attempts: " + room.getPuzzle().getAttempts());
                     gameView.displayMessage("  Puzzle solved: " + room.getPuzzle().isSolved());
                 }
@@ -37,6 +53,13 @@ public class DataAssigner {
         }
     }
 
+    /**
+     * Method: assignItems
+     * 
+     * Assigns and validates item data.
+     * 
+     * @param items A HashMap containing item objects.
+     */
     public void assignItems(HashMap<String, Item> items) {
         int itemCount = 0;
         for (Item item : items.values()) {
@@ -51,6 +74,13 @@ public class DataAssigner {
         gameView.displayMessage("Total items assigned: " + itemCount);
     }
 
+    /**
+     * Method: assignPuzzles
+     * 
+     * Assigns and validates puzzle data.
+     * 
+     * @param puzzles A HashMap containing puzzle objects.
+     */
     public void assignPuzzles(HashMap<String, Puzzle> puzzles) {
         int puzzleCount = 0;
         for (Puzzle puzzle : puzzles.values()) {
@@ -58,7 +88,6 @@ public class DataAssigner {
                 gameView.displayMessage("Error: Puzzle data is incomplete. Puzzle ID: " + puzzle.hashCode());
             } else {
                 gameView.displayMessage("Puzzle assigned: " + puzzle.getQuestion());
-                gameView.displayMessage("  Puzzle answer: " + puzzle.getAnswer());
                 gameView.displayMessage("  Puzzle attempts: " + puzzle.getAttempts());
                 gameView.displayMessage("  Puzzle solved: " + puzzle.isSolved());
                 puzzleCount++;
@@ -67,6 +96,13 @@ public class DataAssigner {
         gameView.displayMessage("Total puzzles assigned: " + puzzleCount);
     }
 
+    /**
+     * Method: assignMonsters
+     * 
+     * Assigns and validates monster data.
+     * 
+     * @param monsters A HashMap containing monster objects.
+     */
     public void assignMonsters(HashMap<String, Monster> monsters) {
         int monsterCount = 0;
         for (Monster monster : monsters.values()) {

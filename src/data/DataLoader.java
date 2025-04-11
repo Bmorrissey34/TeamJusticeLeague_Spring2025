@@ -1,6 +1,6 @@
 package src.data;
 
-import java.io.BufferedReader; // Added import for GameView
+import java.io.BufferedReader; 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,13 +10,30 @@ import src.model.Puzzle;
 import src.model.Room;
 import src.view.GameView;
 
+/**
+ * Class: DataLoader
+ * 
+ * This class is responsible for loading game data (rooms, items, puzzles, monsters) 
+ * from external files and populating the corresponding data structures.
+ * 
+ * @version 1.0
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
+ */
 public class DataLoader {
-    private GameView gameView = new GameView(); // Added GameView instance
-    private HashMap<Integer, Room> rooms = new HashMap<>();
-    private HashMap<String, Item> items = new HashMap<>();
-    private HashMap<String, Puzzle> puzzles = new HashMap<>();
-    private HashMap<String, Monster> monsters = new HashMap<>();
+    private GameView gameView = new GameView(); // Used for displaying messages to the player
+    private HashMap<Integer, Room> rooms = new HashMap<>(); // Stores loaded rooms
+    private HashMap<String, Item> items = new HashMap<>(); // Stores loaded items
+    private HashMap<String, Puzzle> puzzles = new HashMap<>(); // Stores loaded puzzles
+    private HashMap<String, Monster> monsters = new HashMap<>(); // Stores loaded monsters
 
+    /**
+     * Method: loadRooms
+     * 
+     * Reads room data from a file and populates the rooms HashMap.
+     * 
+     * @param filePath The file path of the room data file.
+     */
     public void loadRooms(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine(); // Skip the first line (format description)
@@ -83,6 +100,13 @@ public class DataLoader {
         }
     }
 
+    /**
+     * Method: loadItems
+     * 
+     * Reads item data from a file and populates the items HashMap.
+     * 
+     * @param filePath The file path of the item data file.
+     */
     public void loadItems(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine(); // Skip the first line (format description)
@@ -109,6 +133,13 @@ public class DataLoader {
         }
     }
 
+    /**
+     * Method: loadPuzzles
+     * 
+     * Reads puzzle data from a file and populates the puzzles HashMap.
+     * 
+     * @param filePath The file path of the puzzle data file.
+     */
     public void loadPuzzles(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine(); // Skip the first line (format description)
@@ -138,6 +169,13 @@ public class DataLoader {
         }
     }
 
+    /**
+     * Method: loadMonsters
+     * 
+     * Reads monster data from a file and populates the monsters HashMap.
+     * 
+     * @param filePath The file path of the monster data file.
+     */
     public void loadMonsters(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine(); // Skip the first line (format description)
@@ -167,6 +205,7 @@ public class DataLoader {
         }
     }
 
+    // Getter methods for accessing the loaded data
     public HashMap<Integer, Room> getRooms() {
         return rooms;
     }

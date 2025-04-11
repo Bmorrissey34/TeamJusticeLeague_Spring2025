@@ -12,6 +12,7 @@ import java.util.HashMap;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
+ *          Author: Brendan Morrissey
  */
 public class GameState implements Serializable {
     private Player player; // The player in the game

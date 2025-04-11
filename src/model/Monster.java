@@ -43,13 +43,9 @@ public class Monster extends GameModel {
         // your code here
     }
 
-    /**
-     * Method: getHealth
-     * 
-     * Returns the current health of the monster.
-     * 
-     * @return The health of the monster.
-     */
+    
+
+    
     public int getHealth() {
         return health;
     }

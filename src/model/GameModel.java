@@ -25,27 +25,27 @@ public class GameModel {
         this.description = description;
     }
 
-    // Getters and setters for parameters
+   
     public String getID() {
         return ID;
     }
-    
+
+      public void setID(String ID) {
+        this.ID = ID;
+    }
+
     public String getName() {
         return name;
     }
-    
+
+     public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
     
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
