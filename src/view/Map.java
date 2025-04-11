@@ -11,6 +11,7 @@ import src.model.Room;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
+ * Author: Brendan Morrissey
  */
 public class Map {
     private HashMap<String, Room> rooms; // Stores the rooms in the map

@@ -19,6 +19,7 @@ import src.view.GameView;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
+ *          Author: Brendan Morrissey
  */
 public class DataLoader {
     private GameView gameView = new GameView(); // Used for displaying messages to the player

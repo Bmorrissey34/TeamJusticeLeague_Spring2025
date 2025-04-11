@@ -1,15 +1,14 @@
 package src.controller;
 
+import java.util.HashMap;
 import src.data.ContinueGame;
 import src.model.GameState;
-import src.model.Player;
-import src.model.Room;
 import src.model.Item;
-import src.model.Puzzle;
 import src.model.Monster;
+import src.model.Player;
+import src.model.Puzzle;
+import src.model.Room;
 import src.view.GameView;
-
-import java.util.HashMap;
 
 /**
  * Class: GameController
@@ -20,6 +19,7 @@ import java.util.HashMap;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
+ * Author: Brendan(Data) & Ademola(GameLoop)
  */
 public class GameController {
     private ContinueGame continueGame = new ContinueGame();
