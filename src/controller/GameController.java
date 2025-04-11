@@ -3,6 +3,7 @@ package src.controller;
 import java.util.HashMap;
 import src.data.ContinueGame;
 import src.model.GameState;
+import src.model.Inventory;
 import src.model.Item;
 import src.model.Monster;
 import src.model.Player;
@@ -17,9 +18,9 @@ import src.view.GameView;
  * displaying help, and starting the game.
  * 
  * @version 1.0
- * Course: ITEC XXXX Spring 2025
- * Written: January 6, 2025
- * Author: Brendan(Data) & Ademola(GameLoop)
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
+ *          Author: Brendan(Saving & Loading) & Ademola(GameLoop)
  */
 public class GameController {
     private ContinueGame continueGame = new ContinueGame();
@@ -31,6 +32,7 @@ public class GameController {
     private HashMap<String, Item> items; // Stores the items in the game
     private HashMap<String, Puzzle> puzzles; // Stores the puzzles in the game
     private HashMap<String, Monster> monsters; // Stores the monsters in the game
+    private Inventory inventory; // The player's inventory
 
     /**
      * Method: initializeGame
@@ -62,7 +64,6 @@ public class GameController {
      * Initializes a new game state.
      */
     private void startGame() {
-        
     }
 
     /**
@@ -81,6 +82,7 @@ public class GameController {
             this.items = gameState.getItems();
             this.puzzles = gameState.getPuzzles();
             this.monsters = gameState.getMonsters();
+            this.inventory = gameState.getInventory();
 
             gameView.displayMessage("Game loaded successfully!");
             gameView.displayMessage("Player: " + player.getName());
@@ -88,6 +90,7 @@ public class GameController {
             gameView.displayMessage("Items loaded: " + items.size());
             gameView.displayMessage("Puzzles loaded: " + puzzles.size());
             gameView.displayMessage("Monsters loaded: " + monsters.size());
+            gameView.displayMessage("Inventory items: " + inventory.getItems().size());
         } else {
             gameView.displayMessage("Failed to load the saved game.");
         }
@@ -110,7 +113,6 @@ public class GameController {
      * @param rooms A HashMap containing the rooms in the game.
      */
     public void displayMap(HashMap<Integer, Room> rooms) {
-        
+        // Implementation for displaying the map
     }
 }
-

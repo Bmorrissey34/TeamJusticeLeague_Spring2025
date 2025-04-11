@@ -7,7 +7,7 @@ import java.util.HashMap;
  * Class: GameState
  * 
  * This class represents the current state of the game, including the player,
- * rooms, items, puzzles, and monsters.
+ * rooms, items, puzzles, monsters, and the player's inventory.
  * 
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
@@ -20,14 +20,16 @@ public class GameState implements Serializable {
     private HashMap<String, Item> items; // The items in the game
     private HashMap<String, Puzzle> puzzles; // The puzzles in the game
     private HashMap<String, Monster> monsters; // The monsters in the game
+    private Inventory inventory; // The player's inventory
 
     public GameState(Player player, HashMap<Integer, Room> rooms, HashMap<String, Item> items,
-            HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters) {
+            HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters, Inventory inventory) {
         this.player = player;
         this.rooms = rooms;
         this.items = items;
         this.puzzles = puzzles;
         this.monsters = monsters;
+        this.inventory = inventory;
     }
 
     /**
@@ -138,5 +140,27 @@ public class GameState implements Serializable {
      */
     public void setMonsters(HashMap<String, Monster> monsters) {
         this.monsters = monsters;
+    }
+
+    /**
+     * Method: getInventory
+     * 
+     * Retrieves the player's inventory.
+     * 
+     * @return The inventory object.
+     */
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    /**
+     * Method: setInventory
+     * 
+     * Sets the player's inventory.
+     * 
+     * @param inventory The inventory to set.
+     */
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }
