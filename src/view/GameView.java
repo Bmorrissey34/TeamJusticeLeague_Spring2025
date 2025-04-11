@@ -40,11 +40,6 @@ public class GameView {
         // Placeholder for displaying the player's status
     }
 
-    // Method to display a list of available commands
-    public void displayCommands() {
-        // Placeholder for displaying available commands
-    }
-
     // Method to display a puzzle or riddle
     public void displayPuzzle(String puzzleDescription) {
         // Placeholder for displaying a puzzle
@@ -53,5 +48,17 @@ public class GameView {
     // Method to display the result of a player's action
     public void displayActionResult(String result) {
         // Placeholder for displaying the result of an action
+    }
+
+    // Method to display the help menu
+    public void displayHelpMenu() {
+        displayMessage("Available Commands:");
+        displayMessage("- <direction>: Move in a direction (e.g., N, NW, S, SW, etc.).");
+        displayMessage("- pickup <item>: Pick up an item in the room.");
+        displayMessage("- use <item>: Use an item from your inventory.");
+        displayMessage("- map: Display the map.");
+        displayMessage("- help: Display this help menu.");
+        displayMessage("- save: Save the game.");
+        displayMessage("- quit: Quit the game.");
     }
 }

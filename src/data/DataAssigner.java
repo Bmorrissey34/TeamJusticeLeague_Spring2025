@@ -1,34 +1,37 @@
 package src.data;
 
-import java.util.HashMap;
+import java.util.HashMap; // Added import for GameView
 import src.model.Item;
 import src.model.Monster;
 import src.model.Puzzle;
 import src.model.Room;
+import src.view.GameView;
 
 public class DataAssigner {
+    private GameView gameView = new GameView(); // Added GameView instance
+
     public void assignRooms(HashMap<Integer, Room> rooms) {
         for (Room room : rooms.values()) {
             if (room.getName() == null || room.getDescription() == null) {
-                System.err.println("Error: Room data is incomplete. Room ID: " + room.hashCode());
+                gameView.displayMessage("Error: Room data is incomplete. Room ID: " + room.hashCode());
             } else {
-                System.out.println("Room assigned: " + room.getName());
+                gameView.displayMessage("Room assigned: " + room.getName());
 
                 // Check monster status
                 if (room.getMonster() != null) {
-                    System.out.println("  Monster in room: " + room.getMonster().getName());
-                    System.out.println("  Monster description: " + room.getMonster().getDescription());
-                    System.out.println("  Monster health: " + room.getMonster().getHealth());
-                    System.out.println("  Monster strength: " + room.getMonster().getStrength());
-                    System.out.println("  Monster defeated: " + room.isMonsterDefeated());
+                    gameView.displayMessage("  Monster in room: " + room.getMonster().getName());
+                    gameView.displayMessage("  Monster description: " + room.getMonster().getDescription());
+                    gameView.displayMessage("  Monster health: " + room.getMonster().getHealth());
+                    gameView.displayMessage("  Monster strength: " + room.getMonster().getStrength());
+                    gameView.displayMessage("  Monster defeated: " + room.isMonsterDefeated());
                 }
 
                 // Check puzzle status
                 if (room.getPuzzle() != null) {
-                    System.out.println("  Puzzle in room: " + room.getPuzzle().getQuestion());
-                    System.out.println("  Puzzle answer: " + room.getPuzzle().getAnswer());
-                    System.out.println("  Puzzle attempts: " + room.getPuzzle().getAttempts());
-                    System.out.println("  Puzzle solved: " + room.getPuzzle().isSolved());
+                    gameView.displayMessage("  Puzzle in room: " + room.getPuzzle().getQuestion());
+                    gameView.displayMessage("  Puzzle answer: " + room.getPuzzle().getAnswer());
+                    gameView.displayMessage("  Puzzle attempts: " + room.getPuzzle().getAttempts());
+                    gameView.displayMessage("  Puzzle solved: " + room.getPuzzle().isSolved());
                 }
             }
         }
@@ -38,45 +41,45 @@ public class DataAssigner {
         int itemCount = 0;
         for (Item item : items.values()) {
             if (item.getItems() == null) {
-                System.err.println("Error: Item data is incomplete. Item ID: " + item.hashCode());
+                gameView.displayMessage("Error: Item data is incomplete. Item ID: " + item.hashCode());
             } else {
-                System.out.println("Item assigned: " + item.getItems());
-                System.out.println("  Item effect: " + item.getEffect());
+                gameView.displayMessage("Item assigned: " + item.getItems());
+                gameView.displayMessage("  Item effect: " + item.getEffect());
                 itemCount++;
             }
         }
-        System.out.println("Total items assigned: " + itemCount);
+        gameView.displayMessage("Total items assigned: " + itemCount);
     }
 
     public void assignPuzzles(HashMap<String, Puzzle> puzzles) {
         int puzzleCount = 0;
         for (Puzzle puzzle : puzzles.values()) {
             if (puzzle.getQuestion() == null || puzzle.getAnswer() == null) {
-                System.err.println("Error: Puzzle data is incomplete. Puzzle ID: " + puzzle.hashCode());
+                gameView.displayMessage("Error: Puzzle data is incomplete. Puzzle ID: " + puzzle.hashCode());
             } else {
-                System.out.println("Puzzle assigned: " + puzzle.getQuestion());
-                System.out.println("  Puzzle answer: " + puzzle.getAnswer());
-                System.out.println("  Puzzle attempts: " + puzzle.getAttempts());
-                System.out.println("  Puzzle solved: " + puzzle.isSolved());
+                gameView.displayMessage("Puzzle assigned: " + puzzle.getQuestion());
+                gameView.displayMessage("  Puzzle answer: " + puzzle.getAnswer());
+                gameView.displayMessage("  Puzzle attempts: " + puzzle.getAttempts());
+                gameView.displayMessage("  Puzzle solved: " + puzzle.isSolved());
                 puzzleCount++;
             }
         }
-        System.out.println("Total puzzles assigned: " + puzzleCount);
+        gameView.displayMessage("Total puzzles assigned: " + puzzleCount);
     }
 
     public void assignMonsters(HashMap<String, Monster> monsters) {
         int monsterCount = 0;
         for (Monster monster : monsters.values()) {
             if (monster.getName() == null || monster.getHealth() <= 0) {
-                System.err.println("Error: Monster data is incomplete or invalid. Monster ID: " + monster.hashCode());
+                gameView.displayMessage("Error: Monster data is incomplete or invalid. Monster ID: " + monster.hashCode());
             } else {
-                System.out.println("Monster assigned: " + monster.getName());
-                System.out.println("  Monster description: " + monster.getDescription());
-                System.out.println("  Monster health: " + monster.getHealth());
-                System.out.println("  Monster strength: " + monster.getStrength());
+                gameView.displayMessage("Monster assigned: " + monster.getName());
+                gameView.displayMessage("  Monster description: " + monster.getDescription());
+                gameView.displayMessage("  Monster health: " + monster.getHealth());
+                gameView.displayMessage("  Monster strength: " + monster.getStrength());
                 monsterCount++;
             }
         }
-        System.out.println("Total monsters assigned: " + monsterCount);
+        gameView.displayMessage("Total monsters assigned: " + monsterCount);
     }
 }
