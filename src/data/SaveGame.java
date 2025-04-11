@@ -1,17 +1,20 @@
 package src.data;
 
-import src.model.GameState;
 import java.io.FileOutputStream;
+import java.io.IOException; // Added import for GameView
 import java.io.ObjectOutputStream;
-import java.io.IOException;
+import src.model.GameState;
+import src.view.GameView;
 
 public class SaveGame {
+    private GameView gameView = new GameView(); // Added GameView instance
+
     public void saveGame(String saveFilePath, GameState gameState) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFilePath))) {
             oos.writeObject(gameState);
-            System.out.println("Game saved successfully!");
+            gameView.displayMessage("Game saved successfully!");
         } catch (IOException e) {
-            System.out.println("Error saving game: " + e.getMessage());
+            gameView.displayMessage("Error saving game: " + e.getMessage());
         }
     }
 }

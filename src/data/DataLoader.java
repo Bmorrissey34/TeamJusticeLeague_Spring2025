@@ -1,15 +1,17 @@
 package src.data;
 
-import java.io.BufferedReader;
+import java.io.BufferedReader; // Added import for GameView
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import src.model.Room;
 import src.model.Item;
-import src.model.Puzzle;
 import src.model.Monster;
+import src.model.Puzzle;
+import src.model.Room;
+import src.view.GameView;
 
 public class DataLoader {
+    private GameView gameView = new GameView(); // Added GameView instance
     private HashMap<Integer, Room> rooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<>();
     private HashMap<String, Puzzle> puzzles = new HashMap<>();
@@ -25,7 +27,7 @@ public class DataLoader {
 
                 String[] parts = line.split(",", 6); // Adjusted to handle up to 6 parts
                 if (parts.length < 2) {
-                    System.err.println("Malformed room data: " + line);
+                    gameView.displayMessage("Malformed room data: " + line);
                     continue;
                 }
 
@@ -77,7 +79,7 @@ public class DataLoader {
                 rooms.put(name.hashCode(), room);
             }
         } catch (IOException e) {
-            System.err.println("Error loading rooms: " + e.getMessage());
+            gameView.displayMessage("Error loading rooms: " + e.getMessage());
         }
     }
 
@@ -91,7 +93,7 @@ public class DataLoader {
 
                 String[] parts = line.split(",", 2);
                 if (parts.length < 2) {
-                    System.err.println("Malformed item data: " + line);
+                    gameView.displayMessage("Malformed item data: " + line);
                     continue;
                 }
 
@@ -103,7 +105,7 @@ public class DataLoader {
                 items.put(itemName, item);
             }
         } catch (IOException e) {
-            System.err.println("Error loading items: " + e.getMessage());
+            gameView.displayMessage("Error loading items: " + e.getMessage());
         }
     }
 
@@ -117,7 +119,7 @@ public class DataLoader {
 
                 String[] parts = line.split(",", 3);
                 if (parts.length < 2) {
-                    System.err.println("Malformed puzzle data: " + line);
+                    gameView.displayMessage("Malformed puzzle data: " + line);
                     continue;
                 }
 
@@ -132,7 +134,7 @@ public class DataLoader {
                 puzzles.put(puzzleName, puzzle);
             }
         } catch (IOException e) {
-            System.err.println("Error loading puzzles: " + e.getMessage());
+            gameView.displayMessage("Error loading puzzles: " + e.getMessage());
         }
     }
 
@@ -146,7 +148,7 @@ public class DataLoader {
 
                 String[] parts = line.split(",", 3);
                 if (parts.length < 2) {
-                    System.err.println("Malformed monster data: " + line);
+                    gameView.displayMessage("Malformed monster data: " + line);
                     continue;
                 }
 
@@ -161,7 +163,7 @@ public class DataLoader {
                 monsters.put(monsterName, monster);
             }
         } catch (IOException e) {
-            System.err.println("Error loading monsters: " + e.getMessage());
+            gameView.displayMessage("Error loading monsters: " + e.getMessage());
         }
     }
 

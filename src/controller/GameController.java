@@ -7,6 +7,7 @@ import src.model.Room;
 import src.model.Item;
 import src.model.Puzzle;
 import src.model.Monster;
+import src.view.GameView;
 
 import java.util.HashMap;
 
@@ -22,6 +23,7 @@ import java.util.HashMap;
  */
 public class GameController {
     private ContinueGame continueGame = new ContinueGame();
+    private GameView gameView = new GameView(); // Use GameView for input/output
 
     // Game state variables
     private Player player; // Represents the player in the game
@@ -29,6 +31,39 @@ public class GameController {
     private HashMap<String, Item> items; // Stores the items in the game
     private HashMap<String, Puzzle> puzzles; // Stores the puzzles in the game
     private HashMap<String, Monster> monsters; // Stores the monsters in the game
+
+    /**
+     * Method: initializeGame
+     * 
+     * Initializes the game by either loading a saved game or starting a new one.
+     */
+    public void initializeGame() {
+        gameView.displayMessage("Welcome to the game!");
+        String choice = gameView.getUserInput("Would you like to load a saved game? (yes/no)").trim().toLowerCase();
+
+        if (choice.equals("yes")) {
+            String filePath = "src/data/resources/gameState.dat"; // Default save file path
+            loadSavedGame(filePath);
+            if (player == null || rooms == null) {
+                gameView.displayMessage("Failed to load the saved game. Starting a new game...");
+                startGame();
+            } else {
+                gameView.displayMessage("Game loaded successfully!");
+                gameView.displayMessage("Resuming game for player: " + player.getName());
+            }
+        } else {
+            startGame();
+        }
+    }
+
+    /**
+     * Method: startGame
+     * 
+     * Initializes a new game state.
+     */
+    private void startGame() {
+        
+    }
 
     /**
      * Method: loadSavedGame
@@ -47,14 +82,14 @@ public class GameController {
             this.puzzles = gameState.getPuzzles();
             this.monsters = gameState.getMonsters();
 
-            System.out.println("Game loaded successfully!");
-            System.out.println("Player: " + player.getName());
-            System.out.println("Rooms loaded: " + rooms.size());
-            System.out.println("Items loaded: " + items.size());
-            System.out.println("Puzzles loaded: " + puzzles.size());
-            System.out.println("Monsters loaded: " + monsters.size());
+            gameView.displayMessage("Game loaded successfully!");
+            gameView.displayMessage("Player: " + player.getName());
+            gameView.displayMessage("Rooms loaded: " + rooms.size());
+            gameView.displayMessage("Items loaded: " + items.size());
+            gameView.displayMessage("Puzzles loaded: " + puzzles.size());
+            gameView.displayMessage("Monsters loaded: " + monsters.size());
         } else {
-            System.out.println("Failed to load the saved game.");
+            gameView.displayMessage("Failed to load the saved game.");
         }
     }
 
@@ -64,14 +99,7 @@ public class GameController {
      * Displays a list of available commands to the player.
      */
     public void displayHelp() {
-        System.out.println("Available Commands:");
-        System.out.println("- <direction>: Move in a direction (e.g., N, NW, S, SW, etc.).");
-        System.out.println("- pickup <item>: Pick up an item in the room.");
-        System.out.println("- use <item>: Use an item from your inventory.");
-        System.out.println("- map: Display the map.");
-        System.out.println("- help: Display this help menu.");
-        System.out.println("- save: Save the game.");
-        System.out.println("- quit: Quit the game.");
+        gameView.displayHelpMenu();
     }
 
     /**
@@ -82,51 +110,7 @@ public class GameController {
      * @param rooms A HashMap containing the rooms in the game.
      */
     public void displayMap(HashMap<Integer, Room> rooms) {
-        System.out.println("Game Map:");
-        for (Room room : rooms.values()) {
-            System.out.println("- " + room.getName() + ": " + room.getDescription());
-        }
-    }
-
-    /**
-     * Method: initializeGame
-     * 
-     * Initializes the game by either loading a saved game or starting a new one.
-     */
-    public void initializeGame() {
-        System.out.println("Welcome to the game!");
-        System.out.println("Would you like to load a saved game? (yes/no)");
-
-        String choice = new java.util.Scanner(System.in).nextLine().trim().toLowerCase();
-        if (choice.equals("yes")) {
-            String filePath = "src/data/resources/gameState.dat"; // Default save file path
-            loadSavedGame(filePath);
-            if (player == null || rooms == null) {
-                System.out.println("Failed to load the saved game. Starting a new game...");
-                startNewGame();
-            } else {
-                System.out.println("Game loaded successfully!");
-                System.out.println("Resuming game for player: " + player.getName());
-            }
-        } else {
-            startNewGame();
-        }
-    }
-
-    /**
-     * Method: startNewGame
-     * 
-     * Initializes a new game state.
-     */
-    private void startNewGame() {
-        System.out.println("Starting a new game...");
-        // Initialize a new game state here
-        this.player = new Player();
-        this.rooms = new HashMap<>();
-        this.items = new HashMap<>();
-        this.puzzles = new HashMap<>();
-        this.monsters = new HashMap<>();
-        // Additional setup logic for a new game
+        
     }
 }
 

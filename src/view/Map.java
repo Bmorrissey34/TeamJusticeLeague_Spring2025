@@ -1,7 +1,7 @@
 package src.view;
 
-import java.util.HashMap;
 import java.io.File;
+import java.util.HashMap;
 import src.model.Room;
 /**
  * Class: Map
@@ -42,4 +42,22 @@ public class Map {
      * Prints the map to the console.
      */
     public void printMap() {}
+        
+
+
+    public HashMap<String, Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(HashMap<String, Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public String getStartingRoomID() {
+        return startingRoomID;
+    }
+
+    public void setStartingRoomID(String startingRoomID) {
+        this.startingRoomID = startingRoomID;
+    }
 }
