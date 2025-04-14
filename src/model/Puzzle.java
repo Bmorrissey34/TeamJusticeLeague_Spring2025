@@ -12,7 +12,7 @@ import java.util.HashMap;
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
  */
-public class Puzzle extends GameModel {
+public class Puzzle extends GameModel implements Examine {
     private String question; // The question of the puzzle
     private String answer; // The answer to the puzzle
     private int attempts; // Number of attempts made by the player
@@ -47,6 +47,11 @@ public class Puzzle extends GameModel {
      * Allows the player to skip the puzzle.
      */
     public void skip() {
+    }
+
+    @Override
+    public String examine() {
+        return "Puzzle: " + question + "\nSolved: " + solved;
     }
 
     public String getQuestion() {
