@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
  */
-public class Item extends GameModel {
+public class Item extends GameModel implements Examine {
     private int effect; // Effect of the item
     private HashMap<String, Item> items; // Stores items
 
@@ -42,5 +42,10 @@ public class Item extends GameModel {
 
     public void setItems(HashMap<String, Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public String examine() {
+        return "Item: " + getName() + "\nDescription: " + getDescription();
     }
 }
