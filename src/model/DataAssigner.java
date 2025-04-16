@@ -1,7 +1,6 @@
 package src.model;
 
 import java.util.HashMap;
-
 import src.view.GameView;
 
 /**
@@ -61,11 +60,17 @@ public class DataAssigner {
     public void assignItems(HashMap<String, Item> items) {
         int itemCount = 0;
         for (Item item : items.values()) {
-            if (item.getItems() == null) {
+            if (item.getName() == null || item.getDescription() == null) {
                 gameView.displayMessage("Error: Item data is incomplete. Item ID: " + item.hashCode());
             } else {
-                gameView.displayMessage("Item assigned: " + item.getItems());
-                gameView.displayMessage("  Item effect: " + item.getEffect());
+                gameView.displayMessage("Item assigned: " + item.getName());
+                gameView.displayMessage("  Item description: " + item.getDescription());
+                switch (item) {
+                    case Consumable consumable -> gameView.displayMessage("  Health restored: " + consumable.getHealth());
+                    case Weapon weapon -> gameView.displayMessage("  Strength: " + weapon.getStrength());
+                    default -> {
+                    }
+                }
                 itemCount++;
             }
         }

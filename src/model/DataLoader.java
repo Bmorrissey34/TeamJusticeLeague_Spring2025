@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-
 import src.view.GameView;
 
 /**
@@ -113,18 +112,28 @@ public class DataLoader {
                     continue;
                 }
 
-                String[] parts = line.split(",", 2);
-                if (parts.length < 2) {
+                String[] parts = line.split(",", 4);
+                if (parts.length < 4) {
                     gameView.displayMessage("Malformed item data: " + line);
                     continue;
                 }
 
-                String itemName = parts[0];
-                String description = parts[1];
-                Item item = new Item();
-                item.setName(itemName);
-                item.setDescription(description); // Assign description
-                items.put(itemName, item);
+                String type = parts[0];
+                String name = parts[1];
+                String description = parts[2];
+                int effect = Integer.parseInt(parts[3]);
+
+                Item item;
+                if (type.equalsIgnoreCase("Consumable")) {
+                    item = new Consumable(name, name, description, effect);
+                } else if (type.equalsIgnoreCase("Weapon")) {
+                    item = new Weapon(name, name, description, effect);
+                } else {
+                    gameView.displayMessage("Unknown item type: " + type);
+                    continue;
+                }
+
+                items.put(name, item);
             }
         } catch (IOException e) {
             gameView.displayMessage("Error loading items: " + e.getMessage());

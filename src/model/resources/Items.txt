@@ -1,4 +1,4 @@
-<Type>,<ID>,<name>,<description>,<health/strength>
+<ItemType>,<ID>,<description>,<health/strength>
 
 Consumable,Green Apple,A fresh green apple that restores +10 health when eaten.,10
 Consumable,Yogurt,A small cup of yogurt that restores +20 health when consumed.,20
