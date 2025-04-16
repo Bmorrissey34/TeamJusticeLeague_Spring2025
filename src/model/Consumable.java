@@ -27,10 +27,11 @@ public class Consumable extends Item {
         this.health = health;
     }
 
-    /**
-     * Method: increaseHealth
-     * 
-     * Increases the player's health when the consumable is used.
-     */
-    public void increaseHealth() {}
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

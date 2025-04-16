@@ -13,7 +13,6 @@ import java.util.HashMap;
  * Author: William Stein
  */
 public class Item extends GameModel implements Examine {
-    private int effect; // Effect of the item
     private HashMap<String, Item> items; // Stores items
 
     /** 
@@ -42,14 +41,6 @@ public class Item extends GameModel implements Examine {
      * @param player The player using the item.
      */
     public void use(Player player) {}
-
-    public int getEffect() {
-        return effect;
-    }
-
-    public void setEffect(int effect) {
-        this.effect = effect;
-    }
 
     public HashMap<String, Item> getItems() {
         return items;
