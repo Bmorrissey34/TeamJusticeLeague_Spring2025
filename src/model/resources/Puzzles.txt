@@ -1,10 +1,34 @@
-<puzzleName>,<description>,<completed>
+Number Guessing
+Guess a random number between 1 and 10.
+Any
+5
 
-NumberGuess,A random number puzzle from 1 to 10,false
-NumberSequence,What's next in 2,6,12,20,30? Answer: 42,false
-OddRiddle,I’m an odd number. Take away one letter and I'm even. Answer: Seven,false
-Opposites,Opposite of yes, up, or win?,false
-QuotePuzzle,"Yesterday was history, tomorrow a mystery, today is a gift: ___",false
-Riddle1,"I’m tall when I’m young, short when I'm old. Answer: candle",false
-Riddle2,"The more you take, the more you leave behind. Answer: footsteps",false
-PlayroomPuzzle,Affects Toybound Horror if solved,false
+Number Pattern
+What comes next in the sequence: 2, 6, 12, 20, 30?
+Any
+42
+
+Odd Number Riddle
+I'm an odd number. Take away a letter and I become even. What am I?
+Any
+7
+
+Opposite Word Puzzle
+What is the opposite of: Yes, Up, Win?
+Any
+No, Down, Lose
+
+Quote Puzzle
+Yesterday was history, tomorrow is a mystery, and today is a gift. What’s the word?
+Any
+Present
+
+Riddle 1
+I'm tall when I'm young, short when I'm old. What am I?
+Any
+Candle
+
+Riddle 2
+The more you take, the more you leave behind. What am I?
+Any
+Footsteps
