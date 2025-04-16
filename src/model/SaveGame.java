@@ -1,9 +1,9 @@
-package src.data;
+package src.model;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import src.model.GameState;
+
 import src.view.GameView;
 
 /**

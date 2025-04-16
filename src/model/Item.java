@@ -60,7 +60,7 @@ public class Item extends GameModel implements Examine {
     }
 
     @Override
-    public toString examine() {
+    public String examine() {
         return "Item: " + getName() + "\nDescription: " + getDescription();
     }
 }
