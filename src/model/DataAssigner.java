@@ -1,10 +1,7 @@
-package src.data;
+package src.model;
 
 import java.util.HashMap;
-import src.model.Item;
-import src.model.Monster;
-import src.model.Puzzle;
-import src.model.Room;
+
 import src.view.GameView;
 
 /**

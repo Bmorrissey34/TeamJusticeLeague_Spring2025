@@ -1,7 +1,7 @@
 package src.controller;
 
 import java.util.HashMap;
-import src.data.ContinueGame;
+import src.model.ContinueGame;
 import src.model.GameState;
 import src.model.Inventory;
 import src.model.Item;

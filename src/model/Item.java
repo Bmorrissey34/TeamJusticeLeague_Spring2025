@@ -10,13 +10,28 @@ import java.util.HashMap;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
+ * Author: William Stein
  */
-public class Item extends GameModel {
+public class Item extends GameModel implements Examine {
     private int effect; // Effect of the item
     private HashMap<String, Item> items; // Stores items
 
+    /** 
+     * Constructor: No args constructor used to read contents of Items.txt into a HashMap
+     */
     public Item() {
         this.items = new HashMap<>();
+    }
+
+    /**
+     * Constructor: Item
+     * 
+     * @param ID Unique number for item
+     * @param name Item name
+     * @param description Description of item
+     */
+    public Item(String ID, String name, String description) {
+        super(ID, name, description);
     }
 
     /**
@@ -42,5 +57,10 @@ public class Item extends GameModel {
 
     public void setItems(HashMap<String, Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public String examine() {
+        return "Item: " + getName() + "\nDescription: " + getDescription();
     }
 }

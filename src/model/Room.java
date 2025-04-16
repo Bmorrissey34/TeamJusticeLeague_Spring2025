@@ -15,15 +15,15 @@ import java.util.List;
  *          Written: January 6, 2025
  *          Author: Dino Maksumic
  */
-public class Room {
-    private String name; // Name of the room
-    private String description; // Description of the room
-    private HashMap<String, Room> exits = new HashMap<>();
+public class Room extends GameModel implements Examine {
+    private String name; 
+    private String description; 
+    private HashMap<String, Room> exits; // Stores exits as direction -> connected room
     private List<Item> items = new ArrayList<>();
-    private Monster monster; // Single monster in the room
-    private Puzzle puzzle; // Single puzzle in the room
-    private boolean isMonsterDefeated = false; // Tracks if the monster is defeated
-    private boolean isPuzzleCompleted = false; // Tracks if the puzzle is completed
+    private Monster monster; 
+    private Puzzle puzzle; 
+    private boolean isMonsterDefeated = false; 
+    private boolean isPuzzleCompleted = false; 
 
     public Room() {
         this.items = new ArrayList<>();
@@ -95,11 +95,22 @@ public class Room {
      * 
      * Adds an exit to the room.
      * 
-     * @param direction The direction of the exit.
-     * @param room      The room connected to the exit.
+     * @param direction The direction of the exit (e.g., "NORTH", "SOUTH").
+     * @param room      The room connected to this exit.
      */
     public void addExits(String direction, Room room) {
-        exits.put(direction.toUpperCase(), room);
+        exits.put(direction, room);
+    }
+
+    /**
+     * Method: getExits
+     * 
+     * Retrieves the exits of the room.
+     * 
+     * @return A HashMap of exits (direction -> connected room).
+     */
+    public HashMap<String, Room> getExits() {
+        return exits;
     }
 
     /**
@@ -122,5 +133,10 @@ public class Room {
      */
     public void removeItem(Item item) {
         items.remove(item);
+    }
+
+    @Override
+    public String examine() {
+        return "Room: " + name + "\nDescription: " + description + "\nItems: " + items + "\nMonster: " + (monster != null ? monster.getName() : "None") + "\nPuzzle: " + (puzzle != null ? puzzle.getQuestion() : "None");
     }
 }
