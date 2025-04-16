@@ -27,11 +27,11 @@ public class Weapon extends Item {
         this.strength = strength;
     }
 
-    /**
-     * Method: increaseStrength
-     * 
-     * Increases the strength of the Player.
-     */
-    public void increaseStrength() {
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int Strength) {
+        this.strength = strength;
     }
 }
