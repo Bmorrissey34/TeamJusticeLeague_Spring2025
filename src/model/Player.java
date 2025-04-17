@@ -48,8 +48,11 @@ public class Player {
      * Adds an item to the player's inventory.
      * 
      * @param item The item to pick up.
+     * Author: William Stein
      */
-    public void pickup(Item item) {}
+    public void pickup(Item item) {
+
+    }
 
     /**
      * Method: use
@@ -57,8 +60,11 @@ public class Player {
      * Uses an item from the player's inventory.
      * 
      * @param item The item to use.
+     * Author: William Stein
      */
-    public void use(Item item) {}
+    public void use(Item item) {
+
+    }
 
     /**
      * Method: fight
@@ -82,8 +88,12 @@ public class Player {
      * Reduces the player's health when they take damage.
      * 
      * @param damage The amount of damage taken.
+     * Author: William Stein
      */
-    public void takeDamage(int damage) {}
+    public void takeDamage(int damage) {
+        int playerHealth = getHealth();
+        setHealth(playerHealth - damage);
+    }
 
     /**
      * Method: setCurrentRoom
