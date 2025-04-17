@@ -31,8 +31,19 @@ public class Player {
      * Moves the player in a specified direction.
      * 
      * @param direction The direction to move.
+     * Author: Dino Maksumic
      */
-    public void move(String direction) {}
+    public void move(String direction) {
+        Room nextRoom = currentRoom.getExits().get(direction.toUpperCase());
+    
+        if (nextRoom != null) {
+            setCurrentRoom(nextRoom);
+            System.out.println("You move " + direction + " into: " + nextRoom.getName());
+            System.out.println(nextRoom.getDescription());
+        } else {
+            System.out.println("You can't go " + direction + " from here.");
+        }
+    }
 
     /**
      * Method: help
@@ -142,8 +153,16 @@ public class Player {
      * Examines an object in the game.
      * 
      * @param object The object to examine.
+     * Author: Dino Maksumic
      */
-    public void examine(Object object) {}
+    public void examine(Object object) {
+        if (object instanceof Examine) {
+            Examine examinable = (Examine) object;
+            System.out.println(examinable.examine());
+        } else {
+            System.out.println("You can't examine that.");
+        }
+    }
 
     public String getName() {
         return name;
