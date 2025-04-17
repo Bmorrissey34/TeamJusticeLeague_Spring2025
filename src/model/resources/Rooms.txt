@@ -1,24 +1,25 @@
-<name>,<description>,<exit1>:<room1>|<exit2>:<room2>|...,<item1>|<item2>|...,<puzzle>,<monster>
+<ID>|<name>,<description>,<exits>,<items>,<puzzle>,<monster>
 
-Entrance,You feel a breeze as whispers welcome you into Ravenshade Manor. The chandelier sways, and a stained carpet leads further in.,NORTH:Living Room|WEST:Office 1|UP:Hallway|NORTHWEST:Family Room,,,
-Office 1,Ink lingers in the air. Papers on the desk seem freshly written. A crooked spider picture shifts its gaze. Keys on the typewriter move on their own.,EAST:Entrance,,,
-Family Room,Portraits show forced smiles. A rocking chair sways beside glowing embers. A child’s laugh echoes, then silence.,Chewing Tobacco,,,
-Break Room,Stale coffee hangs in the air. A shadow disappears as you spot cluttered shelves and mismatched furniture.,WEST:Family Room|SOUTHWEST:Living Room,Green Apple,,
-Living Room,A piano plays faintly, then silence. Giggles echo. Scratched floors suggest something tried to claw out.,WEST:Office 2|EAST:Dining Room|SOUTH:Entrance|NORTH:Family Room|NORTHWEST:Restroom|SOUTHWEST:Office 1|DOWN:Basement Living Room,,,
-Office 2,The desk is overturned. Shadows stretch unnaturally. A warm chair sits empty under a flickering lamp.,EAST:Living Room|SOUTH:Restroom,,,
-Restroom,A cracked mirror warps your reflection. Black water pools in the sink. The shower curtain billows as if something is escaping.,NORTH:Office 2|EAST:Dining Room|SOUTH:Study|SOUTHWEST:Office 1|NORTHEAST:Living Room,1st Aid Kit,,
-Study,Dusty books line the walls—one is missing. A quill twitches on the desk. A leather chair looks deeply worn.,NORTH:Restroom,,,
-Dining Room,A wine scent fills the air. A rat vanishes. A full glass and untouched bread sit mysteriously.,WEST:Restroom|WEST:Living Room|DOWN:Basement Living Room|UP:Hallway|NORTHEAST:Hallway,Thor’s Hammer,,
-Hallway,Each creaking step sounds like a warning. You feel watched as faint scurrying echoes through the shadows.,DOWN:Dining Room|EAST:Bathroom|WEST:Master Bedroom|NORTH:Closet|SOUTHWEST:Dining Room|SOUTHEAST:Bathroom,,,
-Bathroom,A red handprint stains the mirror. The bath fills with murky water. The drain whispers softly.,WEST:Hallway|SOUTH:Bedroom 1|EAST:Bedroom 2|NORTHWEST:Hallway,Yogurt,,
-Bedroom 1,Torn sheets cover the bed. A diary warns of nightmares. A stuffed animal seems to breathe.,NORTH:Bathroom|EAST:Bedroom 2,Fruit Roll-Up,,
-Bedroom 2,Peeling wallpaper reveals frantic scribbles. A mirror reflects a door that doesn’t exist. A lullaby hums faintly.,WEST:Bedroom 1|WEST:Bathroom,,,
-Closet,Moths swarm. The stench of decay fills the air. Empty shoeboxes and swaying hangers signal something unseen.,SOUTH:Hallway|WEST:Master Bathroom|EAST:Master Bedroom|SOUTHWEST:Master Bedroom,Monster Cream,,
-Master Bathroom,The tub is stained red. A prescription bottle sits alone. Scratches echo from the drain.,SOUTH:Closet|WEST:Master Bedroom,,,
-Master Bedroom,Abstract paintings cover the walls. A dark space hides inside the wardrobe. Fabric rustles behind you.,EAST:Closet|NORTH:Master Bathroom|SOUTH:Hallway|NORTHEAST:Closet|DOWN:Living Room,Sword,,Ravenborn
-Backyard,Dead grass crunches underfoot. A swing moves on its own. The house behind you feels alive.,NORTH:Basement Bedroom|SOUTH:Basement Living Room|WEST:Playroom|SOUTHEAST:Playroom|SOUTHWEST:Bedroom,,,
-Basement Bedroom,Dusty sheets, black stains, and carved warnings haunt the room. A trembling closet stays locked.,SOUTH:Backyard|WEST:Basement Living Room|NORTH:Basement Bathroom,,,
-Basement Bathroom,Tapping comes from the toilet. A bloodstained towel hangs. The sink defies your control.,SOUTH:Basement Bedroom,,,
-Basement Living Room,The TV buzzes with static. Flickering light casts eerie shadows. The windows are pitch black.,UP:Dining Room|NORTH:Basement Bedroom|SOUTH:Backyard|EAST:Playroom|WEST:Kitchen|UP:Living Room,,,
-Playroom,Dolls stare with button eyes. A teddy bear smiles. A rocking horse creaks louder the longer you stay.,WEST:Kitchen|EAST:Basement Living Room|NORTH:Backyard|SOUTHWEST:Basement Bedroom|UP:Family Room,Blow Dart,PlayroomPuzzle,ToyboundHorror
-Kitchen,Too clean. A fork beside an empty bowl is still warm. Scraping echoes from the walls.,EAST:Playroom|WEST:Basement Living Room,,,
+R9|Office 1,Ink lingers in the air. Papers on the desk seem freshly written. A crooked spider picture shifts its gaze. Keys on the typewriter move on their own.,WEST:Entrance,Ink Cartridge,,
+R2|Living Room,A piano plays faintly, then silence. Giggles echo. Scratched floors suggest something tried to claw out.,WEST:Office|EAST:Family Room|NORTH:Break Room|SOUTH:Entrance,Piano Sheet,,
+R3|Break Room,Stale coffee hangs in the air. A shadow disappears as you spot cluttered shelves and mismatched furniture.,SOUTH:Family Room|SOUTHWEST:Living Room,Green Apple,,
+R4|Family Room,Portraits show forced smiles. A rocking chair sways beside glowing embers. A child’s laugh echoes, then silence.,WEST:Living Room,Chewing Tobacco,,Shadow Child
+R5|Bathroom (1st Fl),A red handprint stains the mirror. The bath fills with murky water. The drain whispers softly.,NORTH:Office|EAST:Restroom|SOUTH:Study,Yogurt,,
+R6|Study,Dusty books line the walls—one is missing. A quill twitches on the desk. A leather chair looks deeply worn.,NORTH:Bathroom (1st Fl),Quill,,
+R7|Dining Room,A wine scent fills the air. A rat vanishes. A full glass and untouched bread sit mysteriously.,NORTH:Living Room|EAST:Restroom|DOWN:Basement Living Room,Thor’s Hammer,,
+R8|Entrance,You feel a breeze as whispers welcome you into Ravenshade Manor. The chandelier sways, and a stained carpet leads further in.,NORTH:Living Room|EAST:Office 1|UP:Hallway,,Welcome Puzzle,
+R1|Office,The scent of ink and dust lingers. An old computer hums in sleep mode.,EAST:Living Room|SOUTH:Bathroom (1st Fl),Notebook,,
+R13|Hallway,Each creaking step sounds like a warning. You feel watched as faint scurrying echoes through the shadows.,EAST:Bathroom (2nd Fl)|SOUTHWEST:Master Bedroom|NORTHWEST:Closet|DOWN:Entrance,,Echo Puzzle,
+R12|Master Bedroom,Abstract paintings cover the walls. A dark space hides inside the wardrobe. Fabric rustles behind you.,NORTH:Master Bathroom|NORTHEAST:Closet|EAST:Hallway,Sword,,Ravenborn
+R10|Master Bathroom,The tub is stained red. A prescription bottle sits alone. Scratches echo from the drain.,SOUTH:Master Bedroom|EAST:Closet,,,Bloody Hand
+R11|Closet,Moths swarm. The stench of decay fills the air. Empty shoeboxes and swaying hangers signal something unseen.,WEST:Master Bathroom|SOUTH:Master Bedroom|EAST:Hallway,Monster Cream,,
+R14|Bathroom (2nd Fl),A red handprint stains the mirror. The bath fills with murky water. The drain whispers softly.,WEST:Hallway|SOUTHEAST:Bedroom 2|NORTHEAST:Bedroom 1,Yogurt,,
+R15|Bedroom 1,Torn sheets cover the bed. A diary warns of nightmares. A stuffed animal seems to breathe.,SOUTH:Bedroom 2|WEST:Bathroom (2nd Fl),Fruit Roll-Up,,
+R16|Bedroom 2,Peeling wallpaper reveals frantic scribbles. A mirror reflects a door that doesn’t exist. A lullaby hums faintly.,NORTH:Bedroom 1|WEST:Bathroom (2nd Fl),,,
+R17|Bedroom (Basement),Dusty sheets, black stains, and carved warnings haunt the room. A trembling closet stays locked.,EAST:Basement Living Room|SOUTH:Bathroom (Basement)|NORTH:Backyard,,,Sleeper
+R18|Bathroom (Basement),Tapping comes from the toilet. A bloodstained towel hangs. The sink defies your control.,NORTH:Bedroom (Basement),,,
+R19|Living Room (Basement),The TV buzzes with static. Flickering light casts eerie shadows. The windows are pitch black.,WEST:Bedroom (Basement)|EAST:Kitchen|NORTH:Backyard|UP:Dining Room,,,
+R20|Playroom,Dolls stare with button eyes. A teddy bear smiles. A rocking horse creaks louder the longer you stay.,SOUTH:Kitchen|NORTH:Backyard|WEST:Basement Living Room,Blow Dart,PlayroomPuzzle,ToyboundHorror
+R21|Kitchen,Too clean. A fork beside an empty bowl is still warm. Scraping echoes from the walls.,NORTH:Playroom|WEST:Basement Living Room,,,
+R22|Backyard,Dead grass crunches underfoot. A swing moves on its own. The house behind you feels alive.,SOUTH:Basement Living Room|SOUTHEAST:Playroom|SOUTHWEST:Bedroom (Basement),,,
+
