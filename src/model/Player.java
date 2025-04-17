@@ -1,5 +1,7 @@
 package src.model;
 
+import java.util.ArrayList;
+
 import src.view.GameView;
 
 /**
@@ -43,22 +45,58 @@ public class Player {
     }
 
     /**
-     * Method: pickup
+     * Method: hasItem
+     * 
+     * Verifies if player has an item in their inventory.
+     * 
+     * @param itemName The item name to search inventory for.
+     * Author: William Stein
+     */
+    public boolean hasItem(String itemName) {
+        ArrayList<Item> itemsOwned = inventory.getItems();
+        for (Item item : itemsOwned) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method: pickupItem
      * 
      * Adds an item to the player's inventory.
      * 
      * @param item The item to pick up.
+     * Author: William Stein
      */
-    public void pickup(Item item) {}
+    public void pickupItem(Item item) {
+
+    }
 
     /**
-     * Method: use
+     * Method: consumeItem
      * 
-     * Uses an item from the player's inventory.
+     * Uses weapon from the player's inventory to attack monster.
      * 
      * @param item The item to use.
+     * Author: William Stein
      */
-    public void use(Item item) {}
+    public void consumeItem(Item item) {
+
+    }
+
+    /**
+     * Method: useItem
+     * 
+     * Uses consumable from the player's inventory to restor health.
+     * 
+     * @param item The item to use.
+     * Author: William Stein
+     */
+    public void useItem(Item item) {
+
+    }
 
     /**
      * Method: fight
@@ -82,8 +120,12 @@ public class Player {
      * Reduces the player's health when they take damage.
      * 
      * @param damage The amount of damage taken.
+     * Author: William Stein
      */
-    public void takeDamage(int damage) {}
+    public void takeDamage(int damage) {
+        int playerHealth = getHealth();
+        setHealth(playerHealth - damage);
+    }
 
     /**
      * Method: setCurrentRoom
