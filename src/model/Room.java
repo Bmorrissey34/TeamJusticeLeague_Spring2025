@@ -16,6 +16,7 @@ import java.util.List;
  *          Author: Dino Maksumic
  */
 public class Room extends GameModel implements Examine {
+    private String ID; 
     private String name; 
     private String description; 
     private HashMap<String, Room> exits; // Stores exits as direction -> connected room
@@ -138,5 +139,25 @@ public class Room extends GameModel implements Examine {
     @Override
     public String examine() {
         return "Room: " + name + "\nDescription: " + description + "\nItems: " + items + "\nMonster: " + (monster != null ? monster.getName() : "None") + "\nPuzzle: " + (puzzle != null ? puzzle.getQuestion() : "None");
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String iD) {
+        ID = iD;
+    }
+
+    public void setExits(HashMap<String, Room> exits) {
+        this.exits = exits;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }
