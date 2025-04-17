@@ -1,5 +1,7 @@
 package src.model;
 
+import src.view.GameView;
+
 /**
  * Class: Player
  * 
@@ -35,7 +37,10 @@ public class Player {
      * 
      * Displays help information for the player.
      */
-    public void help() {}
+    public void help() {
+        GameView gameView = new GameView();
+        gameView.displayHelpMenu();
+    }
 
     /**
      * Method: pickup
