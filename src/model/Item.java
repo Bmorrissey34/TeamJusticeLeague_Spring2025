@@ -14,6 +14,8 @@ import java.util.HashMap;
  */
 public class Item extends GameModel implements Examine {
     private HashMap<String, Item> items; // Stores items
+    private String type;
+    private String id;
 
     /** 
      * Constructor: No args constructor used to read contents of Items.txt into a HashMap
@@ -48,6 +50,22 @@ public class Item extends GameModel implements Examine {
 
     public void setItems(HashMap<String, Item> items) {
         this.items = items;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

@@ -40,9 +40,17 @@ public class DataLoader {
                     continue;
                 }
 
-                String[] parts = line.split(",", 6); // Adjusted to handle up to 6 parts
+                String[] idAndData = line.split("\\|", 2); // Split by '|'
+                if (idAndData.length < 2) {
+                    System.err.println("Malformed room data: " + line);
+                    continue;
+                }
+
+                String roomId = idAndData[0]; // Extract the room ID
+                String[] parts = idAndData[1].split(",", 6); // Split the rest of the data by ','
+
                 if (parts.length < 2) {
-                    gameView.displayMessage("Malformed room data: " + line);
+                    System.err.println("Malformed room data: " + line);
                     continue;
                 }
 
@@ -58,7 +66,7 @@ public class DataLoader {
                     for (String exit : exits) {
                         String[] exitParts = exit.split(":");
                         if (exitParts.length == 2) {
-                            room.addExits(exitParts[0].toUpperCase(), rooms.get(exitParts[1].hashCode()));
+                            room.addExits(exitParts[0].toUpperCase(), new Room(exitParts[1]));
                         }
                     }
                 }
@@ -85,16 +93,14 @@ public class DataLoader {
                 if (parts.length > 5 && !parts[5].isEmpty()) {
                     String monsterName = parts[5];
                     if (monsters.containsKey(monsterName)) {
-                        Monster monster = monsters.get(monsterName);
-                        room.setMonster(monster);
-                        room.setMonsterDefeated(monster.getHealth() <= 0); // Set defeated status
+                        room.setMonster(monsters.get(monsterName));
                     }
                 }
 
-                rooms.put(name.hashCode(), room);
+                rooms.put(roomId.hashCode(), room); // Use room ID as the key
             }
         } catch (IOException e) {
-            gameView.displayMessage("Error loading rooms: " + e.getMessage());
+            System.err.println("Error loading rooms: " + e.getMessage());
         }
     }
 
@@ -113,21 +119,29 @@ public class DataLoader {
                     continue;
                 }
 
-                String[] parts = line.split(",", 2);
-                if (parts.length < 2) {
-                    gameView.displayMessage("Malformed item data: " + line);
+                String[] parts = line.split(",", 5); // Split into 5 parts
+                if (parts.length < 5) {
+                    System.err.println("Malformed item data: " + line);
                     continue;
                 }
 
-                String itemName = parts[0];
-                String description = parts[1];
+                String type = parts[0];
+                String itemId = parts[1];
+                String name = parts[2];
+                String description = parts[3];
+                int value = Integer.parseInt(parts[4]); // Parse health/strength as an integer
+
                 Item item = new Item();
-                item.setName(itemName);
-                item.setDescription(description); // Assign description
-                items.put(itemName, item);
+                item.setType(type);
+                item.setId(itemId);
+                item.setName(name);
+                item.setDescription(description);
+                item.setValue(value);
+
+                items.put(itemId, item); // Use item ID as the key
             }
         } catch (IOException e) {
-            gameView.displayMessage("Error loading items: " + e.getMessage());
+            System.err.println("Error loading items: " + e.getMessage());
         }
     }
 
