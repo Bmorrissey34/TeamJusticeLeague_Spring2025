@@ -60,14 +60,6 @@ public class Item extends GameModel implements Examine {
         this.type = type;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     @Override
     public String examine() {
         return "Item: " + getName() + "\nDescription: " + getDescription();
