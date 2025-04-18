@@ -146,7 +146,7 @@ public class Room extends GameModel implements Examine {
     /**
      * Method: addItem
      * 
-     * Adds an item to the room which is dropped by the user.
+     * Adds an item to the room which is dropped by the player.
      * 
      * @param item The item to add.
      * Author: William Stein
@@ -158,7 +158,7 @@ public class Room extends GameModel implements Examine {
     /**
      * Method: removeItem
      * 
-     * Removes an item from the room that is picked up by the user.
+     * Removes an item from the room that is picked up by the player.
      * 
      * @param item The item to remove.
      * Author: William Stein

@@ -56,6 +56,29 @@ public class Player {
     }
 
     /**
+     * Method: getInventory
+     * 
+     * Prints item names from player's inventory
+     * 
+     * @return void
+     * Author: William Stein
+     */
+    public void getInventory() {
+        ArrayList<Item> itemsOwned = inventory.getItems();
+        if (!itemsOwned.isEmpty()) {
+            for (int i = 0; i < itemsOwned.size(); i++) {
+                System.out.print(itemsOwned.get(i).getName());
+                if (i < itemsOwned.size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+        }
+        else {
+            System.out.println("You didn't pickup any items yet.");
+        }
+    }
+
+    /**
      * Method: hasItem
      * 
      * Verifies if player has an item in their inventory.
@@ -188,13 +211,9 @@ public class Player {
         this.strength = strength;
     }
 
-    public Inventory getInventory() {
-        return inventory;
-    }
+    
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
+
 
     public Room getCurrentRoom() {
         return currentRoom;
