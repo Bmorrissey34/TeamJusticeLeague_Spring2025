@@ -32,7 +32,7 @@ public class Player {
      * Moves the player in a specified direction.
      * 
      * @param direction The direction to move.
-     *                  Author: Dino Maksumic
+     * @author Dino Maksumic
      */
     public void move(String direction) {
         Room nextRoom = currentRoom.getExits().get(direction.toUpperCase());
