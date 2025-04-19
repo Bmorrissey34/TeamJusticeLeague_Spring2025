@@ -108,7 +108,7 @@ public class Room extends GameModel implements Examine {
      * Retrieves the exits of the room.
      * 
      * @return A HashMap of exits (direction -> connected room).
-     * Author: William Stein
+     * @author William Stein
      */
     public HashMap<String, Room> getExits() {
         return exits;
@@ -120,7 +120,7 @@ public class Room extends GameModel implements Examine {
      * Returns contents of items ArrayList
      * 
      * @return ArrayList of items in room
-     * Author: William Stein
+     * @author William Stein
      */
     public ArrayList<Item> getItems() {
         return items;
@@ -133,7 +133,7 @@ public class Room extends GameModel implements Examine {
      * Returns all item names from items ArrayList
      * 
      * @return  A ArrayList of item names
-     * Author: William Stein
+     * @author William Stein
      */ 
     public ArrayList<String> getItemNames() {
         ArrayList<String> itemNames = new ArrayList<>();
@@ -149,7 +149,7 @@ public class Room extends GameModel implements Examine {
      * Adds an item to the room which is dropped by the player.
      * 
      * @param item The item to add.
-     * Author: William Stein
+     * @author William Stein
      */
     public void addItem(Item item) {
         items.add(item);
@@ -161,7 +161,7 @@ public class Room extends GameModel implements Examine {
      * Removes an item from the room that is picked up by the player.
      * 
      * @param item The item to remove.
-     * Author: William Stein
+     * @author William Steinn
      */
     public void removeItem(Item item) {
         items.remove(item);
