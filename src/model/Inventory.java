@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
+ * @author William Stein
  */
 public class Inventory {
     private ArrayList<Item> items; // List of items in the inventory
@@ -22,31 +23,23 @@ public class Inventory {
     /**
      * Method: addItem
      * 
-     * Adds an item to the inventory.
+     * Adds an item to the inventory that is picked up by player.
      * 
      * @param item The item to add.
      */
-    public void addItem(Item item) {}
+    public void addItem(Item item) {
+        items.add(item);
+    }
 
     /**
      * Method: removeItem
      * 
-     * Removes an item from the inventory.
+     * Removes an item from the inventory that is dropped by the player.
      * 
      * @param item The item to remove.
      */
-    public void removeItem(Item item) {}
-
-    /**
-     * Method: checkItem
-     * 
-     * Checks if an item exists in the inventory.
-     * 
-     * @param item The item to check.
-     * @return True if the item exists, false otherwise.
-     */
-    public boolean checkItem(Item item) {
-        return false;
+    public void removeItem(Item item) {
+        items.remove(item);
     }
 
     /**

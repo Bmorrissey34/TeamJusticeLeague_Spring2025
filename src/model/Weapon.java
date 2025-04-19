@@ -9,7 +9,7 @@ package src.model;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
- * William Strin
+ * @author William Stein
  */
 public class Weapon extends Item {
     private int strength; // Strength of the weapon
