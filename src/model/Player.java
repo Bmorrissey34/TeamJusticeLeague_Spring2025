@@ -97,6 +97,24 @@ public class Player {
     }
 
     /**
+     * 
+     * @param itemName
+     */
+    public void checkItem(String itemName) {
+        ArrayList<Item> itemsOwned = inventory.getItems();
+        if (hasItem(itemName)) {
+            for (Item item : itemsOwned) {
+                if (item.getName().equalsIgnoreCase(itemName)) {
+                    System.out.println(item.getDescription());
+                }
+            }
+        }
+        else {
+            System.out.println("Item not found in inventory.");
+        }
+    }
+
+    /**
      * Method: pickupItem
      * 
      * Adds an item to the player's inventory.
@@ -104,8 +122,20 @@ public class Player {
      * @param item The item to pick up.
      * Author: William Stein
      */
-    public void pickupItem(Item item) {
+    public void pickupItem(String itemName) {
+        ArrayList<Item> roomItems = currentRoom.getItems();
+        DataLoader gameItems = new DataLoader();
 
+        for (Item item : roomItems) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                Item typedItem = gameItems.getItem(itemName);
+                inventory.addItem(typedItem);
+                System.out.println(item.getName() + " has been picked up from the room and successfully added to the player's inventory");
+                currentRoom.removeItem(item);
+                return;
+            }
+        }
+        System.out.println("Item is not in the current room.");
     }
 
     /**

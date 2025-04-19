@@ -26,6 +26,15 @@ public class DataLoader {
     private HashMap<String, Monster> monsters = new HashMap<>(); // Stores loaded monsters
 
     /**
+     * Constructor: DataLoader
+     * 
+     * No args constructor to load items into HashMap. Used to retrive typed items.
+     */
+    public DataLoader() {
+        loadItems("items.txt");
+    }
+
+    /**
      * Method: loadRooms
      * 
      * Reads room data from a file and populates the rooms HashMap.
@@ -221,6 +230,28 @@ public class DataLoader {
     public HashMap<Integer, Room> getRooms() {
         return rooms;
     }
+
+    /**
+     * Method: getItem
+     * 
+     * Used to retrieve typed item
+     * 
+     * @param itemName
+     * @return Item
+     * Author: William Stein
+     */
+    public Item getItem(String itemName) {
+        Item i = items.get(itemName);
+        if (i instanceof Weapon) {
+            Weapon weapon = (Weapon) i;
+            return new Weapon(i.getID(), i.getName(), i.getDescription(), weapon.getStrength());
+        }
+        else {
+            Consumable consumable = (Consumable) i;
+            return new Consumable(i.getID(), i.getName(), i.getDescription(), consumable.getHealth());
+        }
+    }
+    
 
     public HashMap<String, Item> getItems() {
         return items;
