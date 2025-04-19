@@ -10,9 +10,9 @@ import java.util.Scanner;
  * attempts, and solved state.
  * 
  * @version 1.0
- *          Course: ITEC XXXX Spring 2025
- *          Written: April 18, 2025
- *          Author: Ademola Akiwowo
+ * Course: ITEC XXXX Spring 2025
+ * Written: April 18, 2025
+ * Author: Ademola Akiwowo
  */
 public class Puzzle extends GameModel implements Examine {
     private String question;
