@@ -146,8 +146,39 @@ public class Player {
      * @param item The item to use.
      * Author: William Stein
      */
-    public void consumeItem(Item item) {
-
+    public void consumeItem(String itemName) {
+        if (hasItem(itemName)) {
+            ArrayList<Item> itemsOwned = inventory.getItems();
+            int playerHealth = getHealth();
+            for (Item item : itemsOwned) {
+                if (item.getName().equalsIgnoreCase(itemName)) {
+                    if (item instanceof Consumable) {
+                        Consumable consumable = (Consumable) item;
+                        
+                        if (playerHealth == 100) {
+                            System.out.println("Your health is already full.");
+                        }
+                        else {
+                            if (playerHealth + consumable.getHealth() > 100) {
+                                setHealth(100);
+                                System.out.println("You have healed yourself with " + consumable.getName() + " successfully. You are now at 100 health points.");
+                            }
+                            else {
+                                setHealth(playerHealth + consumable.getHealth());
+                                System.out.println("You have healed yourself with " + consumable.getName() + " successfully. You are now at " + getHealth() + " health points.");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println(item.getName() + " is not a consumable and cannot be used to heal.");
+                    }
+                    return;
+                }
+            }
+        }
+        else {
+            System.out.println("Consumable is not in your inventory.");
+        }
     }
 
     /**
