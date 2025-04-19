@@ -77,7 +77,7 @@ public class Player {
             view.displayMessage("You didn't pickup any items yet.");
         }
     }
- 
+
     /**
      * Method: hasItem
      * 
@@ -91,6 +91,25 @@ public class Player {
         for (Item item : itemsOwned) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method: hasWeapon
+     * 
+     * Accessory method to pickup and swap to check if player has weapon.
+     * 
+     * @param inventory Player's inventory.
+     * @author William Stein
+     */
+    public boolean hasWeapon(ArrayList<Item> inventory) {
+        for (Item item: inventory) {
+            if (item instanceof Weapon) {
+                return true;
+            } else {
+                return false;
             }
         }
         return false;
@@ -131,11 +150,16 @@ public class Player {
         for (Item item : currentRoom.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 Item typedItem = gameItems.getItem(itemName);
-                inventory.addItem(typedItem);
-                view.displayMessage(item.getName()
-                        + " has been picked up from the room and successfully added to the player's inventory");
-                currentRoom.removeItem(item);
-                return;
+                if (!hasWeapon(inventory.getItems())) {
+                    inventory.addItem(typedItem);
+                    view.displayMessage(item.getName()
+                            + " has been picked up from the room and successfully added to the player's inventory");
+                    currentRoom.removeItem(item);
+                    return;
+                } else {
+                    view.displayMessage("You already have a weapon. Please use the swap command instead.");
+                }
+
             }
         }
         view.displayMessage("Item is not in the current room.");
@@ -151,8 +175,7 @@ public class Player {
      */
     public void dropItem(String itemName) {
         if (hasItem(itemName)) {
-            ArrayList<Item> itemsOwned = inventory.getItems();
-            for (Item item : itemsOwned) {
+            for (Item item : inventory.getItems()) {
                 if (item.getName().equalsIgnoreCase(itemName)) {
                     currentRoom.addItem(item);
                     inventory.removeItem(item);
@@ -160,6 +183,40 @@ public class Player {
             }
         } else {
             view.displayMessage("Item is not in your inventory.");
+        }
+    }
+
+    /**
+     * Method: swapItem
+     * 
+     * Only one weapon can be in player's inventory. Use this to swap current weapon
+     * for the one in current room.
+     * 
+     * @param itemName
+     */
+
+    public void swapItem(String itemName) {
+        if (hasWeapon(inventory.getItems())) {
+            view.displayMessage("You do not have a weapon. Please use pickup method instead.");
+            return;
+        }
+
+        for (Item roomItem : currentRoom.getItems()) {
+            if (roomItem.getName().equalsIgnoreCase(itemName)) {
+                if (!(roomItem instanceof Weapon)) {
+                    view.displayMessage("Item is not a weapon and cannot be swapped out for current weapon.");
+                    return;
+                } else {
+                    inventory.addItem(roomItem);
+                }
+            }
+        }
+
+        for (Item ownedItem : inventory.getItems()) {
+            if (ownedItem instanceof Weapon) {
+                currentRoom.addItem(ownedItem);
+                inventory.removeItem(ownedItem);
+            }
         }
     }
 
@@ -188,7 +245,8 @@ public class Player {
                     int newHealth = Math.min(100, getHealth() + healedAmount);
                     setHealth(newHealth);
 
-                    view.displayMessage("You used " + consumable.getName() + " and are now at " + newHealth + " health.");
+                    view.displayMessage(
+                            "You used " + consumable.getName() + " and are now at " + newHealth + " health.");
 
                     inventory.removeItem(item);
                 }
@@ -199,11 +257,12 @@ public class Player {
     /**
      * Method: useItem
      * 
-     * Uses weapon from the player's inventory to attack monster. 
-     * If this method returns -1, don't deal damage to monster and asks for a correct input.
+     * Uses weapon from the player's inventory to attack monster.
+     * If this method returns -1, don't deal damage to monster and asks for a
+     * correct input.
      * 
      * @param itemName The item to use.
-     * @return Int that represents damage dealt. 
+     * @return Int that represents damage dealt.
      * @author William Stein
      */
     public int useItem(String itemName) {
