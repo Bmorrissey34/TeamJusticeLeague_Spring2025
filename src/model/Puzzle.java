@@ -11,66 +11,70 @@ import java.util.Scanner;
  * 
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
- *          Written: January 6, 2025
+ *          Written: April 18, 2025
+ *          Author: Ademola Akiwowo
  */
 public class Puzzle extends GameModel implements Examine {
-    private String question; // The question of the puzzle
-    private String answer; // The answer to the puzzle
-    private int attempts; // Number of attempts made by the player
-    private boolean solved; // Whether the puzzle is solved
-    private HashMap<String, Puzzle> puzzles; // Stores puzzles
-    private static int solvedCount = 0; // Shared solved count across puzzles (for item drop condition)
+    private String question;
+    private String answer;
+    private String location;
+    private int attempts;
+    private boolean solved;
+
+    private static int solvedCount = 0;
+    private static int totalPuzzleCount = 0;
 
     public Puzzle() {
-        this.puzzles = new HashMap<>();
         this.solved = false;
         this.attempts = 0;
     }
 
     /**
-     * Starts the puzzle interaction.
+     * Starts the puzzle interaction flow (text-driven).
      */
-    public void start() {
+    public void start(Room currentRoom, Player player) {
         if (solved) {
             System.out.println("You've already solved this puzzle.");
             return;
         }
-
+    
         Scanner input = new Scanner(System.in);
         System.out.println("To play the puzzle, type 'Start puzzle' or you can skip by using the command 'Skip'");
         String userInput = input.nextLine().trim().toLowerCase();
-
+    
         if (userInput.equals("start puzzle")) {
             System.out.println("Type 'Examine' to view puzzle or 'Skip' to ignore (-20 health per skip).");
             String choice = input.nextLine().trim().toLowerCase();
-
+    
             if (choice.equals("examine")) {
                 System.out.println(examine());
                 System.out.println("Do you want to attempt the puzzle? Type 'Attempt puzzle' to continue.");
                 String attemptInput = input.nextLine().trim().toLowerCase();
-
+    
                 if (attemptInput.equals("attempt puzzle")) {
                     System.out.println("Enter your answer:");
                     String userAnswer = input.nextLine().trim().toLowerCase();
-                    attempt(userAnswer);
+                    attempt(userAnswer, currentRoom, player);
                 }
+    
             } else if (choice.equals("skip")) {
-                skip();
+                skip(player);
             } else {
                 System.out.println("Invalid choice.");
             }
+    
         } else if (userInput.equals("skip")) {
-            skip();
+            skip(player);
         } else {
             System.out.println("Invalid input. Exiting puzzle.");
         }
     }
+    
 
     /**
-     * Allows the player to attempt solving the puzzle.
-     * @param userAnswer The player's answer to the puzzle.
+     * Attempts to solve the puzzle.
      */
-    public void attempt(String userAnswer) {
+    public void attempt(String userAnswer, Room currentRoom, Player player) {
         if (solved) {
             System.out.println("You have already solved this puzzle.");
             return;
@@ -78,25 +82,31 @@ public class Puzzle extends GameModel implements Examine {
 
         attempts++;
 
-        if (userAnswer.equals(answer.toLowerCase())) {
+        if (userAnswer.equalsIgnoreCase(answer)) {
             solved = true;
             solvedCount++;
             System.out.println("Correct! Puzzle solved. (+10 health)");
 
-            if (solvedCount >= 4) {
+            if (solvedCount == totalPuzzleCount) {
                 System.out.println("You feel a surge of power... Thor's Hammer has dropped in this room!");
-                // TODO: Add logic to insert item into room
+
+                Weapon thorsHammer = new Weapon("W10", "Thor’s Hammer",
+                        "A legendary weapon that deals -80 health to a monster.", 80);
+
+                currentRoom.addItem(thorsHammer);
             }
+
         } else {
             System.out.println("Incorrect. Try again or type 'Skip' to skip the puzzle. (-10 health)");
         }
     }
 
     /**
-     * Allows the player to skip the puzzle.
+     * Skips the puzzle with a health penalty.
      */
-    public void skip() {
+    public void skip(Player player) {
         System.out.println("You have chosen to skip this puzzle. (-20 health)");
+        player.takeDamage(-20); 
     }
 
     @Override
@@ -104,7 +114,7 @@ public class Puzzle extends GameModel implements Examine {
         return "Puzzle: " + question + "\nSolved: " + solved;
     }
 
-    // Getters and Setters
+    // === Getters & Setters ===
     public String getQuestion() {
         return question;
     }
@@ -119,6 +129,14 @@ public class Puzzle extends GameModel implements Examine {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getAttempts() {
@@ -137,11 +155,19 @@ public class Puzzle extends GameModel implements Examine {
         this.solved = solved;
     }
 
-    public HashMap<String, Puzzle> getPuzzles() {
-        return puzzles;
+    public static int getSolvedCount() {
+        return solvedCount;
     }
 
-    public void setPuzzles(HashMap<String, Puzzle> puzzles) {
-        this.puzzles = puzzles;
+    public static void resetSolvedCount() {
+        solvedCount = 0;
+    }
+
+    public static int getTotalPuzzleCount() {
+        return totalPuzzleCount;
+    }
+
+    public static void setTotalPuzzleCount(int count) {
+        totalPuzzleCount = count;
     }
 }

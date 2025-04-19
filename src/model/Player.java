@@ -20,6 +20,8 @@ public class Player {
     private int strength; // Strength of the player
     private Inventory inventory; // Player's inventory
     private Room currentRoom; // Current room the player is in
+    private Item equippedItem; // The currently equipped item (weapon, etc.)
+
 
     public Player() {
         this.inventory = new Inventory();
@@ -186,6 +188,34 @@ public class Player {
             System.out.println("You can't examine that.");
         }
     }
+
+    /**
+     * Method: getEquippedItem, setEquippedItem, unequipItem
+     * 
+     * 
+     * 
+     * Author: Ademola Akiwowo
+     */
+
+    public Item getEquippedItem() {
+        return equippedItem;
+    }
+    
+    public void setEquippedItem(Item item) {
+        this.equippedItem = item;
+        System.out.println("You have equipped: " + item.getName());
+    }
+
+    public void unequipItem() {
+        if (equippedItem != null) {
+            System.out.println("You unequipped: " + equippedItem.getName());
+            equippedItem = null;
+        } else {
+            System.out.println("You don't have anything equipped.");
+        }
+    }
+    
+    
 
     public String getName() {
         return name;
