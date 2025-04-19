@@ -169,7 +169,11 @@ public class Room extends GameModel implements Examine {
 
     @Override
     public String examine() {
-        return "Room: " + name + "\nDescription: " + description + "\nItems: " + items + "\nMonster: " + (monster != null ? monster.getName() : "None") + "\nPuzzle: " + (puzzle != null ? puzzle.getQuestion() : "None");
+    return "Room: " + getName() +
+           "\nDescription: " + getDescription() +
+           "\nItems: " + (items.isEmpty() ? "None" : items) +
+           "\nMonster: " + (monster != null && !isMonsterDefeated ? monster.getName() : "None") +
+           "\nPuzzle: " + (puzzle != null && !isPuzzleCompleted ? puzzle.getQuestion() : "None");
     }
 
     public String getID() {
