@@ -9,7 +9,7 @@ package src.model;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
- * William Strin
+ * @author William Stein
  */
 public class Weapon extends Item {
     private int strength; // Strength of the weapon
@@ -27,11 +27,11 @@ public class Weapon extends Item {
         this.strength = strength;
     }
 
-    /**
-     * Method: increaseStrength
-     * 
-     * Increases the strength of the Player.
-     */
-    public void increaseStrength() {
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int Strength) {
+        this.strength = strength;
     }
 }

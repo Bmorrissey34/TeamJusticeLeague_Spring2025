@@ -9,7 +9,7 @@ package src.model;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
- * Author: William Stein
+ * @author William Stein
  */
 public class Consumable extends Item {
     private int health; // The health value restored by the consumable
@@ -27,10 +27,11 @@ public class Consumable extends Item {
         this.health = health;
     }
 
-    /**
-     * Method: increaseHealth
-     * 
-     * Increases the player's health when the consumable is used.
-     */
-    public void increaseHealth() {}
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

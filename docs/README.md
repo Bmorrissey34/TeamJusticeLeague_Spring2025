@@ -9,38 +9,42 @@ TeamJusticeLeague_Spring2025
 ├── src
 │   ├── controller
 │   │   └── GameController.java      # Manages the main game flow
-│   ├── data
-│   │   ├── DataLoader.java          # Loads game data from files
-│   │   ├── DataAssigner.java        # Assigns loaded data to game objects
-│   │   ├── SaveGame.java            # Handles saving the game state
-│   │   ├── ContinueGame.java        # Handles loading the game state
-│   │   └── resources
-│   │       ├── items.txt            # Data file for game items
-│   │       ├── monsters.txt         # Data file for monsters
-│   │       ├── puzzles.txt          # Data file for puzzles
-│   │       └── rooms.txt            # Data file for rooms
 │   ├── model
+│   │   ├── Consumable.java          # Represents a consumable item (extends Item)
+│   │   ├── ContinueGame.java        # Handles loading the game state
+│   │   ├── DataAssigner.java        # Assigns loaded data to game objects
+│   │   ├── DataLoader.java          # Loads game data from files
+│   │   ├── Examine.java             # Interface for examining game objects
+│   │   ├── GameModel.java           # Base model class for game objects
 │   │   ├── GameState.java           # Represents the current game state
 │   │   ├── Inventory.java           # Represents the player's inventory
 │   │   ├── Item.java                # Represents an item in the game
-│   │   ├── Weapon.java              # Represents a weapon (extends Item)
-│   │   ├── Consumable.java          # Represents a consumable item (extends Item)
+│   │   ├── Map.java                 # Handles map-related functionality
 │   │   ├── Monster.java             # Represents a monster (tracks defeated state)
 │   │   ├── Player.java              # Represents the player
 │   │   ├── Puzzle.java              # Represents a puzzle (tracks completion state)
 │   │   ├── Room.java                # Represents a room
-│   │   └── GameModel.java           # Base model class for game objects
+│   │   ├── SaveGame.java            # Handles saving the game state
+│   │   └── Weapon.java              # Represents a weapon (extends Item)
 │   ├── view
-│   │   ├── GameView.java            # Handles rendering the game view
-│   │   └── Map.java                 # Handles map-related functionality
+│   │   └── GameView.java            # Handles rendering the game view
+├── src\model\resources
+│   ├── Items.txt                    # Data file for game items
+│   ├── Monsters.txt                 # Data file for monsters
+│   ├── Puzzles.txt                  # Data file for puzzles
+│   └── Rooms.txt                    # Data file for rooms
 ├── tests
+│   ├── DataLoaderTest.java          # Unit tests for DataLoader class
 │   ├── GameTest.java                # Unit tests for game logic
 │   ├── MonsterTest.java             # Unit tests for Monster class
+│   ├── NPCInteractionTest.java      # Unit tests for NPC interactions
 │   ├── PlayerTest.java              # Unit tests for Player class
-│   ├── PuzzleTest.java              # Unit tests for Puzzle class
-│   └── DataLoaderTest.java          # Unit tests for DataLoader class
+│   └── PuzzleTest.java              # Unit tests for Puzzle class
 ├── assets
-│   └── placeholder.txt              # Placeholder for additional assets
+│   ├── images                       # Directory for game images
+│   │   └── placeholder.png          # Placeholder for image assets
+│   └── audio                        # Directory for game audio
+│       └── placeholder.mp3          # Placeholder for audio assets
 ├── build
 │   └── placeholder.txt              # Placeholder for build artifacts
 ├── docs
@@ -54,7 +58,7 @@ TeamJusticeLeague_Spring2025
 To get started with this project, clone the repository and navigate to the project directory.
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/Bmorrissey34/TeamJusticeLeague_Spring2025> 
 cd TeamJusticeLeague_Spring2025
 ```
 
@@ -67,7 +71,7 @@ cd TeamJusticeLeague_Spring2025
 
 2. Run the game:
    ```bash
-   java -cp build main.Main
+   java -cp build src.controller.GameController
    ```
 
 ### Prerequisites

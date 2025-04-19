@@ -10,11 +10,12 @@ import java.util.HashMap;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
- * Author: William Stein
+ * @author William Stein
  */
 public class Item extends GameModel implements Examine {
-    private int effect; // Effect of the item
     private HashMap<String, Item> items; // Stores items
+    private String type;
+    private String id;
 
     /** 
      * Constructor: No args constructor used to read contents of Items.txt into a HashMap
@@ -43,14 +44,6 @@ public class Item extends GameModel implements Examine {
      */
     public void use(Player player) {}
 
-    public int getEffect() {
-        return effect;
-    }
-
-    public void setEffect(int effect) {
-        this.effect = effect;
-    }
-
     public HashMap<String, Item> getItems() {
         return items;
     }
@@ -59,8 +52,17 @@ public class Item extends GameModel implements Examine {
         this.items = items;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String examine() {
-        return "Item: " + getName() + "\nDescription: " + getDescription();
+    return "Item: " + getName() +
+           "\nDescription: " + getDescription();
     }
 }

@@ -2,7 +2,6 @@ package src.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Class: Room
@@ -16,10 +15,11 @@ import java.util.List;
  *          Author: Dino Maksumic
  */
 public class Room extends GameModel implements Examine {
+    private String ID; 
     private String name; 
     private String description; 
     private HashMap<String, Room> exits; // Stores exits as direction -> connected room
-    private List<Item> items = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
     private Monster monster; 
     private Puzzle puzzle; 
     private boolean isMonsterDefeated = false; 
@@ -108,17 +108,48 @@ public class Room extends GameModel implements Examine {
      * Retrieves the exits of the room.
      * 
      * @return A HashMap of exits (direction -> connected room).
+     * @author William Stein
      */
     public HashMap<String, Room> getExits() {
         return exits;
     }
 
     /**
+     * Method: getItems
+     * 
+     * Returns contents of items ArrayList
+     * 
+     * @return ArrayList of items in room
+     * @author William Stein
+     */
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    
+    /**
+     * Method: getItemNames
+     * 
+     * Returns all item names from items ArrayList
+     * 
+     * @return  A ArrayList of item names
+     * @author William Stein
+     */ 
+    public ArrayList<String> getItemNames() {
+        ArrayList<String> itemNames = new ArrayList<>();
+        for (Item item : items) {
+            itemNames.add(item.getName());
+        }
+        return itemNames;
+    }
+
+    /**
      * Method: addItem
      * 
-     * Adds an item to the room.
+     * Adds an item to the room which is dropped by the player.
      * 
      * @param item The item to add.
+     * @author William Stein
      */
     public void addItem(Item item) {
         items.add(item);
@@ -127,9 +158,10 @@ public class Room extends GameModel implements Examine {
     /**
      * Method: removeItem
      * 
-     * Removes an item from the room.
+     * Removes an item from the room that is picked up by the player.
      * 
      * @param item The item to remove.
+     * @author William Steinn
      */
     public void removeItem(Item item) {
         items.remove(item);
@@ -137,6 +169,25 @@ public class Room extends GameModel implements Examine {
 
     @Override
     public String examine() {
-        return "Room: " + name + "\nDescription: " + description + "\nItems: " + items + "\nMonster: " + (monster != null ? monster.getName() : "None") + "\nPuzzle: " + (puzzle != null ? puzzle.getQuestion() : "None");
+    return "Room: " + getName() +
+           "\nDescription: " + getDescription() +
+           "\nItems: " + (items.isEmpty() ? "None" : items) +
+           "\nMonster: " + (monster != null && !isMonsterDefeated ? monster.getName() : "None") +
+           "\nPuzzle: " + (puzzle != null && !isPuzzleCompleted ? puzzle.getQuestion() : "None");
     }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String iD) {
+        ID = iD;
+    }
+
+    public void setExits(HashMap<String, Room> exits) {
+        this.exits = exits;
+    }
+
+    
+    
 }
