@@ -1,6 +1,7 @@
 package src.view;
 
 import java.util.Scanner;
+import src.model.Player;
 
 public class GameView {
     private Scanner scanner;
@@ -17,11 +18,13 @@ public class GameView {
 
     // Method to display a message to the player
     public void displayMessage(String message) {
-        // Placeholder for displaying a message
+        System.out.println(message);
     }
 
     // Method to display the player's inventory
-    public void displayInventory() {
+    public void displayInventory(Player player) {
+        displayMessage("Inventory:");
+        player.getInventory();
         // Placeholder for displaying the player's inventory
     }
 
