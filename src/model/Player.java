@@ -361,8 +361,23 @@ public class Player {
         this.health = health;
     }
 
+    /**
+     * Method: getStength
+     * 
+     * Returns player's base strength plus the weapon they have in their inventory.
+     * 
+     * @return Int representing strength of player plus weapon strengthn if applicable.
+     * @author William Stein
+     */
     public int getStrength() {
-        return strength;
+        int weaponStrength = 0;
+        for (Item item : inventory.getItems()) {
+            if (item instanceof Weapon) {
+                Weapon weapon = (Weapon) item;
+                weaponStrength = weapon.getStrength();
+            }
+        }
+        return strength + weaponStrength;
     }
 
     public void setStrength(int strength) {
