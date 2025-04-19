@@ -97,8 +97,11 @@ public class Player {
     }
 
     /**
+     * Method: checkItem
      * 
-     * @param itemName
+     * Returns item description.
+     * 
+     * @param itemName The item to check.
      */
     public void checkItem(String itemName) {
         ArrayList<Item> itemsOwned = inventory.getItems();
@@ -119,7 +122,7 @@ public class Player {
      * 
      * Adds an item to the player's inventory.
      * 
-     * @param item The item to pick up.
+     * @param itemName The item to pick up.
      * Author: William Stein
      */
     public void pickupItem(String itemName) {
@@ -141,9 +144,9 @@ public class Player {
     /**
      * Method: consumeItem
      * 
-     * Uses weapon from the player's inventory to attack monster.
+     * Uses consumable to restor player's health.
      * 
-     * @param item The item to use.
+     * @param itemName The item to consume.
      * Author: William Stein
      */
     public void consumeItem(String itemName) {
@@ -184,13 +187,34 @@ public class Player {
     /**
      * Method: useItem
      * 
-     * Uses consumable from the player's inventory to restor health.
+     * Uses weapon from the player's inventory to attack monster.
      * 
-     * @param item The item to use.
+     * @param itemName The item to use.
+     * @return Int that represents damage dealt.
      * Author: William Stein
      */
-    public void useItem(Item item) {
+    public int useItem(String itemName) {
+        if (!hasItem(itemName)) {
+            System.out.println("Weapon isn not in your inventory.");
+            return -1;
+        }
 
+        
+        ArrayList<Item> itemsOwned = inventory.getItems();
+        for (Item item: itemsOwned) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                 if (item instanceof Weapon) {
+                     Weapon weapon = (Weapon) item;
+                     return getStrength() + weapon.getStrength();
+                }
+            }
+            else {
+                System.out.println("You cannot use a consumable to deal damage to a monster.");
+                return -1;
+            }
+        }
+        
+        return -1;
     }
 
     /**
