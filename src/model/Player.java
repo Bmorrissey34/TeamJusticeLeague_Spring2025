@@ -175,8 +175,7 @@ public class Player {
      */
     public void dropItem(String itemName) {
         if (hasItem(itemName)) {
-            ArrayList<Item> itemsOwned = inventory.getItems();
-            for (Item item : itemsOwned) {
+            for (Item item : inventory.getItems()) {
                 if (item.getName().equalsIgnoreCase(itemName)) {
                     currentRoom.addItem(item);
                     inventory.removeItem(item);
@@ -197,9 +196,26 @@ public class Player {
      */
 
     public void swapItem(String itemName) {
-        for (Item item : currentRoom.getItems()) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
+        if (hasWeapon(inventory.getItems())) {
+            view.displayMessage("You do not have a weapon. Please use pickup method instead.");
+            return;
+        }
 
+        for (Item roomItem : currentRoom.getItems()) {
+            if (roomItem.getName().equalsIgnoreCase(itemName)) {
+                if (!(roomItem instanceof Weapon)) {
+                    view.displayMessage("Item is not a weapon and cannot be swapped out for current weapon.");
+                    return;
+                } else {
+                    inventory.addItem(roomItem);
+                }
+            }
+        }
+
+        for (Item ownedItem : inventory.getItems()) {
+            if (ownedItem instanceof Weapon) {
+                currentRoom.addItem(ownedItem);
+                inventory.removeItem(ownedItem);
             }
         }
     }
