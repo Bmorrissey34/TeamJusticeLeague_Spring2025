@@ -12,6 +12,7 @@ import java.util.Scanner;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
+ * 
  */
 public class Puzzle extends GameModel implements Examine {
     private String question; // The question of the puzzle
