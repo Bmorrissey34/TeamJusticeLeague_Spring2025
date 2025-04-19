@@ -45,7 +45,10 @@ public class Monster extends GameModel implements Examine {
 
     @Override
     public String examine() {
-        return "Monster: " + getName() + "\nDescription: " + getDescription() + "\nHealth: " + health + "\nStrength: " + strength;
+    return "Monster: " + getName() +
+           "\nDescription: " + getDescription() +
+           "\nHealth: " + health +
+           "\nStrength: " + strength;
     }
 
     public int getHealth() {

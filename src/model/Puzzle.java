@@ -102,7 +102,7 @@ public class Puzzle extends GameModel implements Examine {
 
     @Override
     public String examine() {
-        return "Puzzle: " + question + "\nSolved: " + solved;
+    return "Puzzle: " + question + "\nSolved: " + solved;
     }
 
     // Getters and Setters
