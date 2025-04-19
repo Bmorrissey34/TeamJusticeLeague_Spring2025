@@ -20,6 +20,7 @@ public class Player {
     private int strength; // Strength of the player
     private Inventory inventory; // Player's inventory
     private Room currentRoom; // Current room the player is in
+    private GameView view = new GameView();
 
     public Player() {
         this.inventory = new Inventory();
@@ -38,10 +39,10 @@ public class Player {
 
         if (nextRoom != null) {
             setCurrentRoom(nextRoom);
-            System.out.println("You move " + direction + " into: " + nextRoom.getName());
-            System.out.println(nextRoom.getDescription());
+            view.displayMessage("You move " + direction + " into: " + nextRoom.getName());
+            view.displayMessage(nextRoom.getDescription());
         } else {
-            System.out.println("You can't go " + direction + " from here.");
+            view.displayMessage("You can't go " + direction + " from here.");
         }
     }
 
@@ -67,13 +68,13 @@ public class Player {
         ArrayList<Item> itemsOwned = inventory.getItems();
         if (!itemsOwned.isEmpty()) {
             for (int i = 0; i < itemsOwned.size(); i++) {
-                System.out.print(itemsOwned.get(i).getName());
+                view.displayMessage(itemsOwned.get(i).getName());
                 if (i < itemsOwned.size() - 1) {
-                    System.out.print(", ");
+                    view.displayMessage(", ");
                 }
             }
         } else {
-            System.out.println("You didn't pickup any items yet.");
+            view.displayMessage("You didn't pickup any items yet.");
         }
     }
  
@@ -108,11 +109,11 @@ public class Player {
         if (hasItem(itemName)) {
             for (Item item : itemsOwned) {
                 if (item.getName().equalsIgnoreCase(itemName)) {
-                    System.out.println(item.getDescription());
+                    view.displayMessage(item.getDescription());
                 }
             }
         } else {
-            System.out.println("Item not found in inventory.");
+            view.displayMessage("Item not found in inventory.");
         }
     }
 
@@ -131,13 +132,13 @@ public class Player {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 Item typedItem = gameItems.getItem(itemName);
                 inventory.addItem(typedItem);
-                System.out.println(item.getName()
+                view.displayMessage(item.getName()
                         + " has been picked up from the room and successfully added to the player's inventory");
                 currentRoom.removeItem(item);
                 return;
             }
         }
-        System.out.println("Item is not in the current room.");
+        view.displayMessage("Item is not in the current room.");
     }
 
     /**
@@ -158,7 +159,7 @@ public class Player {
                 }
             }
         } else {
-            System.out.println("Item is not in your inventory.");
+            view.displayMessage("Item is not in your inventory.");
         }
     }
 
@@ -172,23 +173,22 @@ public class Player {
      */
     public void consumeItem(String itemName) {
         if (!hasItem(itemName)) {
-            System.out.println("Consumable is not in your inventory.");
+            view.displayMessage("Consumable is not in your inventory.");
         }
 
         for (Item item : inventory.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 if (!(item instanceof Consumable)) {
-                    System.out.println("Item is not a consumable.");
+                    view.displayMessage("Item is not a consumable.");
                 } else if (getHealth() == 100) {
-                    System.out.println("Your health is already full.");
+                    view.displayMessage("Your health is already full.");
                 } else {
                     Consumable consumable = (Consumable) item;
                     int healedAmount = consumable.getHealth();
                     int newHealth = Math.min(100, getHealth() + healedAmount);
                     setHealth(newHealth);
 
-                    System.out
-                            .println("You used " + consumable.getName() + " and are now at " + newHealth + " health.");
+                    view.displayMessage("You used " + consumable.getName() + " and are now at " + newHealth + " health.");
 
                     inventory.removeItem(item);
                 }
@@ -208,7 +208,7 @@ public class Player {
      */
     public int useItem(String itemName) {
         if (!hasItem(itemName)) {
-            System.out.println("Weapon is not in your inventory.");
+            view.displayMessage("Weapon is not in your inventory.");
             return -1;
         }
 
@@ -219,7 +219,7 @@ public class Player {
                     Weapon weapon = (Weapon) item;
                     return getStrength() + weapon.getStrength();
                 } else {
-                    System.out.println("You cannot use a consumable to deal damage to a monster.");
+                    view.displayMessage("You cannot use a consumable to deal damage to a monster.");
                     return -1;
                 }
             }
@@ -280,9 +280,9 @@ public class Player {
     public void examine(Object object) {
         if (object instanceof Examine) {
             Examine examinable = (Examine) object;
-            System.out.println(examinable.examine());
+            view.displayMessage(examinable.examine());
         } else {
-            System.out.println("You can't examine that.");
+            view.displayMessage("You can't examine that.");
         }
     }
 
