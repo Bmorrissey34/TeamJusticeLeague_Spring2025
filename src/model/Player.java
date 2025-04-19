@@ -11,8 +11,8 @@ import src.view.GameView;
  * inventory, and actions such as moving, fighting, and using items.
  * 
  * @version 1.0
- * Course: ITEC XXXX Spring 2025
- * Written: January 6, 2025
+ *          Course: ITEC XXXX Spring 2025
+ *          Written: January 6, 2025
  */
 public class Player {
     private String name; // Name of the player
@@ -31,11 +31,11 @@ public class Player {
      * Moves the player in a specified direction.
      * 
      * @param direction The direction to move.
-     * Author: Dino Maksumic
+     *                  Author: Dino Maksumic
      */
     public void move(String direction) {
         Room nextRoom = currentRoom.getExits().get(direction.toUpperCase());
-    
+
         if (nextRoom != null) {
             setCurrentRoom(nextRoom);
             System.out.println("You move " + direction + " into: " + nextRoom.getName());
@@ -61,7 +61,7 @@ public class Player {
      * Prints item names from player's inventory
      * 
      * @return void
-     * Author: William Stein
+     * @author William Stein
      */
     public void getInventory() {
         ArrayList<Item> itemsOwned = inventory.getItems();
@@ -72,19 +72,18 @@ public class Player {
                     System.out.print(", ");
                 }
             }
-        }
-        else {
+        } else {
             System.out.println("You didn't pickup any items yet.");
         }
     }
-
+ 
     /**
      * Method: hasItem
      * 
      * Verifies if player has an item in their inventory.
      * 
      * @param itemName The item name to search inventory for.
-     * Author: William Stein
+     * @author William Stein
      */
     public boolean hasItem(String itemName) {
         ArrayList<Item> itemsOwned = inventory.getItems();
@@ -102,6 +101,7 @@ public class Player {
      * Returns item description.
      * 
      * @param itemName The item to check.
+     * @author William Stein
      */
     public void checkItem(String itemName) {
         ArrayList<Item> itemsOwned = inventory.getItems();
@@ -111,8 +111,7 @@ public class Player {
                     System.out.println(item.getDescription());
                 }
             }
-        }
-        else {
+        } else {
             System.out.println("Item not found in inventory.");
         }
     }
@@ -123,17 +122,17 @@ public class Player {
      * Adds an item to the player's inventory.
      * 
      * @param itemName The item to pick up.
-     * Author: William Stein
+     * @author William Stein
      */
     public void pickupItem(String itemName) {
-        ArrayList<Item> roomItems = currentRoom.getItems();
         DataLoader gameItems = new DataLoader();
 
-        for (Item item : roomItems) {
+        for (Item item : currentRoom.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 Item typedItem = gameItems.getItem(itemName);
                 inventory.addItem(typedItem);
-                System.out.println(item.getName() + " has been picked up from the room and successfully added to the player's inventory");
+                System.out.println(item.getName()
+                        + " has been picked up from the room and successfully added to the player's inventory");
                 currentRoom.removeItem(item);
                 return;
             }
@@ -142,78 +141,90 @@ public class Player {
     }
 
     /**
+     * Method: dropItem
+     * 
+     * Drops item from inventory and adds it to current room.
+     * 
+     * @param itemName The item to drop.
+     * @author William Stein
+     */
+    public void dropItem(String itemName) {
+        if (hasItem(itemName)) {
+            ArrayList<Item> itemsOwned = inventory.getItems();
+            for (Item item : itemsOwned) {
+                if (item.getName().equalsIgnoreCase(itemName)) {
+                    currentRoom.addItem(item);
+                    inventory.removeItem(item);
+                }
+            }
+        } else {
+            System.out.println("Item is not in your inventory.");
+        }
+    }
+
+    /**
      * Method: consumeItem
      * 
      * Uses consumable to restor player's health.
      * 
      * @param itemName The item to consume.
-     * Author: William Stein
+     * @author William Stein
      */
     public void consumeItem(String itemName) {
-        if (hasItem(itemName)) {
-            ArrayList<Item> itemsOwned = inventory.getItems();
-            int playerHealth = getHealth();
-            for (Item item : itemsOwned) {
-                if (item.getName().equalsIgnoreCase(itemName)) {
-                    if (item instanceof Consumable) {
-                        Consumable consumable = (Consumable) item;
-                        
-                        if (playerHealth == 100) {
-                            System.out.println("Your health is already full.");
-                        }
-                        else {
-                            if (playerHealth + consumable.getHealth() > 100) {
-                                setHealth(100);
-                                System.out.println("You have healed yourself with " + consumable.getName() + " successfully. You are now at 100 health points.");
-                            }
-                            else {
-                                setHealth(playerHealth + consumable.getHealth());
-                                System.out.println("You have healed yourself with " + consumable.getName() + " successfully. You are now at " + getHealth() + " health points.");
-                            }
-                        }
-                    }
-                    else {
-                        System.out.println(item.getName() + " is not a consumable and cannot be used to heal.");
-                    }
-                    return;
+        if (!hasItem(itemName)) {
+            System.out.println("Consumable is not in your inventory.");
+        }
+
+        for (Item item : inventory.getItems()) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                if (!(item instanceof Consumable)) {
+                    System.out.println("Item is not a consumable.");
+                } else if (getHealth() == 100) {
+                    System.out.println("Your health is already full.");
+                } else {
+                    Consumable consumable = (Consumable) item;
+                    int healedAmount = consumable.getHealth();
+                    int newHealth = Math.min(100, getHealth() + healedAmount);
+                    setHealth(newHealth);
+
+                    System.out
+                            .println("You used " + consumable.getName() + " and are now at " + newHealth + " health.");
+
+                    inventory.removeItem(item);
                 }
             }
-        }
-        else {
-            System.out.println("Consumable is not in your inventory.");
         }
     }
 
     /**
      * Method: useItem
      * 
-     * Uses weapon from the player's inventory to attack monster.
+     * Uses weapon from the player's inventory to attack monster. 
+     * If this method returns -1, don't deal damage to monster and asks for a correct input.
      * 
      * @param itemName The item to use.
-     * @return Int that represents damage dealt.
-     * Author: William Stein
+     * @return Int that represents damage dealt. 
+     * @author William Stein
      */
     public int useItem(String itemName) {
         if (!hasItem(itemName)) {
-            System.out.println("Weapon isn not in your inventory.");
+            System.out.println("Weapon is not in your inventory.");
             return -1;
         }
 
-        
         ArrayList<Item> itemsOwned = inventory.getItems();
-        for (Item item: itemsOwned) {
+        for (Item item : itemsOwned) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                 if (item instanceof Weapon) {
-                     Weapon weapon = (Weapon) item;
-                     return getStrength() + weapon.getStrength();
+                if (item instanceof Weapon) {
+                    Weapon weapon = (Weapon) item;
+                    return getStrength() + weapon.getStrength();
+                } else {
+                    System.out.println("You cannot use a consumable to deal damage to a monster.");
+                    return -1;
                 }
             }
-            else {
-                System.out.println("You cannot use a consumable to deal damage to a monster.");
-                return -1;
-            }
         }
-        
+
         return -1;
     }
 
@@ -224,14 +235,16 @@ public class Player {
      * 
      * @param monster The monster to fight.
      */
-    public void fight(Monster monster) {}
+    public void fight(Monster monster) {
+    }
 
     /**
      * Method: flee
      * 
      * Allows the player to flee from combat.
      */
-    public void flee() {}
+    public void flee() {
+    }
 
     /**
      * Method: takeDamage
@@ -239,7 +252,7 @@ public class Player {
      * Reduces the player's health when they take damage.
      * 
      * @param damage The amount of damage taken.
-     * Author: William Stein
+     * @author William Stein
      */
     public void takeDamage(int damage) {
         int playerHealth = getHealth();
@@ -253,7 +266,8 @@ public class Player {
      * 
      * @param room The room to set as the current room.
      */
-    public void setCurrentRoom(Room room) {}
+    public void setCurrentRoom(Room room) {
+    }
 
     /**
      * Method: examine
@@ -261,7 +275,7 @@ public class Player {
      * Examines an object in the game.
      * 
      * @param object The object to examine.
-     * Author: Dino Maksumic
+     * @author Dino Maksumic
      */
     public void examine(Object object) {
         if (object instanceof Examine) {
@@ -295,10 +309,6 @@ public class Player {
     public void setStrength(int strength) {
         this.strength = strength;
     }
-
-    
-
-
 
     public Room getCurrentRoom() {
         return currentRoom;

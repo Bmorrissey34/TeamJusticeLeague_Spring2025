@@ -238,7 +238,7 @@ public class DataLoader {
      * 
      * @param itemName
      * @return Item
-     * Author: William Stein
+     * @author William Stein
      */
     public Item getItem(String itemName) {
         Item i = items.get(itemName);

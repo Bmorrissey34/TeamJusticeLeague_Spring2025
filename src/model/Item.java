@@ -10,7 +10,7 @@ import java.util.HashMap;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
- * Author: William Stein
+ * @author William Stein
  */
 public class Item extends GameModel implements Examine {
     private HashMap<String, Item> items; // Stores items
