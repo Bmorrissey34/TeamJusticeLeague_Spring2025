@@ -13,6 +13,7 @@ import src.view.GameView;
  * @version 1.0
  * Course: ITEC XXXX Spring 2025
  * Written: January 6, 2025
+ * @author Jordan Laudun
  */
 public class Monster extends GameModel implements Examine {
     private int health; // Health of the monster
