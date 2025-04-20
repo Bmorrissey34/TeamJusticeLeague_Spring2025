@@ -2,6 +2,7 @@ package src.model;
 
 import java.util.HashMap;
 import java.util.Random;
+import src.view.GameView;
 
 /**
  * Class: Monster
@@ -19,6 +20,7 @@ public class Monster extends GameModel implements Examine {
     private int strength; // Strength of the monster
     private boolean isBoss; // Determines if the monster is a boss
     private HashMap<String, Monster> monsters; // Stores monsters
+    private GameView view = new GameView();
 
     public Monster() {
         this.monsters = new HashMap<>();
@@ -44,7 +46,7 @@ public class Monster extends GameModel implements Examine {
      */
     public void attack(Player player) {
         if (!isPassive && health > 0) {
-            System.out.println(getName() + " attacks " + player.getName() + " for " + strength + " damage!");
+            view.displayMessage(getName() + " attacks " + player.getName() + " for " + strength + " damage!");
             player.takeDamage(strength);
         }
     }
@@ -58,9 +60,9 @@ public class Monster extends GameModel implements Examine {
      */
     public void takeDamage(int damage) {
         health = Math.max(0, health - damage);
-        System.out.println(getName() + " takes " + damage + " damage. Remaining health: " + health);
+        view.displayMessage(getName() + " takes " + damage + " damage. Remaining health: " + health);
         if (health == 0) {
-            System.out.println(getName() + " has been defeated!");
+            view.displayMessage(getName() + " has been defeated!");
         }
     }
 
