@@ -1,7 +1,7 @@
 package src.model;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import src.view.GameView;
 
 /**
@@ -21,8 +21,11 @@ public class Player {
     private Inventory inventory; // Player's inventory
     private Room currentRoom; // Current room the player is in
     private GameView view = new GameView();
+    private DataLoader dataLoader;
 
-    public Player() {
+    // Constructor accepting DataLoader
+    public Player(DataLoader dataLoader) {
+        this.dataLoader = dataLoader;
         this.inventory = new Inventory();
     }
 
@@ -35,14 +38,13 @@ public class Player {
      * @author Dino Maksumic
      */
     public void move(String direction) {
-        Room nextRoom = currentRoom.getExits().get(direction.toUpperCase());
-
-        if (nextRoom != null) {
-            setCurrentRoom(nextRoom);
-            view.displayMessage("You move " + direction + " into: " + nextRoom.getName());
-            view.displayMessage(nextRoom.getDescription());
+        Room currentRoom = getCurrentRoom();
+        HashMap<String, Room> exits = currentRoom.getExits();
+        if (exits.containsKey(direction)) {
+            setCurrentRoom(exits.get(direction));
+            System.out.println("You moved " + direction + " to " + getCurrentRoom().getName());
         } else {
-            view.displayMessage("You can't go " + direction + " from here.");
+            System.out.println("You can't move in that direction.");
         }
     }
 
@@ -326,6 +328,7 @@ public class Player {
      * @param room The room to set as the current room.
      */
     public void setCurrentRoom(Room room) {
+        this.currentRoom = room;
     }
 
     /**
