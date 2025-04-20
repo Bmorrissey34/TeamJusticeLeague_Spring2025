@@ -1,6 +1,8 @@
 package src.model;
 
 import java.util.HashMap;
+import java.util.Random;
+import src.view.GameView;
 
 /**
  * Class: Monster
@@ -14,12 +16,26 @@ import java.util.HashMap;
  */
 public class Monster extends GameModel implements Examine {
     private int health; // Health of the monster
+    private int maxHealth; // Full Health of the monster
     private int strength; // Strength of the monster
+    private boolean isBoss; // Determines if the monster is a boss
     private HashMap<String, Monster> monsters; // Stores monsters
+    private GameView view = new GameView();
 
     public Monster() {
         this.monsters = new HashMap<>();
     }
+
+    public Monster(String name, String description, int health, int strength, boolean isBoss) {
+        setName(name);
+        setDescription(description);
+        this.health = health;
+        this.maxHealth = health;
+        this.strength = strength;
+        this.isBoss = isBoss;
+        this.monsters = new HashMap<>();
+    }
+
 
     /**
      * Method: attack
@@ -29,7 +45,10 @@ public class Monster extends GameModel implements Examine {
      * @param player The player being attacked.
      */
     public void attack(Player player) {
-        // your code here
+        if (!isPassive && health > 0) {
+            view.displayMessage(getName() + " attacks " + player.getName() + " for " + strength + " damage!");
+            player.takeDamage(strength);
+        }
     }
 
     /**
@@ -40,7 +59,11 @@ public class Monster extends GameModel implements Examine {
      * @param damage The amount of damage taken.
      */
     public void takeDamage(int damage) {
-        // your code here
+        health = Math.max(0, health - damage);
+        view.displayMessage(getName() + " takes " + damage + " damage. Remaining health: " + health);
+        if (health == 0) {
+            view.displayMessage(getName() + " has been defeated!");
+        }
     }
 
     @Override
@@ -51,6 +74,10 @@ public class Monster extends GameModel implements Examine {
            "\nStrength: " + strength;
     }
 
+    public boolean isDefeated() {
+        return health <= 0;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -59,12 +86,28 @@ public class Monster extends GameModel implements Examine {
         this.health = health;
     }
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
     public int getStrength() {
         return strength;
     }
 
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    public boolean isBoss() {
+        return isBoss;
+    }
+
+    public void setBoss(boolean boss) {
+        isBoss = boss;
     }
 
     public HashMap<String, Monster> getMonsters() {
