@@ -1,12 +1,12 @@
-<Type>,<ID>,<name>,<description>,<health/strength>
+<Type>;<ID>;<name>;<description>;<health/strength>
 
-Consumable,Green Apple,A fresh green apple that restores +10 health when eaten.,10
-Consumable,Yogurt,A small cup of yogurt that restores +20 health when consumed.,20
-Consumable,Fruit Roll Up,A sweet, chewy snack that restores +5 health when eaten.,5
-Consumable,1st Aid Kit,A medical kit that restores +30 health when used.,30
-Consumable,Chewing Tobacco,A small pouch of chewing tobacco that restores +25 health when used.,25
-Weapon,Sword,A sharp blade that deals -20 health to a monster when used in combat.,20
-Weapon,Blow Dart,A lightweight dart that deals -10 health to a monster when used.,10
-Weapon,Shield,A sturdy shield that blocks monster attacks and deals 5 damage when used.,5
-Consumable,Monster Cream,A strange cream that makes the player immune to monster attacks while in use.,100
-Weapon,Thors Hammer,A legendary weapon that deals -80 health to a monster when used in combat. Drops when all puzzles are solved.,80
+Consumable;C1;Green Apple;A fresh green apple that restores +10 health when eaten.;10
+Consumable;C2;Yogurt;A small cup of yogurt that restores +20 health when consumed.;20
+Consumable;C3;Fruit Roll Up;A sweet, chewy snack that restores +5 health when eaten.;5
+Consumable;C4;1st Aid Kit;A medical kit that restores +30 health when used.;30
+Consumable;C5;Chewing Tobacco;A small pouch of chewing tobacco that restores +25 health when used.;25
+Weapon;W1;Sword;A sharp blade that deals -20 health to a monster when used in combat.;20
+Weapon;W2;Blow Dart;A lightweight dart that deals -10 health to a monster when used.;10
+Weapon;W3;Shield;A sturdy shield that blocks monster attacks and deals 5 damage when used.;5
+Consumable;C6;Monster Cream;A strange cream that makes the player immune to monster attacks while in use.;100
+Weapon;W4;Thors Hammer;A legendary weapon that deals -80 health to a monster when used in combat. Drops when all puzzles are solved.;80

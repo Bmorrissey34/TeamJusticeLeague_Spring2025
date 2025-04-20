@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.HashMap;
 import src.model.ContinueGame;
+import src.model.DataLoader;
 import src.model.GameState;
 import src.model.Inventory;
 import src.model.Item;
@@ -70,6 +71,7 @@ public class GameController {
      * Initializes a new game state.
      */
     private void startGame() {
+
         // Ask for player name
         String playerName = gameView.getUserInput("Enter your name, brave adventurer:");
         this.player = new Player(playerName, 100); // Starting health = 100
@@ -123,6 +125,7 @@ public class GameController {
             gameView.displayMessage("Thanks for playing!");
         }
     }
+     
     }
 
     /**

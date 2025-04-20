@@ -14,6 +14,7 @@ public class GameView {
 
     // Method to get user input
     public String getUserInput(String prompt) {
+
         System.out.print(prompt + " ");
         return scanner.nextLine().trim();
     }
