@@ -12,8 +12,8 @@ public class GameView {
 
     // Method to get user input
     public String getUserInput(String prompt) {
-        // Placeholder for getting user input
-        return null;
+        System.out.println(prompt); // Display the prompt to the user
+        return scanner.nextLine(); // Read and return the user's input
     }
 
     // Method to display a message to the player

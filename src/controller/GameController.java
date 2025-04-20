@@ -2,6 +2,7 @@ package src.controller;
 
 import java.util.HashMap;
 import src.model.ContinueGame;
+import src.model.DataLoader;
 import src.model.GameState;
 import src.model.Inventory;
 import src.model.Item;
@@ -64,6 +65,77 @@ public class GameController {
      * Initializes a new game state.
      */
     private void startGame() {
+        // Initialize a new player
+        player = new Player(new DataLoader());
+        player.setName(gameView.getUserInput("Enter your name:"));
+        player.setHealth(100);
+        player.setStrength(10);
+
+        // Load the starting room
+        DataLoader dataLoader = new DataLoader();
+        String startingRoomId = "START"; // Replace with the actual starting room ID
+        Room startingRoom = dataLoader.getRooms().get(startingRoomId.hashCode());
+        if (startingRoom != null) {
+            player.setCurrentRoom(startingRoom);
+            gameView.displayMessage("Welcome, " + player.getName() + "! You are starting in: " + startingRoom.getName());
+            gameView.displayMessage(startingRoom.getDescription());
+        } else {
+            gameView.displayMessage("Error: Starting room not found! Check your Rooms.txt file.");
+            return; // Exit if the starting room is not found
+        }
+
+        // Start the game loop
+        gameLoop();
+    }
+
+    private void gameLoop() {
+        boolean isRunning = true;
+        while (isRunning) {
+            // Display available commands
+            displayAvailableCommands();
+
+            // Get player input
+            String command = gameView.getUserInput("What would you like to do?").trim().toLowerCase();
+
+            switch (command) {
+                case "help":
+                    displayHelp();
+                    break;
+                case "look":
+                    gameView.displayMessage(player.getCurrentRoom().examine());
+                    break;
+                case "move":
+                    displayAvailableDirections(); // Show available directions
+                    String direction = gameView.getUserInput("Enter the direction to move (e.g., north, south):").trim().toUpperCase();
+                    player.move(direction);
+                    break;
+                case "inventory":
+                    player.getInventory();
+                    break;
+                case "quit":
+                    gameView.displayMessage("Thanks for playing!");
+                    isRunning = false;
+                    break;
+                default:
+                    gameView.displayMessage("Unknown command. Type 'help' for a list of commands.");
+                    break;
+            }
+        }
+    }
+
+    // Display available commands
+    private void displayAvailableCommands() {
+        gameView.displayMessage("Available commands: help, look, move, inventory, quit");
+    }
+
+    // Display available directions based on the current room
+    private void displayAvailableDirections() {
+        HashMap<String, Room> exits = player.getCurrentRoom().getExits();
+        if (exits.isEmpty()) {
+            gameView.displayMessage("There are no exits from this room.");
+        } else {
+            gameView.displayMessage("Available directions: " + String.join(", ", exits.keySet()));
+        }
     }
 
     /**
