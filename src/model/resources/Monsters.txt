@@ -1,4 +1,4 @@
-<monsterName>;<description>;<defeated>
+name;description;defeated
 
 Ravenborn;A monstrous fusion of shadow and raven with skeletal skull;false
 HollowChild;A childlike figure with no face, observes but doesn't attack;false

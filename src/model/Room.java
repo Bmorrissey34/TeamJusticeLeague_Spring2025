@@ -2,6 +2,7 @@ package src.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class: Room
@@ -15,15 +16,16 @@ import java.util.HashMap;
  *          Author: Dino Maksumic
  */
 public class Room extends GameModel implements Examine {
-    private String ID; 
-    private String name; 
+    private String name; // Use name as the unique identifier
     private String description; 
+    private String monsterID; // Add this field if it doesn't exist
     private HashMap<String, Room> exits; // Stores exits as direction -> connected room
     private ArrayList<Item> items = new ArrayList<>();
     private Monster monster; 
     private Puzzle puzzle; 
     private boolean isMonsterDefeated = false; 
     private boolean isPuzzleCompleted = false; 
+    private List<String> itemIDs = new ArrayList<>();
 
     public Room() {
         this.items = new ArrayList<>();
@@ -46,6 +48,15 @@ public class Room extends GameModel implements Examine {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    // Getters and setters for monsterID
+    public String getMonsterID() {
+        return monsterID;
+    }
+
+    public void setMonsterID(String monsterID) {
+        this.monsterID = monsterID;
     }
 
     // Getters and setters for monster
@@ -167,6 +178,28 @@ public class Room extends GameModel implements Examine {
         items.remove(item);
     }
 
+    /**
+     * Method: getItemIDs
+     * 
+     * Returns the list of item IDs associated with this room.
+     * 
+     * @return A list of item IDs.
+     */
+    public List<String> getItemIDs() {
+        return itemIDs;
+    }
+
+    /**
+     * Method: addItemID
+     * 
+     * Adds an item ID to the room's list of item IDs.
+     * 
+     * @param itemID The ID of the item to add.
+     */
+    public void addItemID(String itemID) {
+        itemIDs.add(itemID);
+    }
+
     @Override
     public String examine() {
     return "Room: " + getName() +
@@ -177,11 +210,11 @@ public class Room extends GameModel implements Examine {
     }
 
     public String getID() {
-        return ID;
+        return name; // Return name as the unique identifier
     }
 
     public void setID(String iD) {
-        ID = iD;
+        this.name = iD; // Set name as the unique identifier
     }
 
     public void setExits(HashMap<String, Room> exits) {
