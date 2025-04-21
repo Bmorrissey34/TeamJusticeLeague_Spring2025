@@ -248,8 +248,20 @@ public class DataLoader implements Serializable {
                 String monsterName = parts[0].trim();
                 String description = parts[1].trim();
                 boolean defeated = Boolean.parseBoolean(parts[2].trim());
-                int health = parts[3].trim();
-                int strength = parts[4].trim();
+                int health;
+                try {
+                    health = Integer.parseInt(parts[3].trim());
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid health value for monster: " + parts[3].trim());
+                    continue;
+                }
+                int strength;
+                try {
+                    strength = Integer.parseInt(parts[4].trim());
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid strength value for monster: " + parts[4].trim());
+                    continue;
+                }
                 boolean boss = Boolean.parseBoolean(parts[5].trim());
 
                 Monster monster = new Monster();
