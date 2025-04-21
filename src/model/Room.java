@@ -179,7 +179,7 @@ public class Room extends GameModel implements Examine, Serializable {
      */
     public Item getItem(String itemName) {
         return items.stream()
-                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .filter(item -> item.getName() != null && item.getName().equalsIgnoreCase(itemName))
                 .findFirst()
                 .orElse(null);
     }

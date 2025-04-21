@@ -53,7 +53,7 @@ public class Inventory implements Serializable {
      * @return The list of items.
      */
     public List<Item> getItems() {
-        return this.items; // Ensure this returns the list of items in the inventory
+        return this.items;
     }
 
     public void setItems(ArrayList<Item> items) {
