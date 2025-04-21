@@ -1,17 +1,18 @@
 package src;
 
 import src.controller.GameController;
+import src.view.GameView;
 
 public class start {
     public static void main(String[] args) {
-        System.out.println("Initializing the game...");
+        GameView gameView = new GameView();
+        gameView.displayMessage("Initializing the game...");
 
         try {
-            // Create and start the GameController
             GameController gameController = new GameController();
-            gameController.initializeGame(); // Start the game through the controller
+            gameController.initializeGame();
         } catch (Exception e) {
-            System.err.println("An error occurred during game initialization: " + e.getMessage());
+            gameView.displayMessage("An error occurred during game initialization: " + e.getMessage());
             e.printStackTrace();
         }
     }

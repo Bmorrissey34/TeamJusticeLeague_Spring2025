@@ -13,6 +13,7 @@ import src.model.Weapon;
 import src.model.Room;
 import src.model.SaveGame; 
 import src.view.GameView;
+import java.io.IOException;
 
 /**
  * Class: GameController
@@ -73,17 +74,20 @@ public class GameController {
         player.setHealth(100);
         player.setStrength(10);
 
-        // Load the starting room
+        // Load rooms from DataLoader
         DataLoader dataLoader = new DataLoader();
-        String startingRoomName = "Entrance"; // Replace with the actual starting room name
-        Room startingRoom = dataLoader.getRooms().get(startingRoomName); // Use name as key
+        this.rooms = dataLoader.getRooms();  // ← Make sure to assign this
+
+        String startingRoomName = "Entrance";
+        Room startingRoom = this.rooms.get(startingRoomName);
         if (startingRoom != null) {
             player.setCurrentRoom(startingRoom);
-            gameView.displayMessage("Welcome, " + player.getName() + "! You are starting in: " + startingRoom.getName());
+            gameView.displayMessage("Welcome, " + player.getName() + 
+                "! You are starting in: " + startingRoom.getName());
             gameView.displayMessage(startingRoom.getDescription());
         } else {
             gameView.displayMessage("Error: Starting room not found! Check your Rooms.txt file.");
-            return; // Exit if the starting room is not found
+            return;
         }
 
         // Start the game loop
@@ -93,10 +97,8 @@ public class GameController {
     private void gameLoop() {
         boolean isRunning = true;
         while (isRunning) {
-            // Display available commands
             displayAvailableCommands();
 
-            // Get player input
             String command = gameView.getUserInput("What would you like to do?").trim().toLowerCase();
 
             switch (command) {
@@ -107,16 +109,23 @@ public class GameController {
                     gameView.displayMessage(player.getCurrentRoom().examine());
                     break;
                 case "move":
-                    displayAvailableDirections(); // Show available directions
+                    displayAvailableDirections();
                     String direction = gameView.getUserInput("Enter the direction to move (e.g., north, south):").trim().toUpperCase();
-                    player.move(direction);
+                    gameView.displayMessage(player.move(direction));
+                    break;
+                case "solve":
+                    solvePuzzle();
                     break;
                 case "inventory":
-                    player.getInventory();
+                    gameView.displayMessage(player.getInventory());
                     break;
                 case "pickup":
                     String itemToPickup = gameView.getUserInput("Enter the name of the item to pick up:").trim();
                     pickupItem(itemToPickup);
+                    break;
+                case "drop":
+                    String itemToDrop = gameView.getUserInput("Enter the name of the item to drop:").trim();
+                    gameView.displayMessage(player.dropItem(itemToDrop));
                     break;
                 case "swap":
                     String itemToSwap = gameView.getUserInput("Enter the name of the item to swap:").trim();
@@ -127,12 +136,19 @@ public class GameController {
                     useItem(itemToUse);
                     break;
                 case "fight":
-                    Monster monster = player.getCurrentRoom().getMonster(); // Assuming Room has a getMonster method
-                    player.fight(monster);
+                    Monster monster = player.getCurrentRoom().getMonster();
+                    if (monster != null && !monster.isDefeated()) {
+                        player.fight(monster);
+                    } else {
+                        gameView.displayMessage("There is no monster to fight in this room.");
+                    }
                     break;
                 case "save":
-                    String fileName = gameView.getUserInput("Enter the name of the save file:").trim();
-                    saveGame(fileName);
+                    String saveFileName = gameView.getUserInput("Enter the name of the save file:").trim();
+                    saveGame(saveFileName);
+                    break;
+                case "map":
+                    displayMap(rooms);
                     break;
                 case "quit":
                     gameView.displayMessage("Thanks for playing!");
@@ -167,16 +183,19 @@ public class GameController {
      */
     private void useItem(String itemName) {
         int result = player.useItem(itemName);
-        if (result > 0) {
-            gameView.displayMessage("You used " + itemName + " and dealt " + result + " damage.");
-        } else {
+
+        if (result == -1) {
             gameView.displayMessage("Failed to use the item.");
+        } else if (result == 0) {
+            gameView.displayMessage("You equipped " + itemName + " as a weapon.");
+        } else {
+            gameView.displayMessage("You used " + itemName + " and restored " + result + " health.");
         }
     }
 
     // Display available commands
     private void displayAvailableCommands() {
-        gameView.displayMessage("Available commands: help, look, move, inventory, pickup, swap, use, fight, save, quit");
+        gameView.displayMessage("Available commands: help, look, move, inventory, pickup, drop, swap, use, fight, solve, save, map, quit");
     }
 
     // Display available directions based on the current room
@@ -197,7 +216,12 @@ public class GameController {
      * @param fileName The name of the save file.
      */
     public void loadSavedGame(String fileName) {
-        GameState gameState = continueGame.loadGame(fileName + ".dat"); // Pass only the file name
+        GameState gameState = null;
+        try {
+            gameState = continueGame.loadGame(fileName + ".dat"); // Pass only the file name
+        } catch (IOException e) {
+            gameView.displayMessage("Error loading game: " + e.getMessage());
+        }
         if (gameState != null) {
             // Restore the game state
             this.player = gameState.getPlayer();
@@ -241,12 +265,57 @@ public class GameController {
     /**
      * Method: displayMap
      * 
-     * Displays the game map with room names and descriptions.
+     * Displays the game map in a 3x3 grid format through GameView.
      * 
      * @param rooms A HashMap containing the rooms in the game.
      */
-    public void displayMap(HashMap<Integer, Room> rooms) {
-        // Implementation for displaying the map
+    public void displayMap(HashMap<String, Room> rooms) {
+        Room currentRoom = player.getCurrentRoom();
+        if (currentRoom == null) {
+            gameView.displayMessage("Error: Current room is null.");
+            return;
+        }
+
+        Room[][] localGrid = new Room[3][3];
+        localGrid[1][1] = currentRoom;
+
+        for (String direction : currentRoom.getExits().keySet()) {
+            Room connected = currentRoom.getExits().get(direction);
+            if (connected == null) continue;
+
+            int x = 1, y = 1;
+            switch (direction.toUpperCase()) {
+                case "NORTH":      x = 0; y = 1; break;
+                case "SOUTH":      x = 2; y = 1; break;
+                case "EAST":       x = 1; y = 2; break;
+                case "WEST":       x = 1; y = 0; break;
+                case "NORTHEAST":  x = 0; y = 2; break;
+                case "NORTHWEST":  x = 0; y = 0; break;
+                case "SOUTHEAST":  x = 2; y = 2; break;
+                case "SOUTHWEST":  x = 2; y = 0; break;
+                case "UPSTAIRS":   x = 0; y = 1; break; // treat as NORTH for grid
+                case "DOWNSTAIRS": x = 2; y = 1; break; // treat as SOUTH for grid
+                case "UP":         x = 0; y = 1; break; // treat as NORTH for grid
+                case "DOWN":       x = 2; y = 1; break; // treat as SOUTH for grid
+            }
+            if (x >= 0 && x < 3 && y >= 0 && y < 3) {
+                localGrid[x][y] = connected;
+            }
+        }
+
+        StringBuilder mapOutput = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (localGrid[i][j] != null) {
+                    mapOutput.append("[").append(localGrid[i][j].getName()).append("] ");
+                } else {
+                    mapOutput.append("[Empty] ");
+                }
+            }
+            mapOutput.append("\n");
+        }
+
+        gameView.displayMessage(mapOutput.toString());
     }
 
     /**
@@ -261,7 +330,7 @@ public class GameController {
         Item item = currentRoom.getItem(itemName);
         if (item != null) {
             player.addItemToInventory(item);
-            currentRoom.removeItem(item); // Simplified logic to remove item directly
+            currentRoom.removeItem(item);
             gameView.displayMessage("You picked up: " + itemName);
         } else {
             gameView.displayMessage("Item not found in the room.");
@@ -310,5 +379,34 @@ public class GameController {
         player.addItemToInventory(roomItem);
         currentRoom.removeItem(roomItem);
         gameView.displayMessage("You swapped your weapon with: " + itemName);
+    }
+
+    /**
+     * Method: solvePuzzle
+     * 
+     * Allows the player to solve a puzzle in the current room.
+     */
+    private void solvePuzzle() {
+        Room currentRoom = player.getCurrentRoom();
+        Puzzle puzzle = currentRoom.getPuzzle();
+
+        if (puzzle == null || puzzle.isSolved()) {
+            gameView.displayMessage("There is no unsolved puzzle in this room.");
+            return;
+        }
+
+        String answer = gameView.displayPuzzleInteraction(puzzle);
+
+        if (answer.equalsIgnoreCase("skip")) {
+            puzzle.skip(player, gameView);
+        } else {
+            puzzle.attempt(answer, currentRoom, player, gameView);
+        }
+
+        // Check if the puzzle is solved and remove it from the room
+        if (puzzle.isSolved()) {
+            currentRoom.setPuzzle(null); // Remove the puzzle from the room
+            gameView.displayMessage("The puzzle has been solved and removed from the room.");
+        }
     }
 }

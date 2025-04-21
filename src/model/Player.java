@@ -40,16 +40,16 @@ public class Player implements Serializable {
      * Moves the player in a specified direction.
      * 
      * @param direction The direction to move.
+     * @return String message indicating the result of the move.
      * @author Dino Maksumic
      */
-    public void move(String direction) {
-        Room currentRoom = getCurrentRoom();
-        HashMap<String, Room> exits = currentRoom.getExits();
-        if (exits.containsKey(direction)) {
-            setCurrentRoom(exits.get(direction));
-            System.out.println("You moved " + direction + " to " + getCurrentRoom().getName());
+    public String move(String direction) {
+        Room nextRoom = currentRoom.getExits().get(direction);
+        if (nextRoom != null) {
+            currentRoom = nextRoom;
+            return "You moved " + direction + " to " + currentRoom.getName();
         } else {
-            System.out.println("You can't move in that direction.");
+            return "You can't go that way.";
         }
     }
 
@@ -68,20 +68,22 @@ public class Player implements Serializable {
      * 
      * Prints item names from player's inventory
      * 
-     * @return void
+     * @return String message listing the items in the inventory.
      * @author William Stein
      */
-    public void getInventory() {
+    public String getInventory() {
         List<Item> itemsOwned = inventory.getItems();
         if (!itemsOwned.isEmpty()) {
+            StringBuilder inventoryList = new StringBuilder();
             for (int i = 0; i < itemsOwned.size(); i++) {
-                view.displayMessage(itemsOwned.get(i).getName());
+                inventoryList.append(itemsOwned.get(i).getName());
                 if (i < itemsOwned.size() - 1) {
-                    view.displayMessage(", ");
+                    inventoryList.append(", ");
                 }
             }
+            return inventoryList.toString();
         } else {
-            view.displayMessage("You didn't pickup any items yet.");
+            return "You didn't pick up any items yet.";
         }
     }
 
@@ -147,27 +149,22 @@ public class Player implements Serializable {
      * Adds an item to the player's inventory.
      * 
      * @param itemName The item to pick up.
+     * @return String message indicating the result of the pickup.
      * @author William Stein
      */
-    public void pickupItem(String itemName) {
-        DataLoader gameItems = new DataLoader();
-
+    public String pickupItem(String itemName) {
         for (Item item : currentRoom.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                Item typedItem = gameItems.getItem(itemName);
                 if (!hasWeapon(inventory.getItems())) {
-                    inventory.addItem(typedItem);
-                    view.displayMessage(item.getName()
-                            + " has been picked up from the room and successfully added to the player's inventory");
+                    inventory.addItem(item);
                     currentRoom.removeItem(item);
-                    return;
+                    return item.getName() + " has been picked up and added to your inventory.";
                 } else {
-                    view.displayMessage("You already have a weapon. Please use the swap command instead.");
+                    return "You already have a weapon. Please use the swap command instead.";
                 }
-
             }
         }
-        view.displayMessage("Item is not in the current room.");
+        return "Item is not in the current room.";
     }
 
     /**
@@ -176,19 +173,20 @@ public class Player implements Serializable {
      * Drops item from inventory and adds it to current room.
      * 
      * @param itemName The item to drop.
+     * @return String message indicating the result of the drop.
      * @author William Stein
      */
-    public void dropItem(String itemName) {
+    public String dropItem(String itemName) {
         if (hasItem(itemName)) {
             for (Item item : inventory.getItems()) {
                 if (item.getName().equalsIgnoreCase(itemName)) {
                     currentRoom.addItem(item);
                     inventory.removeItem(item);
+                    return itemName + " has been dropped in the room.";
                 }
             }
-        } else {
-            view.displayMessage("Item is not in your inventory.");
         }
+        return "Item is not in your inventory.";
     }
 
     /**
@@ -236,20 +234,20 @@ public class Player implements Serializable {
      * @param itemName The item to consume.
      * @author William Stein
      */
-    public void consumeItem(String itemName) {
+    public int consumeItem(String itemName) {
         if (!hasItem(itemName)) {
             view.displayMessage("Consumable is not in your inventory.");
-            return;
+            return -1;
         }
 
         for (Item item : inventory.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 if (!(item instanceof Consumable)) {
                     view.displayMessage("Item is not a consumable.");
-                    return;
+                    return -1;
                 } else if (getHealth() == 100) {
                     view.displayMessage("Your health is already full.");
-                    return;
+                    return -1;
                 } else {
                     Consumable consumable = (Consumable) item;
                     int healedAmount = consumable.getHealth();
@@ -260,16 +258,18 @@ public class Player implements Serializable {
                             "You used " + consumable.getName() + " and are now at " + newHealth + " health.");
 
                     inventory.removeItem(item);
-                    return;
+                    return healedAmount;
                 }
             }
         }
+        view.displayMessage("Consumable not found in inventory.");
+        return -1;
     }
 
     /**
      * Method: useItem
      * 
-     * Uses weapon from the player's inventory to attack monster.
+     * Uses an item from the player's inventory.
      * If this method returns -1, don't deal damage to monster and asks for a
      * correct input.
      * 
@@ -279,22 +279,25 @@ public class Player implements Serializable {
      */
     public int useItem(String itemName) {
         if (!hasItem(itemName)) {
-            view.displayMessage("Weapon is not in your inventory.");
+            view.displayMessage("Item is not in your inventory.");
             return -1;
         }
 
         for (Item item : inventory.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 if (item instanceof Weapon) {
-                    Weapon weapon = (Weapon) item;
-                    return getStrength() + weapon.getStrength();
+                    // Equip the weapon (if you want only one weapon equipped, handle accordingly)
+                    view.displayMessage("You equipped " + item.getName() + ".");
+                    // Optionally, set a field for equipped weapon if you want to track it
+                    return 0;
+                } else if (item instanceof Consumable) {
+                    return consumeItem(itemName); // Delegate to consumeItem and return health restored
                 } else {
-                    view.displayMessage("You cannot use a consumable to deal damage to a monster.");
+                    view.displayMessage("This item cannot be used.");
                     return -1;
                 }
             }
         }
-
         view.displayMessage("Item not found in inventory.");
         return -1;
     }

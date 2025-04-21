@@ -5,6 +5,8 @@ import java.util.Scanner;
 import src.model.Monster;
 import src.model.Player;
 import src.model.Room;
+import src.model.Map;
+import src.model.Puzzle;
 
 public class GameView {
     private Scanner scanner;
@@ -27,13 +29,13 @@ public class GameView {
 
     // Method to display the player's inventory
     public void displayInventory(Player player) {
-        displayMessage("Inventory:");
         player.getInventory();
     }
 
     // Method to display the current map
     public void displayMap() {
-        displayMessage(" ");
+        Map map = new Map();
+        map.printMap(); // Display the map
     }
 
     // Method to display combat-related information
@@ -59,6 +61,19 @@ public class GameView {
     // Method to display a puzzle or riddle
     public void displayPuzzle(String puzzleDescription) {
         displayMessage(" Puzzle: " + puzzleDescription);
+    }
+
+    /**
+     * Method: displayPuzzleInteraction
+     * 
+     * Handles the interaction for solving a puzzle.
+     * 
+     * @param puzzle The puzzle to solve.
+     * @return The player's answer to the puzzle.
+     */
+    public String displayPuzzleInteraction(Puzzle puzzle) {
+        displayMessage("Puzzle: " + puzzle.getQuestion());
+        return getUserInput("Enter your answer (or type 'skip' to skip the puzzle):");
     }
 
     // Method to display the result of a player's action

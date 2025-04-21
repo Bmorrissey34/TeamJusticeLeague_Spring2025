@@ -1,7 +1,8 @@
 package src.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import src.view.GameView;
+import java.util.List;
 
 /**
  * Class: DataAssigner
@@ -15,7 +16,6 @@ import src.view.GameView;
  *          Author: Brendan Morrissey
  */
 public class DataAssigner {
-    private GameView gameView = new GameView(); // Used for displaying messages to the player
 
     /**
      * Method: assignRooms
@@ -25,18 +25,20 @@ public class DataAssigner {
      * @param rooms A HashMap containing room objects.
      * @param monsters A HashMap containing monster objects.
      * @param items A HashMap containing item objects.
+     * @return List of validation messages.
      */
-    public void assignRooms(HashMap<String, Room> rooms, HashMap<String, Monster> monsters, HashMap<String, Item> items) {
+    public List<String> assignRooms(HashMap<String, Room> rooms, HashMap<String, Monster> monsters, HashMap<String, Item> items) {
+        List<String> messages = new ArrayList<>();
         for (Room room : rooms.values()) {
             if (room.getName() == null || room.getDescription() == null) {
-                gameView.displayMessage("Error: Room data is incomplete. Room Name: " + room.getName());
+                messages.add("Error: Room data is incomplete. Room Name: " + room.getName());
             } else {
-                gameView.displayMessage("Room assigned: " + room.getName());
+                messages.add("Room assigned: " + room.getName());
 
                 // Assign monster to room
                 if (room.getMonsterID() != null && monsters.containsKey(room.getMonsterID())) {
                     room.setMonster(monsters.get(room.getMonsterID()));
-                    gameView.displayMessage("  Monster in room: " + room.getMonster().getName());
+                    messages.add("  Monster in room: " + room.getMonster().getName());
                 }
 
                 // Assign items to room
@@ -44,20 +46,21 @@ public class DataAssigner {
                     if (items.containsKey(itemID)) {
                         room.addItem(items.get(itemID));
                     } else {
-                        gameView.displayMessage("  Warning: Item ID not found: " + itemID);
+                        messages.add("  Warning: Item ID not found: " + itemID);
                     }
                 }
 
                 if (!room.getItems().isEmpty()) {
-                    gameView.displayMessage("  Items in room: " + room.getItemNames());
+                    messages.add("  Items in room: " + room.getItemNames());
                 }
 
                 // Assign puzzle to room
                 if (room.getPuzzle() != null) {
-                    gameView.displayMessage("  Puzzle in room: " + room.getPuzzle().getQuestion());
+                    messages.add("  Puzzle in room: " + room.getPuzzle().getQuestion());
                 }
             }
         }
+        return messages;
     }
 
     /**
@@ -66,15 +69,18 @@ public class DataAssigner {
      * Assigns and validates item data.
      * 
      * @param items A HashMap containing item objects.
+     * @return List of validation messages.
      */
-    public void assignItems(HashMap<String, Item> items) {
+    public List<String> assignItems(HashMap<String, Item> items) {
+        List<String> messages = new ArrayList<>();
         for (Item item : items.values()) {
             if (item.getName() == null || item.getDescription() == null) {
-                gameView.displayMessage("Error: Item data is incomplete. Item ID: " + item.getID());
+                messages.add("Error: Item data is incomplete. Item ID: " + item.getID());
             } else {
-                gameView.displayMessage("Item assigned: " + item.getName());
+                messages.add("Item assigned: " + item.getName());
             }
         }
+        return messages;
     }
 
     /**
@@ -83,15 +89,18 @@ public class DataAssigner {
      * Assigns and validates puzzle data.
      * 
      * @param puzzles A HashMap containing puzzle objects.
+     * @return List of validation messages.
      */
-    public void assignPuzzles(HashMap<String, Puzzle> puzzles) {
+    public List<String> assignPuzzles(HashMap<String, Puzzle> puzzles) {
+        List<String> messages = new ArrayList<>();
         for (Puzzle puzzle : puzzles.values()) {
             if (puzzle.getQuestion() == null || puzzle.getAnswer() == null) {
-                gameView.displayMessage("Error: Puzzle data is incomplete. Puzzle ID: " + puzzle.hashCode());
+                messages.add("Error: Puzzle data is incomplete. Puzzle ID: " + puzzle.hashCode());
             } else {
-                gameView.displayMessage("Puzzle assigned: " + puzzle.getQuestion());
+                messages.add("Puzzle assigned: " + puzzle.getQuestion());
             }
         }
+        return messages;
     }
 
     /**
@@ -100,14 +109,17 @@ public class DataAssigner {
      * Assigns and validates monster data.
      * 
      * @param monsters A HashMap containing monster objects.
+     * @return List of validation messages.
      */
-    public void assignMonsters(HashMap<String, Monster> monsters) {
+    public List<String> assignMonsters(HashMap<String, Monster> monsters) {
+        List<String> messages = new ArrayList<>();
         for (Monster monster : monsters.values()) {
             if (monster.getName() == null || monster.getDescription() == null) {
-                gameView.displayMessage("Error: Monster data is incomplete. Monster ID: " + monster.hashCode());
+                messages.add("Error: Monster data is incomplete. Monster ID: " + monster.hashCode());
             } else {
-                gameView.displayMessage("Monster assigned: " + monster.getName());
+                messages.add("Monster assigned: " + monster.getName());
             }
         }
+        return messages;
     }
 }
