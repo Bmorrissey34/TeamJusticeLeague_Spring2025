@@ -27,39 +27,29 @@ public class DataAssigner {
      * @param items A HashMap containing item objects.
      * @return List of validation messages.
      */
-    public List<String> assignRooms(HashMap<String, Room> rooms, HashMap<String, Monster> monsters, HashMap<String, Item> items) {
+    public List<String> assignRooms(HashMap<String, Room> rooms) {
         List<String> messages = new ArrayList<>();
+    
         for (Room room : rooms.values()) {
             if (room.getName() == null || room.getDescription() == null) {
                 messages.add("Error: Room data is incomplete. Room Name: " + room.getName());
             } else {
                 messages.add("Room assigned: " + room.getName());
-
-                // Assign monster to room
-                if (room.getMonsterID() != null && monsters.containsKey(room.getMonsterID())) {
-                    room.setMonster(monsters.get(room.getMonsterID()));
+    
+                if (room.getMonster() != null) {
                     messages.add("  Monster in room: " + room.getMonster().getName());
                 }
-
-                // Assign items to room
-                for (String itemID : room.getItemIDs()) {
-                    if (items.containsKey(itemID)) {
-                        room.addItem(items.get(itemID));
-                    } else {
-                        messages.add("  Warning: Item ID not found: " + itemID);
-                    }
-                }
-
+    
                 if (!room.getItems().isEmpty()) {
                     messages.add("  Items in room: " + room.getItemNames());
                 }
-
-                // Assign puzzle to room
+    
                 if (room.getPuzzle() != null) {
                     messages.add("  Puzzle in room: " + room.getPuzzle().getQuestion());
                 }
             }
         }
+    
         return messages;
     }
 

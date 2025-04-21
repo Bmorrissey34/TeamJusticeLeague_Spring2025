@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
+
 import src.view.GameView;
 
 /**
@@ -309,30 +311,60 @@ public class Player implements Serializable {
      * 
      * @param monster The monster to fight.
      */
-    public void fight(Monster monster) {
-        if (monster == null) {
-            view.displayMessage("There is no monster to fight.");
-            return;
+    public void fight(Monster monster, GameView gameView) {
+    Scanner scanner = new Scanner(System.in);
+    gameView.displayMessage("You are fighting " + monster.getName() + "!");
+
+    while (!monster.isDefeated() && this.health > 0) {
+        // Player's Turn
+        gameView.displayMessage("\n--- Your Turn ---");
+        gameView.displayMessage("Your Health: " + this.health + " | Monster Health: " + monster.getHealth());
+        gameView.displayMessage("Choose an action: [attack, use, flee]");
+        String input = scanner.nextLine().trim().toLowerCase();
+
+        switch (input) {
+            case "attack":
+                int damage = getStrength();  // weapon strength included
+                gameView.displayMessage("You attack " + monster.getName() + " for " + damage + " damage.");
+                monster.takeDamage(damage);
+                break;
+
+            case "use":
+                String itemName = gameView.getUserInput("Enter item name to use:").trim();
+                int result = useItem(itemName);
+                if (result == -1) {
+                    gameView.displayMessage("You can't use that item.");
+                } else if (result == 0) {
+                    gameView.displayMessage("You equipped a new weapon.");
+                } else {
+                    gameView.displayMessage("You used a consumable and restored " + result + " health.");
+                }
+                break;
+
+            case "flee":
+                gameView.displayMessage("You fled the battle!");
+                return;
+
+            default:
+                gameView.displayMessage("Invalid action. Try again.");
+                continue;  // Skip monster's turn if player input was invalid
         }
 
-        while (monster.getHealth() > 0 && this.getHealth() > 0) {
-            int damageDealt = this.getStrength();
-            monster.takeDamage(damageDealt);
-            view.displayMessage("You dealt " + damageDealt + " damage to the monster.");
-
-            if (monster.getHealth() > 0) {
-                int damageTaken = monster.getStrength();
-                this.takeDamage(damageTaken);
-                view.displayMessage("The monster dealt " + damageTaken + " damage to you.");
-            }
-        }
-
-        if (monster.getHealth() <= 0) {
-            view.displayMessage("You defeated the monster!");
-        } else {
-            view.displayMessage("You were defeated by the monster...");
+        // Monster's Turn (if still alive)
+        if (!monster.isDefeated()) {
+            gameView.displayMessage("\n--- Monster's Turn ---");
+            monster.attack(this);
         }
     }
+
+    // End of Battle
+    if (this.health <= 0) {
+        gameView.displayMessage("You were defeated by " + monster.getName() + "...");
+    } else {
+        gameView.displayMessage("You defeated " + monster.getName() + "!");
+        currentRoom.removeMonster();  // Optional: mark monster as defeated
+    }
+}
 
     /**
      * Method: flee
