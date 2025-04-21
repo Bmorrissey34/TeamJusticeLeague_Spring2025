@@ -8,7 +8,7 @@ package src.model;
  * 
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
- *          Written: January 6, 2025
+ *          Written: April 15th, 2025
  *          Author: Dino maksumic
  */
 public class GameModel {

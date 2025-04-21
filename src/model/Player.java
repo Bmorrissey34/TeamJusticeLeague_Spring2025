@@ -310,6 +310,7 @@ public class Player implements Serializable {
      * Engages the player in combat with a monster.
      * 
      * @param monster The monster to fight.
+     * @author Dino Maksumic
      */
     public void fight(Monster monster, GameView gameView) {
     Scanner scanner = new Scanner(System.in);
