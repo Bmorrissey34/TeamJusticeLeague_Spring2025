@@ -57,6 +57,7 @@ public class GameController {
             } else {
                 gameView.displayMessage("Game loaded successfully!");
                 gameView.displayMessage("Resuming game for player: " + player.getName());
+                gameLoop();
             }
         } else {
             startGame();
@@ -75,9 +76,12 @@ public class GameController {
         player.setHealth(100);
         player.setStrength(10);
 
-        // Load rooms from DataLoader
+        // Load data from DataLoader and assign all fields
         DataLoader dataLoader = new DataLoader();
-        this.rooms = dataLoader.getRooms();  // ← Make sure to assign this
+        this.rooms = dataLoader.getRooms();
+        this.items = dataLoader.getItems();         // assign items
+        this.puzzles = dataLoader.getPuzzles();       // assign puzzles
+        this.monsters = dataLoader.getMonsters();     // assign monsters
 
         String startingRoomName = "Entrance";
         Room startingRoom = this.rooms.get(startingRoomName);
@@ -118,7 +122,7 @@ public class GameController {
                     solvePuzzle();
                     break;
                 case "inventory":
-                    gameView.displayMessage(player.getInventory());
+                    gameView.displayMessage(player.getInventoryDescription());
                     break;
                 case "pickup":
                     String itemToPickup = gameView.getUserInput("Enter the name of the item to pick up:").trim();
@@ -171,8 +175,9 @@ public class GameController {
      */
     private void saveGame(String fileName) {
         SaveGame saveGame = new SaveGame();
-        GameState gameState = new GameState(player, rooms, items, puzzles, monsters, inventory);
-        saveGame.saveGame(fileName + ".dat", gameState); // Pass only the file name
+        // Use player's inventory instead of the controller's inventory field
+        GameState gameState = new GameState(player, rooms, items, puzzles, monsters, player.getInventory());
+        saveGame.saveGame(fileName + ".dat", gameState);
     }
 
     /**
@@ -269,38 +274,21 @@ public class GameController {
     public void loadSavedGame(String fileName) {
         GameState gameState = null;
         try {
-            gameState = continueGame.loadGame(fileName + ".dat"); // Pass only the file name
+            gameState = continueGame.loadGame(fileName + ".dat");
         } catch (IOException e) {
             gameView.displayMessage("Error loading game: " + e.getMessage());
         }
         if (gameState != null) {
-            // Restore the game state
             this.player = gameState.getPlayer();
             this.rooms = gameState.getRooms();
             this.items = gameState.getItems();
             this.puzzles = gameState.getPuzzles();
             this.monsters = gameState.getMonsters();
-            this.inventory = gameState.getInventory();
 
-            if (this.rooms == null) {
-                this.rooms = new HashMap<>(); // Ensure rooms is not null
-                gameView.displayMessage("Warning: Rooms data was null. Initialized an empty map.");
+            Inventory loadedInventory = gameState.getInventory();
+            if (loadedInventory != null) {
+                player.setInventory(loadedInventory);
             }
-
-            if (this.inventory == null) {
-                this.inventory = new Inventory(); // Ensure inventory is not null
-                gameView.displayMessage("Warning: Inventory data was null. Initialized an empty inventory.");
-            }
-
-            gameView.displayMessage("Game loaded successfully!");
-            gameView.displayMessage("Player: " + player.getName());
-            gameView.displayMessage("Rooms loaded: " + rooms.size());
-            gameView.displayMessage("Items loaded: " + items.size());
-            gameView.displayMessage("Puzzles loaded: " + puzzles.size());
-            gameView.displayMessage("Monsters loaded: " + monsters.size());
-            gameView.displayMessage("Inventory items: " + inventory.getItems().size());
-        } else {
-            gameView.displayMessage("Failed to load the saved game.");
         }
     }
 

@@ -1,5 +1,7 @@
 package src.model;
 
+import java.io.Serializable;
+
 /**
  * Class: GameModel
  * 
@@ -11,7 +13,8 @@ package src.model;
  *          Written: April 15th, 2025
  *          Author: Dino maksumic
  */
-public class GameModel {
+public abstract class GameModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String ID; // Unique identifier for the game object
     private String name; // Name of the game object
     private String description; // Description of the game object

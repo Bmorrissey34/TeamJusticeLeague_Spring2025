@@ -15,23 +15,23 @@ import java.util.HashMap;
  *          Author: Brendan Morrissey
  */
 public class GameState implements Serializable {
-    private static final long serialVersionUID = -8441044017004447895L; // Match the serialVersionUID from the error
+    private static final long serialVersionUID = 1L;
 
-    private Player player; // The player in the game
-    private HashMap<String, Room> rooms = new HashMap<>(); // Ensure rooms is initialized
-    private HashMap<String, Item> items = new HashMap<>(); // Ensure items is initialized
-    private HashMap<String, Puzzle> puzzles = new HashMap<>(); // Ensure puzzles is initialized
-    private HashMap<String, Monster> monsters = new HashMap<>(); // Ensure monsters is initialized
-    private Inventory inventory = new Inventory(); // Ensure inventory is initialized
+    private Player player;
+    private HashMap<String, Room> rooms;
+    private HashMap<String, Item> items;
+    private HashMap<String, Puzzle> puzzles;
+    private HashMap<String, Monster> monsters;
+    private Inventory inventory;
 
     public GameState(Player player, HashMap<String, Room> rooms, HashMap<String, Item> items,
-            HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters, Inventory inventory) {
+                     HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters, Inventory inventory) {
         this.player = player;
-        this.rooms = rooms != null ? rooms : new HashMap<>(); // Ensure rooms is not null
-        this.items = items != null ? items : new HashMap<>(); // Ensure items is not null
-        this.puzzles = puzzles != null ? puzzles : new HashMap<>(); // Ensure puzzles is not null
-        this.monsters = monsters != null ? monsters : new HashMap<>(); // Ensure monsters is not null
-        this.inventory = inventory != null ? inventory : new Inventory(); // Ensure inventory is not null
+        this.rooms = rooms != null ? rooms : new HashMap<>();
+        this.items = items != null ? items : new HashMap<>();
+        this.puzzles = puzzles != null ? puzzles : new HashMap<>();
+        this.monsters = monsters != null ? monsters : new HashMap<>();
+        this.inventory = inventory != null ? inventory : new Inventory();
     }
 
     /**
