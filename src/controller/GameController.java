@@ -1,5 +1,7 @@
 package src.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import src.model.ContinueGame;
 import src.model.DataLoader;
@@ -9,11 +11,10 @@ import src.model.Item;
 import src.model.Monster;
 import src.model.Player;
 import src.model.Puzzle;
-import src.model.Weapon; 
 import src.model.Room;
 import src.model.SaveGame; 
+import src.model.Weapon;
 import src.view.GameView;
-import java.io.IOException;
 
 /**
  * Class: GameController
@@ -195,7 +196,57 @@ public class GameController {
 
     // Display available commands
     private void displayAvailableCommands() {
-        gameView.displayMessage("Available commands: help, look, move, inventory, pickup, drop, swap, use, fight, solve, save, map, quit");
+        Room currentRoom = player.getCurrentRoom();
+        ArrayList<String> availableCommands = new ArrayList<>();
+
+        // Basic commands always available
+        availableCommands.add("help");
+        availableCommands.add("look");
+        availableCommands.add("inventory");
+        availableCommands.add("save");
+        availableCommands.add("quit");
+
+        // Add "move" if there are exits in the current room
+        if (currentRoom.getExits() != null && !currentRoom.getExits().isEmpty()) {
+            availableCommands.add("move");
+        }
+
+        // Add "pickup" if there are items in the current room
+        if (!currentRoom.getItems().isEmpty()) {
+            availableCommands.add("pickup");
+        }
+
+        // Add "drop" if the player has items in their inventory
+        if (!player.getItems().isEmpty()) {
+            availableCommands.add("drop");
+        }
+
+        // Add "use" if the player has items in their inventory
+        if (!player.getItems().isEmpty()) {
+            availableCommands.add("use");
+        }
+
+        // Add "swap" if the player has a weapon and there is a weapon in the room
+        boolean hasWeaponInRoom = currentRoom.getItems().stream().anyMatch(item -> item instanceof Weapon);
+        if (player.hasWeapon(player.getItems()) && hasWeaponInRoom) {
+            availableCommands.add("swap");
+        }
+
+        // Add "fight" if there is a monster in the room and it is not defeated
+        if (currentRoom.getMonster() != null && !currentRoom.getMonster().isDefeated()) {
+            availableCommands.add("fight");
+        }
+
+        // Add "solve" if there is an unsolved puzzle in the room
+        if (currentRoom.getPuzzle() != null && !currentRoom.getPuzzle().isSolved()) {
+            availableCommands.add("solve");
+        }
+
+        // Add "map" if the map feature is available
+        availableCommands.add("map");
+
+        // Display the available commands
+        gameView.displayMessage("Available commands: " + String.join(", ", availableCommands));
     }
 
     // Display available directions based on the current room
