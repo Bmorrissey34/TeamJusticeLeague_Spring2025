@@ -29,7 +29,7 @@ public class GameController {
 
     // Game state variables
     private Player player; // Represents the player in the game
-    private HashMap<Integer, Room> rooms; // Stores the rooms in the game
+    private HashMap<String, Room> rooms; // Stores the rooms in the game, using names as keys
     private HashMap<String, Item> items; // Stores the items in the game
     private HashMap<String, Puzzle> puzzles; // Stores the puzzles in the game
     private HashMap<String, Monster> monsters; // Stores the monsters in the game
@@ -73,8 +73,8 @@ public class GameController {
 
         // Load the starting room
         DataLoader dataLoader = new DataLoader();
-        String startingRoomId = "START"; // Replace with the actual starting room ID
-        Room startingRoom = dataLoader.getRooms().get(startingRoomId.hashCode());
+        String startingRoomName = "Entrance"; // Replace with the actual starting room name
+        Room startingRoom = dataLoader.getRooms().get(startingRoomName); // Use name as key
         if (startingRoom != null) {
             player.setCurrentRoom(startingRoom);
             gameView.displayMessage("Welcome, " + player.getName() + "! You are starting in: " + startingRoom.getName());
@@ -131,7 +131,7 @@ public class GameController {
     // Display available directions based on the current room
     private void displayAvailableDirections() {
         HashMap<String, Room> exits = player.getCurrentRoom().getExits();
-        if (exits.isEmpty()) {
+        if (exits == null || exits.isEmpty()) {
             gameView.displayMessage("There are no exits from this room.");
         } else {
             gameView.displayMessage("Available directions: " + String.join(", ", exits.keySet()));
@@ -150,7 +150,8 @@ public class GameController {
         if (gameState != null) {
             // Restore the game state
             this.player = gameState.getPlayer();
-            this.rooms = gameState.getRooms();
+            this.rooms = new HashMap<>();
+            gameState.getRooms().forEach((key, value) -> this.rooms.put(String.valueOf(key), value));
             this.items = gameState.getItems();
             this.puzzles = gameState.getPuzzles();
             this.monsters = gameState.getMonsters();

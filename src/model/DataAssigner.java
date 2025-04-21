@@ -20,27 +20,41 @@ public class DataAssigner {
     /**
      * Method: assignRooms
      * 
-     * Assigns and validates room data, including their monsters and puzzles.
+     * Assigns and validates room data, including their monsters, puzzles, and items.
      * 
      * @param rooms A HashMap containing room objects.
+     * @param monsters A HashMap containing monster objects.
+     * @param items A HashMap containing item objects.
      */
-    public void assignRooms(HashMap<Integer, Room> rooms) {
+    public void assignRooms(HashMap<String, Room> rooms, HashMap<String, Monster> monsters, HashMap<String, Item> items) {
         for (Room room : rooms.values()) {
             if (room.getName() == null || room.getDescription() == null) {
-                gameView.displayMessage("Error: Room data is incomplete. Room ID: " + room.getID());
+                gameView.displayMessage("Error: Room data is incomplete. Room Name: " + room.getName());
             } else {
                 gameView.displayMessage("Room assigned: " + room.getName());
 
-                if (room.getMonster() != null) {
+                // Assign monster to room
+                if (room.getMonsterID() != null && monsters.containsKey(room.getMonsterID())) {
+                    room.setMonster(monsters.get(room.getMonsterID()));
                     gameView.displayMessage("  Monster in room: " + room.getMonster().getName());
                 }
 
-                if (room.getPuzzle() != null) {
-                    gameView.displayMessage("  Puzzle in room: " + room.getPuzzle().getQuestion());
+                // Assign items to room
+                for (String itemID : room.getItemIDs()) {
+                    if (items.containsKey(itemID)) {
+                        room.addItem(items.get(itemID));
+                    } else {
+                        gameView.displayMessage("  Warning: Item ID not found: " + itemID);
+                    }
                 }
 
                 if (!room.getItems().isEmpty()) {
                     gameView.displayMessage("  Items in room: " + room.getItemNames());
+                }
+
+                // Assign puzzle to room
+                if (room.getPuzzle() != null) {
+                    gameView.displayMessage("  Puzzle in room: " + room.getPuzzle().getQuestion());
                 }
             }
         }
