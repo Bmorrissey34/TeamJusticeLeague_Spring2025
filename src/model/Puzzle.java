@@ -1,7 +1,6 @@
 package src.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Scanner;
 import src.view.GameView;
 
@@ -116,7 +115,9 @@ public class Puzzle extends GameModel implements Examine, Serializable {
 
     @Override
     public String examine() {
-        return "Puzzle: " + question + "\nSolved: " + solved;
+        return "Puzzle: " + question +
+               "\nSolved: " + (solved ? "Yes" : "No") +
+               "\nAttempts: " + attempts;
     }
 
     // === Getters & Setters ===

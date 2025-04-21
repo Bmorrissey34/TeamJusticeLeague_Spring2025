@@ -1,12 +1,11 @@
 package src.view;
 
 import java.util.Scanner;
-
+import src.model.Map;
 import src.model.Monster;
 import src.model.Player;
-import src.model.Room;
-import src.model.Map;
 import src.model.Puzzle;
+import src.model.Room;
 
 public class GameView {
     private Scanner scanner;
@@ -58,7 +57,7 @@ public class GameView {
 
     // Method to display the player's current status (e.g., health, stats)
     public void displayPlayerStatus(Player player) {
-        displayMessage(" Player Status:");
+        displayMessage("Player Status:");
         displayMessage("Health: " + player.getHealth());
         displayMessage("Strength: " + (player.getStrength()));
     }

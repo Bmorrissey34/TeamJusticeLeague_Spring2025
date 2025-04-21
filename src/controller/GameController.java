@@ -101,7 +101,7 @@ public class GameController {
 
     private void gameLoop() {
         boolean isRunning = true;
-        while (isRunning & player.getHealth() > 0) {
+        while (isRunning && player.getHealth() > 0) {
             displayAvailableCommands();
 
             String command = gameView.getUserInput("What would you like to do?").trim().toLowerCase();
@@ -140,16 +140,38 @@ public class GameController {
                     gameView.displayPlayerStatus(player);
                     break;
                 case "examine":
-                    String objectToExamine = gameView.getUserInput("What would you like to examine? You can examine the room you're in and the monster or puzzle in that room.");
+                    String objectToExamine = gameView.getUserInput("What would you like to examine? (room, monster, puzzle, item)").trim().toLowerCase();
                     switch (objectToExamine) {
                         case "room":
-                            player.getCurrentRoom().examine();
+                            gameView.displayMessage(player.getCurrentRoom().examine());
                             break;
                         case "monster":
-                            player.getCurrentRoom().getMonster().examine();
+                            Monster monster = player.getCurrentRoom().getMonster();
+                            if (monster != null && !monster.isDefeated()) {
+                                gameView.displayMessage(monster.examine());
+                            } else {
+                                gameView.displayMessage("There is no monster to examine in this room.");
+                            }
                             break;
                         case "puzzle":
-                            player.getCurrentRoom().getPuzzle().examine();
+                            Puzzle puzzle = player.getCurrentRoom().getPuzzle();
+                            if (puzzle != null && !puzzle.isSolved()) {
+                                gameView.displayMessage(puzzle.examine());
+                            } else {
+                                gameView.displayMessage("There is no puzzle to examine in this room.");
+                            }
+                            break;
+                        case "item":
+                            String itemName = gameView.getUserInput("Enter the name of the item to examine:").trim();
+                            Item item = findItemToExamine(itemName);
+                            if (item != null) {
+                                gameView.displayMessage(item.examine());
+                            } else {
+                                gameView.displayMessage("Item not found in the room or your inventory.");
+                            }
+                            break;
+                        default:
+                            gameView.displayMessage("Invalid option. You can examine 'room', 'monster', 'puzzle', or 'item'.");
                             break;
                     }
                     break;
@@ -186,6 +208,29 @@ public class GameController {
             }
         }
         gameView.displayGameOver();
+    }
+
+    /**
+     * Finds an item to examine either in the current room or the player's inventory.
+     *
+     * @param itemName The name of the item to find.
+     * @return The item if found, otherwise null.
+     */
+    private Item findItemToExamine(String itemName) {
+        // Check the current room for the item
+        Item roomItem = player.getCurrentRoom().getItem(itemName);
+        if (roomItem != null) {
+            return roomItem;
+        }
+
+        // Check the player's inventory for the item
+        for (Item inventoryItem : player.getItems()) {
+            if (inventoryItem.getName().equalsIgnoreCase(itemName)) {
+                return inventoryItem;
+            }
+        }
+
+        return null; // Item not found
     }
 
     /**
