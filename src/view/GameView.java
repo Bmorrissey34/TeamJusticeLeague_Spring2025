@@ -29,13 +29,18 @@ public class GameView {
 
     // Method to display the player's inventory
     public void displayInventory(Player player) {
-        player.getInventory();
+        displayMessage("Inventory: " + player.getInventory());
     }
 
     // Method to display the current map
     public void displayMap() {
         Map map = new Map();
         map.printMap(); // Display the map
+    }
+    
+    // Method to display combat options and menu
+    public void displayCombatOptions() {
+        displayMessage("Choose an action: [attack, use, flee]");
     }
 
     // Method to display combat-related information

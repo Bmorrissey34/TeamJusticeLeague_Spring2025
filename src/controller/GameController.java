@@ -138,7 +138,7 @@ public class GameController {
                 case "fight":
                     Monster monster = player.getCurrentRoom().getMonster();
                     if (monster != null && !monster.isDefeated()) {
-                        player.fight(monster);
+                        player.fight(monster, gameView);
                     } else {
                         gameView.displayMessage("There is no monster to fight in this room.");
                     }
