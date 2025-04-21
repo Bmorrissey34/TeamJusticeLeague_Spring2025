@@ -4,6 +4,9 @@ package src.model;
  * Interface: Examine
  * 
  * This interface defines a method for examining game objects.
+ * @author Dino Maksumic
+ * * @version 1.0
+ * * Course: ITEC XXXX Spring 2025
  */
 public interface Examine {
     /**
