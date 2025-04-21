@@ -1,9 +1,11 @@
-name;description;defeated
 
-Ravenborn;A monstrous fusion of shadow and raven with skeletal skull;false
-HollowChild;A childlike figure with no face, observes but doesn't attack;false
-MirrorWraith;Ghostly entities that emerge from mirrors;false
-SpectralGuardian;Haunting remnants of former servants;false
-ScreamingWidow;A ghostly bride who screams when disturbed;false
-ReflectionPhantom;Distorted player reflection that reveals weak point;false
-ToyboundHorror;A grotesque mass of broken toys and dolls;false
+name;description;defeated;health;strength;isBoss
+
+
+Ravenborn;A monstrous fusion of shadow and raven with skeletal skull;false;250;20;true
+HollowChild;A childlike figure with no face, observes but doesn't attack;false;50;0;false
+MirrorWraith;Ghostly entities that emerge from mirrors;false;100;15;false
+SpectralGuardian;Haunting remnants of former servants;false;120;12;false
+ScreamingWidow;A ghostly bride who screams when disturbed;false;90;18;false
+ReflectionPhantom;Distorted player reflection that reveals weak point;false;80;15;false
+ToyboundHorror;A grotesque mass of broken toys and dolls;false;150;10;false
