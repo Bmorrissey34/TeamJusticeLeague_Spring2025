@@ -113,4 +113,13 @@ public class GameView {
             System.out.println("The room is undefined.");
         }
     }
+
+    /**
+     * Method: displayRoom
+     * 
+     * Displays game over message.
+     */
+    public void displayGameOver() {
+        displayMessage("You have tragically died, your nightmares have become your reality.");
+    }
 }
