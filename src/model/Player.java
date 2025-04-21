@@ -21,11 +21,13 @@ public class Player {
     private Inventory inventory; // Player's inventory
     private Room currentRoom; // Current room the player is in
     private GameView view = new GameView();
-    private DataLoader dataLoader;
+    private String dataLoader;
 
-    // Constructor accepting DataLoader
-    public Player(DataLoader dataLoader) {
-        this.dataLoader = dataLoader;
+    // Constructor accepting playerName
+    public Player(String playerName) {
+        this.name = playerName;
+        this.health = 100; // Set default health
+        this.strength = 10; // Optional: Set default strength
         this.inventory = new Inventory();
     }
 

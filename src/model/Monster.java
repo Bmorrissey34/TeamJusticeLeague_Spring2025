@@ -22,6 +22,7 @@ public class Monster extends GameModel implements Examine {
     private boolean isBoss; // Determines if the monster is a boss
     private HashMap<String, Monster> monsters; // Stores monsters
     private GameView view = new GameView();
+    private boolean isPassive; // Determines if the monster is passive
 
     public Monster() {
         this.monsters = new HashMap<>();
@@ -117,5 +118,10 @@ public class Monster extends GameModel implements Examine {
 
     public void setMonsters(HashMap<String, Monster> monsters) {
         this.monsters = monsters;
+    }
+
+    public boolean isPassive() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isPassive'");
     }
 }

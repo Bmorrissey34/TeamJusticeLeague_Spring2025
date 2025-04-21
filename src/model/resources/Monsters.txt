@@ -1,4 +1,6 @@
+
 name;description;defeated;health;strength;isBoss
+
 
 Ravenborn;A monstrous fusion of shadow and raven with skeletal skull;false;250;20;true
 HollowChild;A childlike figure with no face, observes but doesn't attack;false;50;0;false

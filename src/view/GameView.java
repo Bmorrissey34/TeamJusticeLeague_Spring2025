@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import src.model.Monster;
 import src.model.Player;
+import src.model.Room;
 
 public class GameView {
     private Scanner scanner;
@@ -75,5 +76,21 @@ public class GameView {
         displayMessage("- help: Display this help menu.");
         displayMessage("- save: Save the game.");
         displayMessage("- quit: Quit the game.");
+    }
+
+    /**
+     * Method: displayRoom
+     * 
+     * Displays the details of the current room to the player.
+     * 
+     * @param room The room to display.
+     */
+    public void displayRoom(Room room) {
+        if (room != null) {
+            System.out.println("You are in: " + room.getName());
+            System.out.println(room.getDescription());
+        } else {
+            System.out.println("The room is undefined.");
+        }
     }
 }

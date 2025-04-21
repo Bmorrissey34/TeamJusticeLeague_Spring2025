@@ -1,4 +1,4 @@
-<puzzleName>;<description>;<answer>;<solved>
+name;description;answer;solved
 
 Number Guessing;Guess a random number between 1 and 10.;5;false
 Number Pattern;What comes next in the sequence: 2, 6, 12, 20, 30?;42;false
