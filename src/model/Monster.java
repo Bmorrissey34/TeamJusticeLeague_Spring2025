@@ -2,6 +2,7 @@ package src.model;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.io.Serializable;
 import src.view.GameView;
 
 /**
@@ -15,13 +16,14 @@ import src.view.GameView;
  * Written: January 6, 2025
  * @author Jordan Laudun
  */
-public class Monster extends GameModel implements Examine {
+public class Monster extends GameModel implements Examine, Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private int health; // Health of the monster
     private int maxHealth; // Full Health of the monster
     private int strength; // Strength of the monster
     private boolean isBoss; // Determines if the monster is a boss
     private HashMap<String, Monster> monsters; // Stores monsters
-    private GameView view = new GameView();
+    private transient GameView view = new GameView(); // Mark as transient to exclude from serialization
     private boolean isPassive; // Determines if the monster is passive
 
     public Monster() {

@@ -1,7 +1,9 @@
 package src.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import src.view.GameView;
 
 /**
@@ -14,13 +16,14 @@ import src.view.GameView;
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
  */
-public class Player {
+public class Player implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private String name; // Name of the player
     private int health; // Health of the player
     private int strength; // Strength of the player
     private Inventory inventory; // Player's inventory
     private Room currentRoom; // Current room the player is in
-    private GameView view = new GameView();
+    private transient GameView view = new GameView(); // Mark as transient to exclude from serialization
     private String dataLoader;
 
     // Constructor accepting playerName
@@ -69,7 +72,7 @@ public class Player {
      * @author William Stein
      */
     public void getInventory() {
-        ArrayList<Item> itemsOwned = inventory.getItems();
+        List<Item> itemsOwned = inventory.getItems();
         if (!itemsOwned.isEmpty()) {
             for (int i = 0; i < itemsOwned.size(); i++) {
                 view.displayMessage(itemsOwned.get(i).getName());
@@ -91,7 +94,7 @@ public class Player {
      * @author William Stein
      */
     public boolean hasItem(String itemName) {
-        ArrayList<Item> itemsOwned = inventory.getItems();
+        List<Item> itemsOwned = inventory.getItems();
         for (Item item : itemsOwned) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 return true;
@@ -108,12 +111,10 @@ public class Player {
      * @param inventory Player's inventory.
      * @author William Stein
      */
-    public boolean hasWeapon(ArrayList<Item> inventory) {
-        for (Item item: inventory) {
+    public boolean hasWeapon(List<Item> inventory) {
+        for (Item item : inventory) {
             if (item instanceof Weapon) {
                 return true;
-            } else {
-                return false;
             }
         }
         return false;
@@ -128,7 +129,7 @@ public class Player {
      * @author William Stein
      */
     public void checkItem(String itemName) {
-        ArrayList<Item> itemsOwned = inventory.getItems();
+        List<Item> itemsOwned = inventory.getItems();
         if (hasItem(itemName)) {
             for (Item item : itemsOwned) {
                 if (item.getName().equalsIgnoreCase(itemName)) {
@@ -200,7 +201,7 @@ public class Player {
      */
 
     public void swapItem(String itemName) {
-        if (hasWeapon(inventory.getItems())) {
+        if (!hasWeapon(inventory.getItems())) {
             view.displayMessage("You do not have a weapon. Please use pickup method instead.");
             return;
         }
@@ -212,6 +213,8 @@ public class Player {
                     return;
                 } else {
                     inventory.addItem(roomItem);
+                    currentRoom.removeItem(roomItem);
+                    break;
                 }
             }
         }
@@ -220,6 +223,7 @@ public class Player {
             if (ownedItem instanceof Weapon) {
                 currentRoom.addItem(ownedItem);
                 inventory.removeItem(ownedItem);
+                break;
             }
         }
     }
@@ -227,7 +231,7 @@ public class Player {
     /**
      * Method: consumeItem
      * 
-     * Uses consumable to restor player's health.
+     * Uses consumable to restore player's health.
      * 
      * @param itemName The item to consume.
      * @author William Stein
@@ -235,14 +239,17 @@ public class Player {
     public void consumeItem(String itemName) {
         if (!hasItem(itemName)) {
             view.displayMessage("Consumable is not in your inventory.");
+            return;
         }
 
         for (Item item : inventory.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 if (!(item instanceof Consumable)) {
                     view.displayMessage("Item is not a consumable.");
+                    return;
                 } else if (getHealth() == 100) {
                     view.displayMessage("Your health is already full.");
+                    return;
                 } else {
                     Consumable consumable = (Consumable) item;
                     int healedAmount = consumable.getHealth();
@@ -253,6 +260,7 @@ public class Player {
                             "You used " + consumable.getName() + " and are now at " + newHealth + " health.");
 
                     inventory.removeItem(item);
+                    return;
                 }
             }
         }
@@ -275,8 +283,7 @@ public class Player {
             return -1;
         }
 
-        ArrayList<Item> itemsOwned = inventory.getItems();
-        for (Item item : itemsOwned) {
+        for (Item item : inventory.getItems()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 if (item instanceof Weapon) {
                     Weapon weapon = (Weapon) item;
@@ -288,6 +295,7 @@ public class Player {
             }
         }
 
+        view.displayMessage("Item not found in inventory.");
         return -1;
     }
 
@@ -299,6 +307,28 @@ public class Player {
      * @param monster The monster to fight.
      */
     public void fight(Monster monster) {
+        if (monster == null) {
+            view.displayMessage("There is no monster to fight.");
+            return;
+        }
+
+        while (monster.getHealth() > 0 && this.getHealth() > 0) {
+            int damageDealt = this.getStrength();
+            monster.takeDamage(damageDealt);
+            view.displayMessage("You dealt " + damageDealt + " damage to the monster.");
+
+            if (monster.getHealth() > 0) {
+                int damageTaken = monster.getStrength();
+                this.takeDamage(damageTaken);
+                view.displayMessage("The monster dealt " + damageTaken + " damage to you.");
+            }
+        }
+
+        if (monster.getHealth() <= 0) {
+            view.displayMessage("You defeated the monster!");
+        } else {
+            view.displayMessage("You were defeated by the monster...");
+        }
     }
 
     /**
@@ -392,4 +422,17 @@ public class Player {
     public Room getCurrentRoom() {
         return currentRoom;
     }
+
+    public void addItemToInventory(Item item) {
+        inventory.addItem(item);
+    }
+
+    public void removeItemFromInventory(Item item) {
+        inventory.removeItem(item);
+    }
+
+    public List<Item> getItems() {
+        return inventory.getItems(); 
+    }
+
 }

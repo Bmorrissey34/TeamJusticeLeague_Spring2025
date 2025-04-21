@@ -1,5 +1,7 @@
 package src.model;
 
+import java.io.Serializable;
+
 /**
  * Class: Consumable
  * 
@@ -11,7 +13,8 @@ package src.model;
  * Written: January 6, 2025
  * @author William Stein
  */
-public class Consumable extends Item {
+public class Consumable extends Item implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private int health; // The health value restored by the consumable
 
     /**
