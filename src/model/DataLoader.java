@@ -231,6 +231,7 @@ public class DataLoader implements Serializable {
      * Reads monster data from a file and populates the monsters HashMap.
      * 
      * @param filePath The file path of the monster data file.
+     * @author Jordan
      */
     public void loadMonsters(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -238,8 +239,8 @@ public class DataLoader implements Serializable {
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
 
-                String[] parts = line.split(";", 3); // Split by ';'
-                if (parts.length < 3) {
+                String[] parts = line.split(";", 6); // Split by ';'
+                if (parts.length < 6) {
                     System.err.println("Malformed monster data: " + line);
                     continue;
                 }
@@ -247,11 +248,17 @@ public class DataLoader implements Serializable {
                 String monsterName = parts[0].trim();
                 String description = parts[1].trim();
                 boolean defeated = Boolean.parseBoolean(parts[2].trim());
+                int health = parts[3].trim();
+                int strength = parts[4].trim();
+                boolean boss = Boolean.parseBoolean(parts[5].trim());
 
                 Monster monster = new Monster();
                 monster.setName(monsterName);
                 monster.setDescription(description);
                 monster.setHealth(defeated ? 0 : 100);
+                monster.setMaxHealth(health);
+                monster.setStrength(strength);
+                monster.setBoss(boss);
 
                 monsters.put(monsterName, monster);
             }
@@ -306,4 +313,8 @@ public class DataLoader implements Serializable {
     }
 
     
+
 }
+
+
+
