@@ -226,6 +226,10 @@ public class GameController {
             case "go west":
             case "go upstairs":
             case "go downstairs":
+            case "go northwest":
+            case "go northeast":
+            case "go southwest":
+            case "go southeast":
                 String direction = input.substring(3).trim();
                 movePlayer(direction);
                 break;
