@@ -1,5 +1,6 @@
 package src.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Scanner;
 import src.view.GameView;
@@ -15,7 +16,9 @@ import src.view.GameView;
  *          Written: January 6, 2025
  * 
  */
-public class Puzzle extends GameModel implements Examine {
+public class Puzzle extends GameModel implements Examine, Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
+
     private String question;
     private String answer;
     private String location;

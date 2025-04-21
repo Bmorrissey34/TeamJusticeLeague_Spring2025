@@ -15,21 +15,23 @@ import java.util.HashMap;
  *          Author: Brendan Morrissey
  */
 public class GameState implements Serializable {
-    private Player player; // The player in the game
-    private HashMap<Integer, Room> rooms; // The rooms in the game
-    private HashMap<String, Item> items; // The items in the game
-    private HashMap<String, Puzzle> puzzles; // The puzzles in the game
-    private HashMap<String, Monster> monsters; // The monsters in the game
-    private Inventory inventory; // The player's inventory
+    private static final long serialVersionUID = -8441044017004447895L; // Match the serialVersionUID from the error
 
-    public GameState(Player player, HashMap<Integer, Room> rooms, HashMap<String, Item> items,
+    private Player player; // The player in the game
+    private HashMap<String, Room> rooms = new HashMap<>(); // Ensure rooms is initialized
+    private HashMap<String, Item> items = new HashMap<>(); // Ensure items is initialized
+    private HashMap<String, Puzzle> puzzles = new HashMap<>(); // Ensure puzzles is initialized
+    private HashMap<String, Monster> monsters = new HashMap<>(); // Ensure monsters is initialized
+    private Inventory inventory = new Inventory(); // Ensure inventory is initialized
+
+    public GameState(Player player, HashMap<String, Room> rooms, HashMap<String, Item> items,
             HashMap<String, Puzzle> puzzles, HashMap<String, Monster> monsters, Inventory inventory) {
         this.player = player;
-        this.rooms = rooms;
-        this.items = items;
-        this.puzzles = puzzles;
-        this.monsters = monsters;
-        this.inventory = inventory;
+        this.rooms = rooms != null ? rooms : new HashMap<>(); // Ensure rooms is not null
+        this.items = items != null ? items : new HashMap<>(); // Ensure items is not null
+        this.puzzles = puzzles != null ? puzzles : new HashMap<>(); // Ensure puzzles is not null
+        this.monsters = monsters != null ? monsters : new HashMap<>(); // Ensure monsters is not null
+        this.inventory = inventory != null ? inventory : new Inventory(); // Ensure inventory is not null
     }
 
     /**
@@ -61,7 +63,7 @@ public class GameState implements Serializable {
      * 
      * @return A HashMap of rooms.
      */
-    public HashMap<Integer, Room> getRooms() {
+    public HashMap<String, Room> getRooms() {
         return rooms;
     }
 
@@ -72,7 +74,7 @@ public class GameState implements Serializable {
      * 
      * @param rooms A HashMap of rooms to set.
      */
-    public void setRooms(HashMap<Integer, Room> rooms) {
+    public void setRooms(HashMap<String, Room> rooms) {
         this.rooms = rooms;
     }
 

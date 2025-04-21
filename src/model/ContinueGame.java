@@ -3,7 +3,7 @@ package src.model;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
+import java.io.Serializable;
 import src.view.GameView;
 
 /**
@@ -16,19 +16,22 @@ import src.view.GameView;
  *          Written: January 6, 2025
  *          Author: Brendan Morrissey
  */
-public class ContinueGame {
-    private GameView gameView = new GameView(); // Used for displaying messages to the player
+public class ContinueGame implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
+    private static final String SAVE_DIRECTORY = "src/model/resources/data/"; // Single save location
+    private transient GameView gameView = new GameView(); // Mark as transient to exclude from serialization
 
     /**
      * Method: loadGame
      * 
-     * Loads a saved game state from the specified file path.
+     * Loads a saved game state from the specified file name.
      * 
-     * @param saveFilePath The file path of the saved game state.
+     * @param fileName The name of the saved game file.
      * @return The loaded GameState object, or null if an error occurs.
      */
-    public GameState loadGame(String saveFilePath) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveFilePath))) {
+    public GameState loadGame(String fileName) {
+        String fullPath = SAVE_DIRECTORY + fileName; // Append directory path
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fullPath))) {
             return (GameState) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             gameView.displayMessage("Error loading game: " + e.getMessage());
