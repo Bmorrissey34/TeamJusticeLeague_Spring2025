@@ -101,7 +101,7 @@ public class GameController {
 
     private void gameLoop() {
         boolean isRunning = true;
-        while (isRunning) {
+        while (isRunning & player.getHealth() > 0) {
             displayAvailableCommands();
 
             String command = gameView.getUserInput("What would you like to do?").trim().toLowerCase();
@@ -136,6 +136,21 @@ public class GameController {
                     String itemToSwap = gameView.getUserInput("Enter the name of the item to swap:").trim();
                     swapItem(itemToSwap);
                     break;
+                case "stats":
+                    gameView.displayPlayerStatus(player);
+                case "examine":
+                    String objectToExamine = gameView.getUserInput("What would you like to examine? You can examine the room you're in and the monster or puzzle in that room.");
+                    switch (objectToExamine) {
+                        case "room":
+                            player.getCurrentRoom().examine();
+                        case "monster":
+                            player.getCurrentRoom().getMonster().examine();
+                        case "puzzle":
+                            player.getCurrentRoom().getPuzzle().examine();
+                    }
+                case "check":
+                    String itemToCheck = gameView.getUserInput("What item in your inventory would you like to check out?");
+                    player.checkItem(itemToCheck);
                 case "use":
                     String itemToUse = gameView.getUserInput("Enter the name of the item to use:").trim();
                     useItem(itemToUse);
@@ -151,19 +166,20 @@ public class GameController {
                 case "save":
                     String saveFileName = gameView.getUserInput("Enter the name of the save file:").trim();
                     saveGame(saveFileName);
-                    break;
+                    return;
                 case "map":
                     displayMap(rooms);
                     break;
                 case "quit":
                     gameView.displayMessage("Thanks for playing!");
                     isRunning = false;
-                    break;
+                    return;    
                 default:
                     gameView.displayMessage("Unknown command. Type 'help' for a list of commands.");
                     break;
             }
         }
+        gameView.displayGameOver();
     }
 
     /**
