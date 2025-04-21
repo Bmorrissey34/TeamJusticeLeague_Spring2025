@@ -316,10 +316,10 @@ public class Player implements Serializable {
     Scanner scanner = new Scanner(System.in);
     gameView.displayMessage("You are fighting " + monster.getName() + "!");
 
-    while (!monster.isDefeated() && this.health > 0) {
+    while (!monster.isDefeated() && getHealth() > 0) {
         // Player's Turn
         gameView.displayMessage("\n--- Your Turn ---");
-        gameView.displayMessage("Your Health: " + this.health + " | Monster Health: " + monster.getHealth());
+        gameView.displayMessage("Your Health: " + getHealth() + " | Monster Health: " + monster.getHealth());
         gameView.displayMessage("Choose an action: [attack, use, flee]");
         String input = scanner.nextLine().trim().toLowerCase();
 
@@ -359,7 +359,7 @@ public class Player implements Serializable {
     }
 
     // End of Battle
-    if (this.health <= 0) {
+    if (getHealth() <= 0) {
         gameView.displayMessage("You were defeated by " + monster.getName() + "...");
     } else {
         gameView.displayMessage("You defeated " + monster.getName() + "!");
