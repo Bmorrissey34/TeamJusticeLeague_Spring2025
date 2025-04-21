@@ -19,7 +19,7 @@ import src.view.GameView;
  */
 public class DataLoader {
     private GameView gameView = new GameView(); // Used for displaying messages to the player
-    private HashMap<Integer, Room> rooms = new HashMap<>(); // Stores loaded rooms
+    private HashMap<String, Room> rooms = new HashMap<>(); // Stores loaded rooms
     private HashMap<String, Item> items = new HashMap<>(); // Stores loaded items
     private HashMap<String, Puzzle> puzzles = new HashMap<>(); // Stores loaded puzzles
     private HashMap<String, Monster> monsters = new HashMap<>(); // Stores loaded monsters
@@ -51,68 +51,89 @@ public class DataLoader {
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
 
-                String[] parts = line.split(";", 7); // Split by ';'
-                if (parts.length < 6) {
+                String[] parts = line.split("~", 6); // Adjusted to split into 6 fields
+                if (parts.length < 6) { // Validate the number of fields
                     System.err.println("Malformed room data: " + line);
                     continue;
                 }
 
-                String roomId = parts[0].trim();
-                String name = parts[1].trim();
-                String description = parts[2].trim();
+                String name = parts[0].trim();
+                String description = parts[1].trim();
                 Room room = new Room();
-                room.setID(roomId);
                 room.setName(name);
                 room.setDescription(description);
 
                 // Parse exits
                 HashMap<String, String> exits = new HashMap<>();
-                if (!parts[3].isEmpty()) {
-                    String[] exitData = parts[3].split("\\|");
+                if (!parts[2].isEmpty()) {
+                    String[] exitData = parts[2].split("\\|");
                     for (String exit : exitData) {
                         String[] exitParts = exit.split(":");
                         if (exitParts.length == 2) {
                             exits.put(exitParts[0].toUpperCase().trim(), exitParts[1].trim());
+                        } else {
+                            System.err.println("Malformed exit data: " + exit);
                         }
                     }
                 }
-                tempExits.put(roomId, exits);
+                tempExits.put(name, exits);
 
                 // Parse items
-                if (!parts[4].isEmpty()) {
-                    String[] itemIds = parts[4].split("\\|");
-                    for (String itemId : itemIds) {
-                        Item item = items.get(itemId.trim());
-                        if (item != null) room.addItem(item);
+                if (!parts[3].isEmpty()) {
+                    String[] itemIDs = parts[3].split("\\|");
+                    for (String itemID : itemIDs) {
+                        Item item = items.get(itemID.trim());
+                        if (item != null) {
+                            room.addItem(item);
+                        } else {
+                            System.err.println("Warning: Item not found for ID: " + itemID);
+                        }
                     }
                 }
 
                 // Parse puzzle
-                if (!parts[5].isEmpty()) {
-                    Puzzle puzzle = puzzles.get(parts[5].trim());
-                    if (puzzle != null) room.setPuzzle(puzzle);
+                if (!parts[4].isEmpty()) {
+                    Puzzle puzzle = puzzles.get(parts[4].trim());
+                    if (puzzle != null) {
+                        room.setPuzzle(puzzle);
+                    } else {
+                        System.err.println("Warning: Puzzle not found for ID: " + parts[4].trim());
+                    }
                 }
 
                 // Parse monster
-                if (!parts[6].isEmpty()) {
-                    Monster monster = monsters.get(parts[6].trim());
-                    if (monster != null) room.setMonster(monster);
+                if (!parts[5].isEmpty()) {
+                    Monster monster = monsters.get(parts[5].trim());
+                    if (monster != null) {
+                        room.setMonster(monster);
+                    } else {
+                        System.err.println("Warning: Monster not found for ID: " + parts[5].trim());
+                    }
                 }
 
-                rooms.put(roomId.hashCode(), room);
+                rooms.put(name, room); // Use name as the key
             }
 
             // Resolve exits
             for (Room room : rooms.values()) {
                 HashMap<String, Room> resolvedExits = new HashMap<>();
-                HashMap<String, String> exits = tempExits.get(room.getID());
+                HashMap<String, String> exits = tempExits.get(room.getName());
                 if (exits != null) {
                     for (String direction : exits.keySet()) {
-                        Room connectedRoom = rooms.get(exits.get(direction).hashCode());
-                        if (connectedRoom != null) resolvedExits.put(direction, connectedRoom);
+                        Room connectedRoom = rooms.get(exits.get(direction));
+                        if (connectedRoom != null) {
+                            resolvedExits.put(direction, connectedRoom);
+                        } else {
+                            System.err.println("Error: Exit points to a non-existent room: " + exits.get(direction));
+                        }
                     }
                 }
                 room.setExits(resolvedExits);
+            }
+
+            // Check for starting room
+            if (!rooms.containsKey("Entrance")) {
+                System.err.println("Error: Starting room not found! Check your Rooms.txt file.");
             }
         } catch (IOException e) {
             System.err.println("Error loading rooms: " + e.getMessage());
@@ -132,19 +153,18 @@ public class DataLoader {
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty() || line.startsWith("//")) continue; // Skip blank lines and comments
 
-                String[] parts = line.split(";", 5); // Split by ';'
-                if (parts.length < 5) {
+                String[] parts = line.split(";", 4); // Adjusted to split into 4 fields
+                if (parts.length < 4) { // Validate the number of fields
                     System.err.println("Malformed item data: " + line);
                     continue;
                 }
 
                 String type = parts[0].trim();
-                String itemId = parts[1].trim();
-                String name = parts[2].trim();
-                String description = parts[3].trim();
+                String name = parts[1].trim();
+                String description = parts[2].trim();
                 int value;
                 try {
-                    value = Integer.parseInt(parts[4].trim());
+                    value = Integer.parseInt(parts[3].trim());
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid value for item: " + line);
                     continue;
@@ -152,15 +172,15 @@ public class DataLoader {
 
                 Item item;
                 if (type.equalsIgnoreCase("Weapon")) {
-                    item = new Weapon(itemId, name, description, value);
+                    item = new Weapon(name, name, description, value);
                 } else if (type.equalsIgnoreCase("Consumable")) {
-                    item = new Consumable(itemId, name, description, value);
+                    item = new Consumable(name, name, description, value);
                 } else {
                     System.err.println("Unknown item type: " + type);
                     continue;
                 }
 
-                items.put(itemId, item); // Use item ID as the key
+                items.put(name, item); // Use name as the key
             }
         } catch (IOException e) {
             System.err.println("Error loading items: " + e.getMessage());
@@ -209,6 +229,7 @@ public class DataLoader {
      * Reads monster data from a file and populates the monsters HashMap.
      * 
      * @param filePath The file path of the monster data file.
+     * @author Jordan
      */
     public void loadMonsters(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -216,8 +237,8 @@ public class DataLoader {
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
 
-                String[] parts = line.split(";", 3); // Split by ';'
-                if (parts.length < 3) {
+                String[] parts = line.split(";", 6); // Split by ';'
+                if (parts.length < 6) {
                     System.err.println("Malformed monster data: " + line);
                     continue;
                 }
@@ -225,11 +246,17 @@ public class DataLoader {
                 String monsterName = parts[0].trim();
                 String description = parts[1].trim();
                 boolean defeated = Boolean.parseBoolean(parts[2].trim());
+                int health = parts[3].trim();
+                int strength = parts[4].trim();
+                boolean boss = Boolean.parseBoolean(parts[5].trim());
 
                 Monster monster = new Monster();
                 monster.setName(monsterName);
                 monster.setDescription(description);
                 monster.setHealth(defeated ? 0 : 100);
+                monster.setMaxHealth(health);
+                monster.setStrength(strength);
+                monster.setBoss(boss);
 
                 monsters.put(monsterName, monster);
             }
@@ -238,24 +265,50 @@ public class DataLoader {
         }
     }
 
-    // Getter methods for accessing the loaded data
-    public HashMap<Integer, Room> getRooms() {
+    public GameView getGameView() {
+        return gameView;
+    }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
+    public HashMap<String, Room> getRooms() {
         return rooms;
+    }
+
+    public void setRooms(HashMap<String, Room> rooms) {
+        this.rooms = rooms;
     }
 
     public HashMap<String, Item> getItems() {
         return items;
     }
 
+    public void setItems(HashMap<String, Item> items) {
+        this.items = items;
+    }
+
     public HashMap<String, Puzzle> getPuzzles() {
         return puzzles;
+    }
+
+    public void setPuzzles(HashMap<String, Puzzle> puzzles) {
+        this.puzzles = puzzles;
     }
 
     public HashMap<String, Monster> getMonsters() {
         return monsters;
     }
 
-    public Item getItem(String itemName) {
-        return items.get(itemName);
+    public void setMonsters(HashMap<String, Monster> monsters) {
+        this.monsters = monsters;
     }
+
+    public Item getItem(String itemName) {
+        
+        throw new UnsupportedOperationException("Unimplemented method 'getItem'");
+    }
+
+    
 }
