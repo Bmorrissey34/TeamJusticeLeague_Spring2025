@@ -152,6 +152,7 @@ public class GameController {
                             player.getCurrentRoom().getPuzzle().examine();
                             break;
                     }
+                    break;
                 case "check":
                     String itemToCheck = gameView.getUserInput("What item in your inventory would you like to check out?");
                     player.checkItem(itemToCheck);
