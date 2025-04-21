@@ -19,14 +19,13 @@ import java.util.List;
 public class Room extends GameModel implements Examine, Serializable {
     private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private String name; // Use name as the unique identifier
-    private String description; 
-    private String monsterID; // Add this field if it doesn't exist
+    private String description;
     private HashMap<String, Room> exits; // Stores exits as direction -> connected room
     private ArrayList<Item> items = new ArrayList<>();
-    private Monster monster; 
-    private Puzzle puzzle; 
-    private boolean isMonsterDefeated = false; 
-    private boolean isPuzzleCompleted = false; 
+    private Monster monster;
+    private Puzzle puzzle;
+    private boolean isMonsterDefeated = false;
+    private boolean isPuzzleCompleted = false;
     private List<String> itemIDs = new ArrayList<>();
 
     public Room() {
@@ -50,15 +49,6 @@ public class Room extends GameModel implements Examine, Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    // Getters and setters for monsterID
-    public String getMonsterID() {
-        return monsterID;
-    }
-
-    public void setMonsterID(String monsterID) {
-        this.monsterID = monsterID;
     }
 
     // Getters and setters for monster
@@ -139,15 +129,14 @@ public class Room extends GameModel implements Examine, Serializable {
         return items;
     }
 
-    
     /**
      * Method: getItemNames
      * 
      * Returns all item names from items ArrayList
      * 
-     * @return  A ArrayList of item names
+     * @return A ArrayList of item names
      * @author William Stein
-     */ 
+     */
     public ArrayList<String> getItemNames() {
         ArrayList<String> itemNames = new ArrayList<>();
         for (Item item : items) {
@@ -190,20 +179,9 @@ public class Room extends GameModel implements Examine, Serializable {
      */
     public Item getItem(String itemName) {
         return items.stream()
-            .filter(item -> item.getName().equalsIgnoreCase(itemName))
-            .findFirst()
-            .orElse(null);
-    }
-
-    /**
-     * Method: getItemIDs
-     * 
-     * Returns the list of item IDs associated with this room.
-     * 
-     * @return A list of item IDs.
-     */
-    public List<String> getItemIDs() {
-        return itemIDs;
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -219,11 +197,11 @@ public class Room extends GameModel implements Examine, Serializable {
 
     @Override
     public String examine() {
-    return "Room: " + getName() +
-           "\nDescription: " + getDescription() +
-           "\nItems: " + (items.isEmpty() ? "None" : items) +
-           "\nMonster: " + (monster != null && !isMonsterDefeated ? monster.getName() : "None") +
-           "\nPuzzle: " + (puzzle != null && !isPuzzleCompleted ? puzzle.getQuestion() : "None");
+        return "Room: " + getName() +
+                "\nDescription: " + getDescription() +
+                "\nItems: " + (items.isEmpty() ? "None" : items) +
+                "\nMonster: " + (monster != null && !isMonsterDefeated ? monster.getName() : "None") +
+                "\nPuzzle: " + (puzzle != null && !isPuzzleCompleted ? puzzle.getQuestion() : "None");
     }
 
     public String getID() {
@@ -238,6 +216,11 @@ public class Room extends GameModel implements Examine, Serializable {
         this.exits = exits;
     }
 
-    
-    
+    public boolean isValidDirection(String direction) {
+        return direction.equals("NORTH") || direction.equals("SOUTH") ||
+                direction.equals("EAST") || direction.equals("WEST") ||
+                direction.equals("NORTHEAST") || direction.equals("NORTHWEST") ||
+                direction.equals("SOUTHEAST") || direction.equals("SOUTHWEST") ||
+                direction.equals("UP") || direction.equals("DOWN");
+    }
 }

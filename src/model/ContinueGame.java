@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import src.view.GameView;
 
 /**
  * Class: ContinueGame
@@ -17,9 +16,8 @@ import src.view.GameView;
  *          Author: Brendan Morrissey
  */
 public class ContinueGame implements Serializable {
-    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
-    private static final String SAVE_DIRECTORY = "src/model/resources/data/"; // Single save location
-    private transient GameView gameView = new GameView(); // Mark as transient to exclude from serialization
+    private static final long serialVersionUID = 1L; 
+    private static final String SAVE_DIRECTORY = "src/model/resources/data/"; 
 
     /**
      * Method: loadGame
@@ -28,14 +26,14 @@ public class ContinueGame implements Serializable {
      * 
      * @param fileName The name of the saved game file.
      * @return The loaded GameState object, or null if an error occurs.
+     * @throws IOException If an error occurs while loading the game.
      */
-    public GameState loadGame(String fileName) {
+    public GameState loadGame(String fileName) throws IOException {
         String fullPath = SAVE_DIRECTORY + fileName; // Append directory path
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fullPath))) {
             return (GameState) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            gameView.displayMessage("Error loading game: " + e.getMessage());
-            return null;
+        } catch (ClassNotFoundException e) {
+            throw new IOException("Error loading game: Class not found.");
         }
     }
 }

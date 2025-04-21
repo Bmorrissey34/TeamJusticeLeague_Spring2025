@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import src.view.GameView;
 
 /**
  * Class: SaveGame
@@ -19,7 +18,6 @@ import src.view.GameView;
 public class SaveGame implements Serializable {
     private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private static final String SAVE_DIRECTORY = "src/model/resources/data/"; // Single save location
-    private transient GameView gameView = new GameView(); // Mark as transient to exclude from serialization
 
     /**
      * Method: saveGame
@@ -28,8 +26,9 @@ public class SaveGame implements Serializable {
      * 
      * @param fileName  The name of the file where the game state will be saved.
      * @param gameState The current game state to save.
+     * @return String message indicating success or failure.
      */
-    public void saveGame(String fileName, GameState gameState) {
+    public String saveGame(String fileName, GameState gameState) {
         try {
             // Ensure the directory exists
             File saveFile = new File(SAVE_DIRECTORY + fileName);
@@ -41,10 +40,10 @@ public class SaveGame implements Serializable {
             // Save the game state
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile))) {
                 oos.writeObject(gameState);
-                gameView.displayMessage("Game saved successfully to: " + saveFile.getAbsolutePath());
+                return "Game saved successfully to: " + saveFile.getAbsolutePath();
             }
         } catch (IOException e) {
-            gameView.displayMessage("Error saving game: " + e.getMessage());
+            return "Error saving game: " + e.getMessage();
         }
     }
 }

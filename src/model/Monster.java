@@ -123,7 +123,6 @@ public class Monster extends GameModel implements Examine, Serializable {
     }
 
     public boolean isPassive() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isPassive'");
     }
 }

@@ -101,8 +101,11 @@ public class Map {
         for (Room room : rooms.values()) {
             System.out.println("Room: " + room.getName());
             System.out.println("Description: " + room.getDescription());
-            System.out.println("Exits: " + room.getExits().keySet());
-            System.out.println();
+            System.out.print("Exits: ");
+            for (String direction : room.getExits().keySet()) {
+                System.out.print(direction + " ");
+            }
+            System.out.println("\n");
         }
     }
 
@@ -120,5 +123,83 @@ public class Map {
 
     public void setStartingRoomID(String startingRoomID) {
         this.startingRoomID = startingRoomID;
+    }
+
+    /**
+     * Method: populateGrid
+     * 
+     * Populates a grid with rooms based on their connections and directions.
+     * 
+     * @param grid The grid to populate.
+     * @param currentRoom The current room being processed.
+     * @param x The x-coordinate in the grid.
+     * @param y The y-coordinate in the grid.
+     * @param visited A map to track visited rooms.
+     */
+    public void populateGrid(Room[][] grid, Room currentRoom, int x, int y, HashMap<Room, Boolean> visited) {
+        if (currentRoom == null || visited.containsKey(currentRoom)) {
+            return; // Stop if the room is null or already visited
+        }
+
+        visited.put(currentRoom, true); // Mark the room as visited
+
+        // Place the current room in the grid
+        grid[x][y] = currentRoom;
+        System.out.println("Placed room: " + currentRoom.getName() + " at (" + x + ", " + y + ")");
+
+        // Get the exits of the current room
+        HashMap<String, Room> exits = currentRoom.getExits();
+
+        // Place connected rooms in the grid based on their directions
+        for (String direction : exits.keySet()) {
+            Room connectedRoom = exits.get(direction);
+            if (connectedRoom == null) {
+                continue;
+            }
+
+            int newX = x, newY = y;
+
+            switch (direction) {
+                case "NORTH":
+                    newX = x - 1;
+                    break;
+                case "SOUTH":
+                    newX = x + 1;
+                    break;
+                case "EAST":
+                    newY = y + 1;
+                    break;
+                case "WEST":
+                    newY = y - 1;
+                    break;
+                case "NORTHEAST":
+                    newX = x - 1;
+                    newY = y + 1;
+                    break;
+                case "NORTHWEST":
+                    newX = x - 1;
+                    newY = y - 1;
+                    break;
+                case "SOUTHEAST":
+                    newX = x + 1;
+                    newY = y + 1;
+                    break;
+                case "SOUTHWEST":
+                    newX = x + 1;
+                    newY = y - 1;
+                    break;
+                case "UP":
+                    // Handle UP direction (e.g., move to a different grid layer)
+                    break;
+                case "DOWN":
+                    // Handle DOWN direction (e.g., move to a different grid layer)
+                    break;
+            }
+
+            // Ensure the new position is within bounds
+            if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length && grid[newX][newY] == null) {
+                populateGrid(grid, connectedRoom, newX, newY, visited); // Recursively populate the grid
+            }
+        }
     }
 }
