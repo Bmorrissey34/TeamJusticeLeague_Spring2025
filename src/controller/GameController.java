@@ -143,10 +143,13 @@ public class GameController {
                     switch (objectToExamine) {
                         case "room":
                             player.getCurrentRoom().examine();
+                            break;
                         case "monster":
                             player.getCurrentRoom().getMonster().examine();
+                            break;
                         case "puzzle":
                             player.getCurrentRoom().getPuzzle().examine();
+                            break;
                     }
                 case "check":
                     String itemToCheck = gameView.getUserInput("What item in your inventory would you like to check out?");
