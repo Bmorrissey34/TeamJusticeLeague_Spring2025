@@ -1,8 +1,7 @@
 package src.model;
 
-import java.util.HashMap;
-import java.util.Random;
 import java.io.Serializable;
+import java.util.HashMap;
 import src.view.GameView;
 
 /**
@@ -72,10 +71,11 @@ public class Monster extends GameModel implements Examine, Serializable {
 
     @Override
     public String examine() {
-    return "Monster: " + getName() +
-           "\nDescription: " + getDescription() +
-           "\nHealth: " + health +
-           "\nStrength: " + strength;
+        return "Monster: " + getName() +
+               "\nDescription: " + getDescription() +
+               "\nHealth: " + health + "/" + maxHealth +
+               "\nStrength: " + strength +
+               "\nBoss: " + (isBoss ? "Yes" : "No");
     }
 
     public boolean isDefeated() {

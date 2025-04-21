@@ -197,11 +197,34 @@ public class Room extends GameModel implements Examine, Serializable {
 
     @Override
     public String examine() {
-        return "Room: " + getName() +
-                "\nDescription: " + getDescription() +
-                "\nItems: " + (items.isEmpty() ? "None" : items) +
-                "\nMonster: " + (monster != null && !isMonsterDefeated ? monster.getName() : "None") +
-                "\nPuzzle: " + (puzzle != null && !isPuzzleCompleted ? puzzle.getQuestion() : "None");
+        StringBuilder details = new StringBuilder();
+        details.append("Room: ").append(getName()).append("\n");
+        details.append("Description: ").append(getDescription()).append("\n");
+
+        if (!items.isEmpty()) {
+            details.append("Items: ");
+            for (Item item : items) {
+                details.append(item.getName()).append(", ");
+            }
+            details.setLength(details.length() - 2); // Remove trailing comma and space
+            details.append("\n");
+        } else {
+            details.append("Items: None\n");
+        }
+
+        if (monster != null && !isMonsterDefeated) {
+            details.append("Monster: ").append(monster.getName()).append("\n");
+        } else {
+            details.append("Monster: None\n");
+        }
+
+        if (puzzle != null && !isPuzzleCompleted) {
+            details.append("Puzzle: ").append(puzzle.getQuestion()).append("\n");
+        } else {
+            details.append("Puzzle: None\n");
+        }
+
+        return details.toString();
     }
 
     public String getID() {
