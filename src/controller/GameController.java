@@ -1,17 +1,9 @@
 package src.controller;
 
-import java.util.Random;
-import java.util.Scanner;
-import java.util.HashMap;
-import src.model.ContinueGame;
+import java.util.*;
+import src.model.*; // Import the Player class from the correct package
+
 import src.model.DataLoader;
-import src.model.GameState;
-import src.model.Inventory;
-import src.model.Item;
-import src.model.Monster;
-import src.model.Player;
-import src.model.Puzzle;
-import src.model.Room;
 import src.view.GameView;
 
 /**
@@ -51,7 +43,7 @@ public class GameController {
         String choice = gameView.getUserInput("Would you like to load a saved game? (yes/no)").trim().toLowerCase();
 
         if (choice.equals("yes")) {
-            String filePath = "src/data/resources/gameState.dat"; // Default save file path
+            String filePath = "src/model/resources/gameState.dat"; // Corrected file path
             loadSavedGame(filePath);
             if (player == null || rooms == null) {
                 gameView.displayMessage("Failed to load the saved game. Starting a new game...");
@@ -70,17 +62,17 @@ public class GameController {
      * 
      * Initializes a new game state.
      */
-    private void startGame() {
+    public void startGame() {
 
         // Ask for player name
         String playerName = gameView.getUserInput("Enter your name, brave adventurer:");
-        this.player = new Player(playerName, 100); // Starting health = 100
+        player = new Player(playerName); // Ensure the constructor matches the Player class definition
 
         // Load game data using DataLoader
         DataLoader dataLoader = new DataLoader();
-        dataLoader.loadMonsters("src/data/monsters.txt");
-        dataLoader.loadPuzzles("src/data/puzzles.txt");
-        dataLoader.loadRooms("src/data/rooms.txt");
+        dataLoader.loadMonsters("src/model/resources/Monsters.txt");
+        dataLoader.loadPuzzles("src/model/resources/Puzzles.txt");
+        dataLoader.loadRooms("src/model/resources/Rooms.txt");
 
         this.rooms = dataLoader.getRooms();
         this.items = dataLoader.getItems();
@@ -89,7 +81,7 @@ public class GameController {
         this.inventory = new Inventory();
 
         // Set player's starting location (Room 8: Entrance)
-        Room startingRoom = rooms.get("8".hashCode());
+        Room startingRoom = rooms.get("START".hashCode());
         player.setCurrentRoom(startingRoom);
 
         gameView.displayMessage("Welcome, " + playerName + "! You find yourself in the haunted Ravenshade Manor...");
@@ -126,7 +118,7 @@ public class GameController {
         }
     }
      
-    }
+    
 
     /**
      * Method: loadSavedGame
@@ -137,25 +129,27 @@ public class GameController {
      */
     public void loadSavedGame(String saveFilePath) {
         GameState gameState = continueGame.loadGame(saveFilePath);
-        if (gameState != null) {
-            // Restore the game state
-            this.player = gameState.getPlayer();
-            this.rooms = gameState.getRooms();
-            this.items = gameState.getItems();
-            this.puzzles = gameState.getPuzzles();
-            this.monsters = gameState.getMonsters();
-            this.inventory = gameState.getInventory();
-
-            gameView.displayMessage("Game loaded successfully!");
-            gameView.displayMessage("Player: " + player.getName());
-            gameView.displayMessage("Rooms loaded: " + rooms.size());
-            gameView.displayMessage("Items loaded: " + items.size());
-            gameView.displayMessage("Puzzles loaded: " + puzzles.size());
-            gameView.displayMessage("Monsters loaded: " + monsters.size());
-            gameView.displayMessage("Inventory items: " + inventory.getItems().size());
-        } else {
+        if (gameState == null) {
             gameView.displayMessage("Failed to load the saved game.");
+            return; // Exit the method early
         }
+
+        // Restore the game state
+        this.player = gameState.getPlayer();
+        this.rooms = gameState.getRooms();
+        this.items = gameState.getItems();
+        this.puzzles = gameState.getPuzzles();
+        this.monsters = gameState.getMonsters();
+
+        this.inventory = gameState.getInventory();
+
+        gameView.displayMessage("Game loaded successfully!");
+        gameView.displayMessage("Player: " + player.getName());
+        gameView.displayMessage("Rooms loaded: " + rooms.size());
+        gameView.displayMessage("Items loaded: " + items.size());
+        gameView.displayMessage("Puzzles loaded: " + puzzles.size());
+        gameView.displayMessage("Monsters loaded: " + monsters.size());
+        gameView.displayMessage("Inventory items: " + inventory.getItems().size());
     }
 
     /**
@@ -176,10 +170,7 @@ public class GameController {
      */
     public void displayMap(HashMap<Integer, Room> rooms) {
         gameView.displayMessage("Here is the layout of the mansion:");
-
-        File mapFile = new File("src/data/map.txt");
-        gameMap.readMap(mapFile);
-        gameMap.printMap();
+        
     }
      /**
      * Method: setCurrentMonster
