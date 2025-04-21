@@ -1,5 +1,7 @@
 package src.model;
 
+import java.io.Serializable;
+
 /**
  * Class: Weapon
  * 
@@ -11,7 +13,8 @@ package src.model;
  * Written: January 6, 2025
  * @author William Stein
  */
-public class Weapon extends Item {
+public class Weapon extends Item implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private int strength; // Strength of the weapon
 
     /**

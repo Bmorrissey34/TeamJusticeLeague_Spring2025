@@ -1,5 +1,6 @@
 package src.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
  *          Written: January 6, 2025
  *          Author: Dino Maksumic
  */
-public class Room extends GameModel implements Examine {
+public class Room extends GameModel implements Examine, Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private String name; // Use name as the unique identifier
     private String description; 
     private String monsterID; // Add this field if it doesn't exist
@@ -176,6 +178,21 @@ public class Room extends GameModel implements Examine {
      */
     public void removeItem(Item item) {
         items.remove(item);
+    }
+
+    /**
+     * Method: getItem
+     * 
+     * Retrieves an item from the room by its name.
+     * 
+     * @param itemName The name of the item to retrieve.
+     * @return The item if found, otherwise null.
+     */
+    public Item getItem(String itemName) {
+        return items.stream()
+            .filter(item -> item.getName().equalsIgnoreCase(itemName))
+            .findFirst()
+            .orElse(null);
     }
 
     /**

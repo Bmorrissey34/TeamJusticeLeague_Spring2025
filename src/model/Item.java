@@ -1,5 +1,6 @@
 package src.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -12,7 +13,8 @@ import java.util.HashMap;
  * Written: January 6, 2025
  * @author William Stein
  */
-public class Item extends GameModel implements Examine {
+public class Item extends GameModel implements Examine, Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private HashMap<String, Item> items; // Stores items
     private String type;
     private String id;

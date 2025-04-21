@@ -9,7 +9,9 @@ import src.model.Item;
 import src.model.Monster;
 import src.model.Player;
 import src.model.Puzzle;
+import src.model.Weapon; 
 import src.model.Room;
+import src.model.SaveGame; 
 import src.view.GameView;
 
 /**
@@ -45,8 +47,8 @@ public class GameController {
         String choice = gameView.getUserInput("Would you like to load a saved game? (yes/no)").trim().toLowerCase();
 
         if (choice.equals("yes")) {
-            String filePath = "src/data/resources/gameState.dat"; // Default save file path
-            loadSavedGame(filePath);
+            String fileName = gameView.getUserInput("Enter the name of the save file (e.g., gameState.dat):").trim();
+            loadSavedGame(fileName); // Pass only the file name
             if (player == null || rooms == null) {
                 gameView.displayMessage("Failed to load the saved game. Starting a new game...");
                 startGame();
@@ -112,6 +114,26 @@ public class GameController {
                 case "inventory":
                     player.getInventory();
                     break;
+                case "pickup":
+                    String itemToPickup = gameView.getUserInput("Enter the name of the item to pick up:").trim();
+                    pickupItem(itemToPickup);
+                    break;
+                case "swap":
+                    String itemToSwap = gameView.getUserInput("Enter the name of the item to swap:").trim();
+                    swapItem(itemToSwap);
+                    break;
+                case "use":
+                    String itemToUse = gameView.getUserInput("Enter the name of the item to use:").trim();
+                    useItem(itemToUse);
+                    break;
+                case "fight":
+                    Monster monster = player.getCurrentRoom().getMonster(); // Assuming Room has a getMonster method
+                    player.fight(monster);
+                    break;
+                case "save":
+                    String fileName = gameView.getUserInput("Enter the name of the save file:").trim();
+                    saveGame(fileName);
+                    break;
                 case "quit":
                     gameView.displayMessage("Thanks for playing!");
                     isRunning = false;
@@ -123,9 +145,38 @@ public class GameController {
         }
     }
 
+    /**
+     * Method: saveGame
+     * 
+     * Saves the current game state to the specified file path.
+     * 
+     * @param fileName The name of the file where the game state will be saved.
+     */
+    private void saveGame(String fileName) {
+        SaveGame saveGame = new SaveGame();
+        GameState gameState = new GameState(player, rooms, items, puzzles, monsters, inventory);
+        saveGame.saveGame(fileName + ".dat", gameState); // Pass only the file name
+    }
+
+    /**
+     * Method: useItem
+     * 
+     * Allows the player to use an item from their inventory.
+     * 
+     * @param itemName The name of the item to use.
+     */
+    private void useItem(String itemName) {
+        int result = player.useItem(itemName);
+        if (result > 0) {
+            gameView.displayMessage("You used " + itemName + " and dealt " + result + " damage.");
+        } else {
+            gameView.displayMessage("Failed to use the item.");
+        }
+    }
+
     // Display available commands
     private void displayAvailableCommands() {
-        gameView.displayMessage("Available commands: help, look, move, inventory, quit");
+        gameView.displayMessage("Available commands: help, look, move, inventory, pickup, swap, use, fight, save, quit");
     }
 
     // Display available directions based on the current room
@@ -143,19 +194,28 @@ public class GameController {
      * 
      * Loads a saved game state from the specified file path.
      * 
-     * @param saveFilePath The file path of the saved game.
+     * @param fileName The name of the save file.
      */
-    public void loadSavedGame(String saveFilePath) {
-        GameState gameState = continueGame.loadGame(saveFilePath);
+    public void loadSavedGame(String fileName) {
+        GameState gameState = continueGame.loadGame(fileName + ".dat"); // Pass only the file name
         if (gameState != null) {
             // Restore the game state
             this.player = gameState.getPlayer();
-            this.rooms = new HashMap<>();
-            gameState.getRooms().forEach((key, value) -> this.rooms.put(String.valueOf(key), value));
+            this.rooms = gameState.getRooms();
             this.items = gameState.getItems();
             this.puzzles = gameState.getPuzzles();
             this.monsters = gameState.getMonsters();
             this.inventory = gameState.getInventory();
+
+            if (this.rooms == null) {
+                this.rooms = new HashMap<>(); // Ensure rooms is not null
+                gameView.displayMessage("Warning: Rooms data was null. Initialized an empty map.");
+            }
+
+            if (this.inventory == null) {
+                this.inventory = new Inventory(); // Ensure inventory is not null
+                gameView.displayMessage("Warning: Inventory data was null. Initialized an empty inventory.");
+            }
 
             gameView.displayMessage("Game loaded successfully!");
             gameView.displayMessage("Player: " + player.getName());
@@ -187,5 +247,68 @@ public class GameController {
      */
     public void displayMap(HashMap<Integer, Room> rooms) {
         // Implementation for displaying the map
+    }
+
+    /**
+     * Method: pickupItem
+     * 
+     * Allows the player to pick up an item from the current room.
+     * 
+     * @param itemName The name of the item to pick up.
+     */
+    private void pickupItem(String itemName) {
+        Room currentRoom = player.getCurrentRoom();
+        Item item = currentRoom.getItem(itemName);
+        if (item != null) {
+            player.addItemToInventory(item);
+            currentRoom.removeItem(item); // Simplified logic to remove item directly
+            gameView.displayMessage("You picked up: " + itemName);
+        } else {
+            gameView.displayMessage("Item not found in the room.");
+        }
+    }
+
+    /**
+     * Method: swapItem
+     * 
+     * Allows the player to swap an item in their inventory with an item in the current room.
+     * 
+     * @param itemName The name of the item to swap.
+     */
+    private void swapItem(String itemName) {
+        Room currentRoom = player.getCurrentRoom();
+        Item roomItem = currentRoom.getItems().stream()
+            .filter(i -> i.getName().equalsIgnoreCase(itemName))
+            .findFirst()
+            .orElse(null);
+
+        if (roomItem == null) {
+            gameView.displayMessage("Item not found in the room.");
+            return;
+        }
+
+        if (!(roomItem instanceof Weapon)) {
+            gameView.displayMessage("Item is not a weapon and cannot be swapped.");
+            return;
+        }
+
+        if (!player.hasWeapon(player.getItems())) {
+            gameView.displayMessage("You do not have a weapon to swap. Use pickup instead.");
+            return;
+        }
+
+        Item inventoryWeapon = player.getItems().stream()
+            .filter(i -> i instanceof Weapon)
+            .findFirst()
+            .orElse(null);
+
+        if (inventoryWeapon != null) {
+            player.removeItemFromInventory(inventoryWeapon);
+            currentRoom.addItem(inventoryWeapon);
+        }
+
+        player.addItemToInventory(roomItem);
+        currentRoom.removeItem(roomItem);
+        gameView.displayMessage("You swapped your weapon with: " + itemName);
     }
 }

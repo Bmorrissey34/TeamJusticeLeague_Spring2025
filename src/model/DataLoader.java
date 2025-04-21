@@ -3,6 +3,7 @@ package src.model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import src.view.GameView;
 
@@ -17,8 +18,9 @@ import src.view.GameView;
  *          Written: January 6, 2025
  *          Author: Brendan Morrissey
  */
-public class DataLoader {
-    private GameView gameView = new GameView(); // Used for displaying messages to the player
+public class DataLoader implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
+    private transient GameView gameView = new GameView(); // Mark as transient to exclude from serialization
     private HashMap<String, Room> rooms = new HashMap<>(); // Stores loaded rooms
     private HashMap<String, Item> items = new HashMap<>(); // Stores loaded items
     private HashMap<String, Puzzle> puzzles = new HashMap<>(); // Stores loaded puzzles

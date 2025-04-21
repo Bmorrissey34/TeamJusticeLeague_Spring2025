@@ -1,6 +1,8 @@
 package src.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class: Inventory
@@ -13,7 +15,8 @@ import java.util.ArrayList;
  * Written: January 6, 2025
  * @author William Stein
  */
-public class Inventory {
+public class Inventory implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private ArrayList<Item> items; // List of items in the inventory
 
     public Inventory() {
@@ -49,7 +52,11 @@ public class Inventory {
      * 
      * @return The list of items.
      */
-    public ArrayList<Item> getItems() {
-        return items;
+    public List<Item> getItems() {
+        return this.items; // Ensure this returns the list of items in the inventory
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
     }
 }
