@@ -1,15 +1,9 @@
 package src.controller;
 
-import java.util.HashMap;
-import src.model.ContinueGame;
+import java.util.*;
+import src.model.*; // Import the Player class from the correct package
+
 import src.model.DataLoader;
-import src.model.GameState;
-import src.model.Inventory;
-import src.model.Item;
-import src.model.Monster;
-import src.model.Player;
-import src.model.Puzzle;
-import src.model.Room;
 import src.view.GameView;
 
 /**
@@ -21,11 +15,12 @@ import src.view.GameView;
  * @version 1.0
  *          Course: ITEC XXXX Spring 2025
  *          Written: January 6, 2025
- *          Author: Brendan(Saving & Loading) & Ademola(GameLoop)
+ *          @author Jordan Laudun
  */
 public class GameController {
     private ContinueGame continueGame = new ContinueGame();
     private GameView gameView = new GameView(); // Use GameView for input/output
+    private Scanner scanner = new Scanner(System.in); // For user command input
 
     // Game state variables
     private Player player; // Represents the player in the game
@@ -33,7 +28,10 @@ public class GameController {
     private HashMap<String, Item> items; // Stores the items in the game
     private HashMap<String, Puzzle> puzzles; // Stores the puzzles in the game
     private HashMap<String, Monster> monsters; // Stores the monsters in the game
+    private Monster currentMonster; // Represents the currently fought monster
     private Inventory inventory; // The player's inventory
+
+    private Room previousRoom; // Tracks the last room visited before moving
 
     /**
      * Method: initializeGame
@@ -45,7 +43,7 @@ public class GameController {
         String choice = gameView.getUserInput("Would you like to load a saved game? (yes/no)").trim().toLowerCase();
 
         if (choice.equals("yes")) {
-            String filePath = "src/data/resources/gameState.dat"; // Default save file path
+            String filePath = "src/model/resources/gameState.dat"; // Corrected file path
             loadSavedGame(filePath);
             if (player == null || rooms == null) {
                 gameView.displayMessage("Failed to load the saved game. Starting a new game...");
@@ -64,79 +62,63 @@ public class GameController {
      * 
      * Initializes a new game state.
      */
-    private void startGame() {
-        // Initialize a new player
-        player = new Player(new DataLoader());
-        player.setName(gameView.getUserInput("Enter your name:"));
-        player.setHealth(100);
-        player.setStrength(10);
+    public void startGame() {
 
-        // Load the starting room
+        // Ask for player name
+        String playerName = gameView.getUserInput("Enter your name, brave adventurer:");
+        player = new Player(playerName); // Ensure the constructor matches the Player class definition
+
+        // Load game data using DataLoader
         DataLoader dataLoader = new DataLoader();
-        String startingRoomId = "START"; // Replace with the actual starting room ID
-        Room startingRoom = dataLoader.getRooms().get(startingRoomId.hashCode());
-        if (startingRoom != null) {
-            player.setCurrentRoom(startingRoom);
-            gameView.displayMessage("Welcome, " + player.getName() + "! You are starting in: " + startingRoom.getName());
-            gameView.displayMessage(startingRoom.getDescription());
-        } else {
-            gameView.displayMessage("Error: Starting room not found! Check your Rooms.txt file.");
-            return; // Exit if the starting room is not found
-        }
+        dataLoader.loadMonsters("src/model/resources/Monsters.txt");
+        dataLoader.loadPuzzles("src/model/resources/Puzzles.txt");
+        dataLoader.loadRooms("src/model/resources/Rooms.txt");
 
-        // Start the game loop
-        gameLoop();
-    }
+        this.rooms = dataLoader.getRooms();
+        this.items = dataLoader.getItems();
+        this.puzzles = dataLoader.getPuzzles();
+        this.monsters = dataLoader.getMonsters();
+        this.inventory = new Inventory();
 
-    private void gameLoop() {
-        boolean isRunning = true;
-        while (isRunning) {
-            // Display available commands
-            displayAvailableCommands();
+        // Set player's starting location (Room 8: Entrance)
+        Room startingRoom = rooms.get("START".hashCode());
+        player.setCurrentRoom(startingRoom);
 
-            // Get player input
-            String command = gameView.getUserInput("What would you like to do?").trim().toLowerCase();
+        gameView.displayMessage("Welcome, " + playerName + "! You find yourself in the haunted Ravenshade Manor...");
 
-            switch (command) {
-                case "help":
-                    displayHelp();
-                    break;
-                case "look":
-                    gameView.displayMessage(player.getCurrentRoom().examine());
-                    break;
-                case "move":
-                    displayAvailableDirections(); // Show available directions
-                    String direction = gameView.getUserInput("Enter the direction to move (e.g., north, south):").trim().toUpperCase();
-                    player.move(direction);
-                    break;
-                case "inventory":
-                    player.getInventory();
-                    break;
-                case "quit":
-                    gameView.displayMessage("Thanks for playing!");
-                    isRunning = false;
-                    break;
-                default:
-                    gameView.displayMessage("Unknown command. Type 'help' for a list of commands.");
-                    break;
+        // Main game loop
+        boolean gameRunning = true;
+        while (gameRunning && player.getHealth() > 0) {
+            Room currentRoom = player.getCurrentRoom();
+            gameView.displayRoom(currentRoom);
+
+            // Check for monster
+            Monster monster = currentRoom.getMonster();
+            if (monster != null && !monster.isDefeated()) {
+                setCurrentMonster(monster);
+                gameView.displayMessage("A sinister presence is here... It's " + monster.getName() + "!");
+            } else {
+                setCurrentMonster(null);
+            }
+
+            // Player command input
+            String command = gameView.getUserInput("What will you do?");
+            if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit")) {
+                gameRunning = false;
+            } else {
+                handleCommand(command);
             }
         }
-    }
 
-    // Display available commands
-    private void displayAvailableCommands() {
-        gameView.displayMessage("Available commands: help, look, move, inventory, quit");
-    }
-
-    // Display available directions based on the current room
-    private void displayAvailableDirections() {
-        HashMap<String, Room> exits = player.getCurrentRoom().getExits();
-        if (exits.isEmpty()) {
-            gameView.displayMessage("There are no exits from this room.");
+        // Game Over Sequence
+        if (player.getHealth() <= 0) {
+            gameView.displayMessage("You have died... The mansion claims another soul.");
         } else {
-            gameView.displayMessage("Available directions: " + String.join(", ", exits.keySet()));
+            gameView.displayMessage("Thanks for playing!");
         }
     }
+     
+    
 
     /**
      * Method: loadSavedGame
@@ -147,25 +129,27 @@ public class GameController {
      */
     public void loadSavedGame(String saveFilePath) {
         GameState gameState = continueGame.loadGame(saveFilePath);
-        if (gameState != null) {
-            // Restore the game state
-            this.player = gameState.getPlayer();
-            this.rooms = gameState.getRooms();
-            this.items = gameState.getItems();
-            this.puzzles = gameState.getPuzzles();
-            this.monsters = gameState.getMonsters();
-            this.inventory = gameState.getInventory();
-
-            gameView.displayMessage("Game loaded successfully!");
-            gameView.displayMessage("Player: " + player.getName());
-            gameView.displayMessage("Rooms loaded: " + rooms.size());
-            gameView.displayMessage("Items loaded: " + items.size());
-            gameView.displayMessage("Puzzles loaded: " + puzzles.size());
-            gameView.displayMessage("Monsters loaded: " + monsters.size());
-            gameView.displayMessage("Inventory items: " + inventory.getItems().size());
-        } else {
+        if (gameState == null) {
             gameView.displayMessage("Failed to load the saved game.");
+            return; // Exit the method early
         }
+
+        // Restore the game state
+        this.player = gameState.getPlayer();
+        this.rooms = gameState.getRooms();
+        this.items = gameState.getItems();
+        this.puzzles = gameState.getPuzzles();
+        this.monsters = gameState.getMonsters();
+
+        this.inventory = gameState.getInventory();
+
+        gameView.displayMessage("Game loaded successfully!");
+        gameView.displayMessage("Player: " + player.getName());
+        gameView.displayMessage("Rooms loaded: " + rooms.size());
+        gameView.displayMessage("Items loaded: " + items.size());
+        gameView.displayMessage("Puzzles loaded: " + puzzles.size());
+        gameView.displayMessage("Monsters loaded: " + monsters.size());
+        gameView.displayMessage("Inventory items: " + inventory.getItems().size());
     }
 
     /**
@@ -185,6 +169,149 @@ public class GameController {
      * @param rooms A HashMap containing the rooms in the game.
      */
     public void displayMap(HashMap<Integer, Room> rooms) {
-        // Implementation for displaying the map
+        gameView.displayMessage("Here is the layout of the mansion:");
+        
+    }
+     /**
+     * Method: setCurrentMonster
+     * 
+     * Sets the monster currently encountered by the player.
+     * 
+     * @param monster The monster in the current room.
+     */
+    public void setCurrentMonster(Monster monster) {
+        this.currentMonster = monster;
+    }
+
+    /**
+     * Method: handleCommand
+     * 
+     * Handles player commands such as "examine", "fight", and "flee".
+     * 
+     * @param input The player's typed command.
+     */
+    public void handleCommand(String input) {
+        switch (input.toLowerCase()) {
+            case "examine":
+                if (currentMonster != null) {
+                    gameView.displayMessage(currentMonster.examine());
+                } else {
+                    gameView.displayMessage("There is nothing to examine here.");
+                }
+                break;
+
+            case "fight":
+                if (currentMonster != null && !currentMonster.isPassive()) {
+                    fightMonster();
+                } else {
+                    gameView.displayMessage("There is nothing hostile to fight.");
+                }
+                break;
+
+            case "flee":
+                handleFlee();
+                break;
+
+            case "go back":
+                goBack();
+                break;
+    
+            case "help":
+                displayHelp();
+                break;
+            
+            case "go north":
+            case "go south":
+            case "go east":
+            case "go west":
+            case "go upstairs":
+            case "go downstairs":
+                String direction = input.substring(3).trim();
+                movePlayer(direction);
+                break;
+
+            default:
+                gameView.displayMessage("Unknown command.");
+        }
+    }
+
+    /**
+     * Method: fightMonster
+     * 
+     * Handles turn-based combat between the player and a monster.
+     */
+    private void fightMonster() {
+        while (!currentMonster.isDefeated() && player.getHealth() > 0) {
+            currentMonster.attack(player);
+            if (player.getHealth() <= 0) break;
+
+            String input = gameView.getUserInput("Your turn. Type the amount of damage to deal:");
+            try {
+                int damage = Integer.parseInt(input);
+                currentMonster.takeDamage(damage);
+            } catch (NumberFormatException e) {
+                gameView.displayMessage("Invalid number. You missed your turn.");
+            }
+        }
+
+        if (currentMonster.isDefeated()) {
+            gameView.displayMessage("You defeated the monster!");
+        } else {
+            gameView.displayMessage("You have been defeated...");
+        }
+    }
+
+    /**
+     * Method: goBack
+     * 
+     * Moves the player back to the previously visited room, if available.
+    */
+    public void goBack() {
+        if (previousRoom != null) {
+            Room current = player.getCurrentRoom();
+            player.setCurrentRoom(previousRoom);
+            previousRoom = current; // allow toggling back again if needed
+            gameView.displayMessage("You return to the previous room: " + player.getCurrentRoom().getName());
+        } else {
+            gameView.displayMessage("There is no previous room to return to.");
+        }  
+    }
+
+    /**
+     * Method: movePlayer
+     * 
+     * Moves the player to the room in the inputted direction, if available.
+    */
+    private void movePlayer(String direction) {
+        Room currentRoom = player.getCurrentRoom();
+        Room nextRoom = currentRoom.getExits().get(direction.toUpperCase());
+    
+        if (nextRoom != null) {
+            previousRoom = currentRoom; // Track where you came from
+            player.setCurrentRoom(nextRoom);
+            gameView.displayMessage("You move " + direction + " to " + nextRoom.getName() + ".");
+        } else {
+            gameView.displayMessage("You can't go that way.");
+        }
+    }
+
+    /**
+     * Method: handleFlee
+     * 
+     * Attempts to flee from combat. Bosses cannot be fled from.
+     */
+    private void handleFlee() {
+        if (currentMonster != null && currentMonster.isBoss()) {
+            gameView.displayMessage("You cannot flee from a boss fight!");
+        } else {
+            int roll = new Random().nextInt(100);
+            if (roll < 50) {
+                gameView.displayMessage("You successfully fled!");
+                goBack(); // Move to previous room
+            } else {
+                gameView.displayMessage("Failed to flee!");
+                currentMonster.attack(player);
+            }
+        }
     }
 }
