@@ -1,7 +1,6 @@
 package src.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 /**
  * Class: Item
@@ -15,16 +14,8 @@ import java.util.HashMap;
  */
 public class Item extends GameModel implements Examine, Serializable {
     private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
-    private HashMap<String, Item> items; // Stores items
     private String type;
     private String id;
-
-    /** 
-     * Constructor: No args constructor used to read contents of Items.txt into a HashMap
-     */
-    public Item() {
-        this.items = new HashMap<>();
-    }
 
     /**
      * Constructor: Item
@@ -35,23 +26,7 @@ public class Item extends GameModel implements Examine, Serializable {
      */
     public Item(String ID, String name, String description) {
         super(ID, name, description);
-    }
-
-    /**
-     * Method: use
-     * 
-     * Uses the item and applies its effect to the player.
-     * 
-     * @param player The player using the item.
-     */
-    public void use(Player player) {}
-
-    public HashMap<String, Item> getItems() {
-        return items;
-    }
-
-    public void setItems(HashMap<String, Item> items) {
-        this.items = items;
+        this.type = "Generic"; // Default type if not set
     }
 
     public String getType() {
@@ -64,8 +39,7 @@ public class Item extends GameModel implements Examine, Serializable {
 
     @Override
     public String examine() {
-    return "Item: " + getName() +
-           "\nDescription: " + getDescription();
+        return "Item: " + getName() + "\nDescription: " + getDescription();
     }
 
     @Override

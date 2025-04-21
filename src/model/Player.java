@@ -1,11 +1,8 @@
 package src.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 import src.view.GameView;
 
 /**
@@ -33,7 +30,7 @@ public class Player implements Serializable {
         this.name = playerName;
         this.health = 100; // Set default health
         this.strength = 10; // Optional: Set default strength
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(); // Initialize inventory here
     }
 
     /**
@@ -66,14 +63,14 @@ public class Player implements Serializable {
     }
 
     /**
-     * Method: getInventory
+     * Method: getInventoryDescription
      * 
      * Prints item names from player's inventory
      * 
      * @return String message listing the items in the inventory.
      * @author William Stein
      */
-    public String getInventory() {
+    public String getInventoryDescription() {
         List<Item> itemsOwned = inventory.getItems();
         if (!itemsOwned.isEmpty()) {
             StringBuilder inventoryList = new StringBuilder();
@@ -469,6 +466,21 @@ public class Player implements Serializable {
 
     public List<Item> getItems() {
         return inventory.getItems(); 
+    }
+
+    /**
+     * Method: getInventory
+     * 
+     * Returns the Inventory object.
+     * 
+     * @return Inventory object.
+     */
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
 }
