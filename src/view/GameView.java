@@ -58,7 +58,7 @@ public class GameView {
 
     // Method to display the player's current status (e.g., health, stats)
     public void displayPlayerStatus(Player player) {
-        displayMessage(" Player Status:");
+        displayMessage("Player Status:");
         displayMessage("Health: " + player.getHealth());
         displayMessage("Strength: " + (player.getStrength()));
     }
