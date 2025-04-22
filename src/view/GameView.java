@@ -1,11 +1,7 @@
 package src.view;
 
 import java.util.Scanner;
-import src.model.Map;
-import src.model.Monster;
-import src.model.Player;
-import src.model.Puzzle;
-import src.model.Room;
+import src.model.*;
 
 public class GameView {
     private Scanner scanner;
