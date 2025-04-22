@@ -246,7 +246,7 @@ public class Player implements Serializable {
                     return -1;
                 } else if (getHealth() == 100) {
                     view.displayMessage("Your health is already full.");
-                    return -1;
+                    return -2;
                 } else {
                     Consumable consumable = (Consumable) item;
                     int healedAmount = consumable.getHealth();
@@ -289,14 +289,13 @@ public class Player implements Serializable {
                     view.displayMessage("You equipped " + item.getName() + ".");
                     // Optionally, set a field for equipped weapon if you want to track it
                     return 0;
-                } else if (item instanceof Consumable) {
-                    return consumeItem(itemName); // Delegate to consumeItem and return health restored
                 } else {
                     view.displayMessage("This item cannot be used.");
                     return -1;
                 }
             }
         }
+
         view.displayMessage("Item not found in inventory.");
         return -1;
     }
@@ -328,17 +327,25 @@ public class Player implements Serializable {
                 break;
 
             case "use":
-                String itemName = gameView.getUserInput("Enter item name to use:").trim();
-                int result = useItem(itemName);
-                if (result == -1) {
+                String itemToUse = gameView.getUserInput("Enter item name to use:").trim();
+                int use = useItem(itemToUse);
+                if (use == -1) {
                     gameView.displayMessage("You can't use that item.");
-                } else if (result == 0) {
-                    gameView.displayMessage("You equipped a new weapon.");
                 } else {
-                    gameView.displayMessage("You used a consumable and restored " + result + " health.");
-                }
+                    gameView.displayMessage("You equipped a new weapon.");
+                } 
                 break;
-
+            case "consume":
+                String itemToConsume = gameView.getUserInput("Enter item name to consume:").trim();
+                int consume = consumeItem(itemToConsume);
+                if (consume == -1) {
+                    gameView.displayMessage("You can't consume that item.");
+                } else if (consume == -2) {
+                    gameView.displayMessage("Your health is already full.");
+                } else {
+                    consumeItem(itemToConsume);
+                } 
+                break;
             case "flee":
                 gameView.displayMessage("You fled the battle!");
                 return;

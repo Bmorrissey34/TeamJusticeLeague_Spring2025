@@ -183,6 +183,10 @@ public class GameController {
                     String itemToUse = gameView.getUserInput("Enter the name of the item to use:").trim();
                     useItem(itemToUse);
                     break;
+                case "consume":
+                    String itemToConsume = gameView.getUserInput("Enter the name of the item to consume:").trim();
+                    player.consumeItem(itemToConsume);
+                    break;
                 case "fight":
                     Monster monster = player.getCurrentRoom().getMonster();
                     if (monster != null && !monster.isDefeated()) {
