@@ -16,7 +16,6 @@ public class GameView {
 
     // Method to get user input
     public String getUserInput(String prompt) {
-
         System.out.print(prompt + " ");
         return scanner.nextLine().trim();
     }
@@ -24,6 +23,12 @@ public class GameView {
     // Method to display a message to the player
     public void displayMessage(String message) {
         System.out.println(message);
+        displaySeparator(); // Add separator after each message
+    }
+
+    // Method to display a separator
+    private void displaySeparator() {
+        System.out.println("=============================");
     }
 
     // Method to display the player's inventory
@@ -35,8 +40,9 @@ public class GameView {
     public void displayMap() {
         Map map = new Map();
         map.printMap(); // Display the map
+        displaySeparator(); // Add separator after the map
     }
-    
+
     // Method to display combat options and menu
     public void displayCombatOptions() {
         displayMessage("Choose an action: [attack, use, flee]");
@@ -47,11 +53,10 @@ public class GameView {
         if (monster == null) {
             displayMessage("No monster in this room.");
         } else {
-            displayMessage(" Monster encountered: " + monster.getName());
+            displayMessage("Monster encountered: " + monster.getName());
             displayMessage(monster.getDescription());
             displayMessage("Health: " + monster.getHealth());
-            displayMessage("Attack Power: " + monster.getStrength()
-            );
+            displayMessage("Attack Power: " + monster.getStrength());
         }
     }
 
@@ -59,12 +64,12 @@ public class GameView {
     public void displayPlayerStatus(Player player) {
         displayMessage("Player Status:");
         displayMessage("Health: " + player.getHealth());
-        displayMessage("Strength: " + (player.getStrength()));
+        displayMessage("Strength: " + player.getStrength());
     }
 
     // Method to display a puzzle or riddle
     public void displayPuzzle(String puzzleDescription) {
-        displayMessage(" Puzzle: " + puzzleDescription);
+        displayMessage("Puzzle: " + puzzleDescription);
     }
 
     /**
@@ -82,7 +87,7 @@ public class GameView {
 
     // Method to display the result of a player's action
     public void displayActionResult(String result) {
-        displayMessage(" " + result);
+        displayMessage(result);
     }
 
     // Method to display the help menu
@@ -111,12 +116,13 @@ public class GameView {
         } else {
             System.out.println("The room is undefined.");
         }
+        displaySeparator(); // Add separator after room details
     }
 
     /**
-     * Method: displayRoom
+     * Method: displayGameOver
      * 
-     * Displays game over message.
+     * Displays the game over message.
      */
     public void displayGameOver() {
         displayMessage("You have tragically died, your nightmares have become your reality.");
