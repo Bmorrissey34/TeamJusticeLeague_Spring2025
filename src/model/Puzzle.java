@@ -101,7 +101,7 @@ public class Puzzle extends GameModel implements Examine, Serializable {
 
         } else {
             gameView.displayMessage("Incorrect. Try again or type 'Skip' to skip the puzzle. (-10 health)");
-            player.takeDamage(-10);
+            player.takeDamage(10);
         }
     }
 
