@@ -3,7 +3,7 @@ package src.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import src.model.*;
+import src.model.*; 
 import src.view.GameView;
 
 /**
@@ -69,16 +69,16 @@ public class GameController {
         // Load data from DataLoader and assign all fields
         DataLoader dataLoader = new DataLoader();
         this.rooms = dataLoader.getRooms();
-        this.items = dataLoader.getItems(); // assign items
-        this.puzzles = dataLoader.getPuzzles(); // assign puzzles
-        this.monsters = dataLoader.getMonsters(); // assign monsters
+        this.items = dataLoader.getItems();         // assign items
+        this.puzzles = dataLoader.getPuzzles();       // assign puzzles
+        this.monsters = dataLoader.getMonsters();     // assign monsters
 
         String startingRoomName = "Entrance";
         Room startingRoom = this.rooms.get(startingRoomName);
         if (startingRoom != null) {
             player.setCurrentRoom(startingRoom);
-            gameView.displayMessage("Welcome, " + player.getName() +
-                    "! You are starting in: " + startingRoom.getName());
+            gameView.displayMessage("Welcome, " + player.getName() + 
+                "! You are starting in: " + startingRoom.getName());
             gameView.displayMessage(startingRoom.getDescription());
         } else {
             gameView.displayMessage("Error: Starting room not found! Check your Rooms.txt file.");
@@ -105,8 +105,7 @@ public class GameController {
                     break;
                 case "move":
                     displayAvailableDirections();
-                    String direction = gameView.getUserInput("Enter the direction to move (e.g., north, south):").trim()
-                            .toUpperCase();
+                    String direction = gameView.getUserInput("Enter the direction to move (e.g., north, south):").trim().toUpperCase();
                     gameView.displayMessage(player.move(direction));
                     break;
                 case "solve":
@@ -131,9 +130,7 @@ public class GameController {
                     gameView.displayPlayerStatus(player);
                     break;
                 case "examine":
-                    String objectToExamine = gameView
-                            .getUserInput("What would you like to examine? (room, monster, puzzle, item)").trim()
-                            .toLowerCase();
+                    String objectToExamine = gameView.getUserInput("What would you like to examine? (room, monster, puzzle, item)").trim().toLowerCase();
                     switch (objectToExamine) {
                         case "room":
                             gameView.displayMessage(player.getCurrentRoom().examine());
@@ -164,8 +161,7 @@ public class GameController {
                             }
                             break;
                         default:
-                            gameView.displayMessage(
-                                    "Invalid option. You can examine 'room', 'monster', 'puzzle', or 'item'.");
+                            gameView.displayMessage("Invalid option. You can examine 'room', 'monster', 'puzzle', or 'item'.");
                             break;
                     }
                     break;
@@ -177,8 +173,7 @@ public class GameController {
                     } else if (consumeResult == -2) {
                         gameView.displayMessage("Your health is already full.");
                     } else {
-                        gameView.displayMessage(
-                                "You consumed " + itemToConsume + " and restored " + consumeResult + " health.");
+                        gameView.displayMessage("You consumed " + itemToConsume + " and restored " + consumeResult + " health.");
                     }
                     break;
                 case "use":
@@ -203,7 +198,7 @@ public class GameController {
                 case "quit":
                     gameView.displayMessage("Thanks for playing!");
                     isRunning = false;
-                    return;
+                    return;    
                 default:
                     gameView.displayMessage("Unknown command. Type 'help' for a list of commands.");
                     break;
@@ -213,8 +208,7 @@ public class GameController {
     }
 
     /**
-     * Finds an item to examine either in the current room or the player's
-     * inventory.
+     * Finds an item to examine either in the current room or the player's inventory.
      *
      * @param itemName The name of the item to find.
      * @return The item if found, otherwise null.
@@ -269,6 +263,7 @@ public class GameController {
         }
     }
 
+    // Display available commands
     private void displayAvailableCommands() {
         Room currentRoom = player.getCurrentRoom();
         ArrayList<String> availableCommands = new ArrayList<>();
@@ -322,9 +317,8 @@ public class GameController {
             availableCommands.add("solve");
         }
 
+        // Add "map" if the map feature is available
         availableCommands.add("map");
-
-        availableCommands.add("examine");
 
         // Display the available commands
         gameView.displayMessage("Available commands: " + String.join(", ", availableCommands));
@@ -396,59 +390,22 @@ public class GameController {
 
         for (String direction : currentRoom.getExits().keySet()) {
             Room connected = currentRoom.getExits().get(direction);
-            if (connected == null)
-                continue;
+            if (connected == null) continue;
 
             int x = 1, y = 1;
             switch (direction.toUpperCase()) {
-                case "NORTH":
-                    x = 0;
-                    y = 1;
-                    break;
-                case "SOUTH":
-                    x = 2;
-                    y = 1;
-                    break;
-                case "EAST":
-                    x = 1;
-                    y = 2;
-                    break;
-                case "WEST":
-                    x = 1;
-                    y = 0;
-                    break;
-                case "NORTHEAST":
-                    x = 0;
-                    y = 2;
-                    break;
-                case "NORTHWEST":
-                    x = 0;
-                    y = 0;
-                    break;
-                case "SOUTHEAST":
-                    x = 2;
-                    y = 2;
-                    break;
-                case "SOUTHWEST":
-                    x = 2;
-                    y = 0;
-                    break;
-                case "UPSTAIRS":
-                    x = 0;
-                    y = 1;
-                    break; // treat as NORTH for grid
-                case "DOWNSTAIRS":
-                    x = 2;
-                    y = 1;
-                    break; // treat as SOUTH for grid
-                case "UP":
-                    x = 0;
-                    y = 1;
-                    break; // treat as NORTH for grid
-                case "DOWN":
-                    x = 2;
-                    y = 1;
-                    break; // treat as SOUTH for grid
+                case "NORTH":      x = 0; y = 1; break;
+                case "SOUTH":      x = 2; y = 1; break;
+                case "EAST":       x = 1; y = 2; break;
+                case "WEST":       x = 1; y = 0; break;
+                case "NORTHEAST":  x = 0; y = 2; break;
+                case "NORTHWEST":  x = 0; y = 0; break;
+                case "SOUTHEAST":  x = 2; y = 2; break;
+                case "SOUTHWEST":  x = 2; y = 0; break;
+                case "UPSTAIRS":   x = 0; y = 1; break; // treat as NORTH for grid
+                case "DOWNSTAIRS": x = 2; y = 1; break; // treat as SOUTH for grid
+                case "UP":         x = 0; y = 1; break; // treat as NORTH for grid
+                case "DOWN":       x = 2; y = 1; break; // treat as SOUTH for grid
             }
             if (x >= 0 && x < 3 && y >= 0 && y < 3) {
                 localGrid[x][y] = connected;
@@ -492,17 +449,16 @@ public class GameController {
     /**
      * Method: swapItem
      * 
-     * Allows the player to swap an item in their inventory with an item in the
-     * current room.
+     * Allows the player to swap an item in their inventory with an item in the current room.
      * 
      * @param itemName The name of the item to swap.
      */
     private void swapItem(String itemName) {
         Room currentRoom = player.getCurrentRoom();
         Item roomItem = currentRoom.getItems().stream()
-                .filter(i -> i.getName().equalsIgnoreCase(itemName))
-                .findFirst()
-                .orElse(null);
+            .filter(i -> i.getName().equalsIgnoreCase(itemName))
+            .findFirst()
+            .orElse(null);
 
         if (roomItem == null) {
             gameView.displayMessage("Item not found in the room.");
@@ -520,9 +476,9 @@ public class GameController {
         }
 
         Item inventoryWeapon = player.getItems().stream()
-                .filter(i -> i instanceof Weapon)
-                .findFirst()
-                .orElse(null);
+            .filter(i -> i instanceof Weapon)
+            .findFirst()
+            .orElse(null);
 
         if (inventoryWeapon != null) {
             player.removeItemFromInventory(inventoryWeapon);

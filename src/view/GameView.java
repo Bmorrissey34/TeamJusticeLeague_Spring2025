@@ -18,7 +18,6 @@ public class GameView {
 
     // Method to display a message to the player
     public void displayMessage(String message) {
-        clearConsole(); // Clear the console before displaying the message
         System.out.println(message);
         displaySeparator(); // Add separator after each message
     }
@@ -26,14 +25,6 @@ public class GameView {
     // Method to display a separator
     private void displaySeparator() {
         System.out.println("=============================");
-    }
-
-    /**
-     * Clears the console screen.
-     */
-    public void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     // Method to display the player's inventory
